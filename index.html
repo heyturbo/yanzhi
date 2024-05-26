@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>来给你的爱宠洗天赋吧！</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+        .top-bar, .bottom-bar {
+            width: 90%;
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 10px;
+        }
+        .core-area {
+            width: 90%;
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-radius: 10px;
+        }
+        .core-area .buttons {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        .core-area .buttons button {
+            width: 22%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .core-area .buttons button:active {
+            background-color: #0056b3;
+        }
+        .core-area .skills {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            width: 100%;
+        }
+        .core-area .skills div {
+            width: 100%;
+            padding: 15px;
+            background-color: #e0e0e0;
+            text-align: center;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        .bottom-bar .info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .bottom-bar .info div {
+            margin: 5px 0;
+        }
+        .description-box {
+            width: 90%;
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <div>高级悟性丹: <span id="high-grade-pill">1000</span></div>
+        <div>万化灵丹: <span id="transmutation-pill">50</span></div>
+    </div>
+    <div class="core-area">
+        <div class="buttons">
+            <button onclick="upgradeWisdom()">提升悟性</button>
+            <button onclick="trainSkills()">洗练技能</button>
+            <button onclick="upgradeWisdomTo()">一键提悟</button>
+            <button onclick="resetGame()">返璞归真</button>
+        </div>
+        <div class="skills" id="skills-area"></div>
+    </div>
+    <div class="bottom-bar">
+        <div>宠物名称: 胭脂</div>
+        <div class="info">
+            <div>当前悟性: <span id="current-wisdom">0</span></div>
+            <div>洗练次数: <span id="train-count">0</span></div>
+            <div>技能评分: <span id="skill-score">0</span></div>
+            <div>最高记录: <span id="highest-score">0</span></div>
+        </div>
+    </div>
+    <div class="description-box" id="description-box"></div>
+    <script>
+        const skills = [
+            { name: '法术精通', rarity: 'A' },
+            { name: '冥想', rarity: 'B' },
+            { name: '万法归宗', rarity: 'B' },
+            { name: '仙风道骨', rarity: 'A' },
+            { name: '长寿', rarity: 'B' },
+            { name: '法力吸取·法术', rarity: 'B' },
+            { name: '女神外壳', rarity: 'A' },
+            { name: '全面进化', rarity: 'S' },
+            { name: '妩媚身姿', rarity: 'A' },
+            { name: '智慧守护', rarity: 'S' },
+            { name: '月之祝福', rarity: 'A' },
+            { name: '硕果累累', rarity: 'SS' },
+            { name: '琼珠玉液', rarity: 'SS' },
+            { name: '灼若旭日', rarity: 'SS' },
+            { name: '春风徐徐', rarity: 'SS' },
+            { name: '榴花如丹', rarity: 'SS' }
+        ];
+
+        let highGradePill = 1000;
+        let transmutationPill = 50;
+        let currentWisdom = 0;
+        let trainCount = 0;
+        let skillScore = 0;
+        let highestScore = 0;
+
+        const descriptions = [
+            "通过提升悟性值，可以很大程度上提高获取高级天赋技能的概率，以及有更大的可能洗练出多个天赋技能！",
+            "天赋技能的评分由各天赋的评级决定，B技能为200分，A技能为1000分，S技能为6000分，SS技能为10000分。当你洗出多个S或SS技能时，还会有额外分值！",
+            "悟性提升会有几率失败，请谨慎操作！"
+        ];
+
+        function upgradeWisdom() {
+            if (highGradePill < 1) {
+                alert("您的高级悟性丹已耗尽！");
+                return;
+            }
+
+            highGradePill--;
+            document.getElementById("high-grade-pill").innerText = highGradePill;
+
+            let successRate;
+            if (currentWisdom < 7) successRate = 0.9;
+            else if (currentWisdom < 13) successRate = 0.55;
+            else if (currentWisdom < 18) successRate = 0.35;
+            else if (currentWisdom < 20) successRate = 0.15;
+            else successRate = 0.05;
+
+            if (Math.random() < successRate) {
+                currentWisdom = Math.min(currentWisdom + 1, 20);
+            } else {
+                if (currentWisdom > 0) {
+                    if (currentWisdom < 8) currentWisdom = Math.max(0, currentWisdom - 2);
+                    else if (currentWisdom < 13) currentWisdom = Math.max(8, currentWisdom - 2);
+                    else if (currentWisdom < 18) currentWisdom = Math.max(13, currentWisdom - 2);
+                    else currentWisdom = Math.max(15, currentWisdom - 2);
+                }
+            }
+            document.getElementById("current-wisdom").innerText = currentWisdom;
+        }
+
+        function trainSkills() {
+            if (transmutationPill < 1) {
+                alert("您的道具不够，请刷新后重试！");
+                return;
+            }
+
+            transmutationPill--;
+            document.getElementById("transmutation-pill").innerText = transmutationPill;
+            trainCount++;
+            document.getElementById("train-count").innerText = trainCount;
+
+            // 根据当前悟性值调整生成多个技能的概率
+            let baseProbabilities = [0.80, 0.05, 0.05, 0.02, 0.02, 0.02, 0.01, 0.01, 0.008, 0.002];
+            let adjustedProbabilities = baseProbabilities.map(prob => prob * (1 + currentWisdom * 0.1));
+            let totalProbability = adjustedProbabilities.reduce((sum, prob) => sum + prob, 0);
+
+            let skillNum = 1; // 确保至少生成1个技能
+            let rand = Math.random() * totalProbability;
+
+            for (let i = 0; i < adjustedProbabilities.length; i++) {
+                if (rand < adjustedProbabilities[i]) {
+                    skillNum = i + 1;
+                    break;
+                }
+                rand -= adjustedProbabilities[i];
+            }
+
+            const selectedSkills = [];
+            for (let i = 0; i < skillNum; i++) {
+                let skill;
+                do {
+                    const rarityRoll = Math.random() * 100;
+                    if (currentWisdom < 7) {
+                        // 在悟性小于7时
+                        if (rarityRoll < 80) skill = skills.filter(s => s.rarity === 'B')[Math.floor(Math.random() * 6)];
+                        else skill = skills.filter(s => s.rarity === 'A')[Math.floor(Math.random() * 5)];
+                    } else if (currentWisdom < 13) {
+                        // 在悟性7-12时
+                        if (rarityRoll < 80) skill = skills.filter(s => s.rarity === 'B')[Math.floor(Math.random() * 6)];
+                        else if (rarityRoll < 95) skill = skills.filter(s => s.rarity === 'A')[Math.floor(Math.random() * 5)];
+                        else skill = skills.filter(s => s.rarity === 'S')[Math.floor(Math.random() * 2)];
+                    } else if (currentWisdom < 17) {
+                        // 在悟性13-16时
+                        if (rarityRoll < 80) skill = skills.filter(s => s.rarity === 'B')[Math.floor(Math.random() * 6)];
+                        else if (rarityRoll < 95) skill = skills.filter(s => s.rarity === 'A')[Math.floor(Math.random() * 5)];
+                        else if (rarityRoll < 97.5) skill = skills.filter(s => s.rarity === 'S')[Math.floor(Math.random() * 2)];
+                        else skill = skills.filter(s => s.rarity === 'SS')[Math.floor(Math.random() * 5)];
+                    } else if (currentWisdom < 20) {
+                        // 在悟性17-19时
+                        if (rarityRoll < 80) skill = skills.filter(s => s.rarity === 'B')[Math.floor(Math.random() * 6)];
+                        else if (rarityRoll < 95) skill = skills.filter(s => s.rarity === 'A')[Math.floor(Math.random() * 5)];
+                        else if (rarityRoll < 97.5) skill = skills.filter(s => s.rarity === 'S')[Math.floor(Math.random() * 2)];
+                        else skill = skills.filter(s => s.rarity === 'SS')[Math.floor(Math.random() * 5)];
+                    } else {
+                        // 在悟性20时
+                        if (rarityRoll < 80) skill = skills.filter(s => s.rarity === 'B')[Math.floor(Math.random() * 6)];
+                        else if (rarityRoll < 95) skill = skills.filter(s => s.rarity === 'A')[Math.floor(Math.random() * 5)];
+                        else if (rarityRoll < 97.5) skill = skills.filter(s => s.rarity === 'S')[Math.floor(Math.random() * 2)];
+                        else skill = skills.filter(s => s.rarity === 'SS')[Math.floor(Math.random() * 5)];
+                    }
+                } while (!skill || selectedSkills.includes(skill));
+                selectedSkills.push(skill);
+            }
+
+            if (selectedSkills.length >= 7) {
+                if (!confirm("您洗出了好！多！技！能！确定不留着看看吗？")) {
+                    return;
+                }
+            }
+
+            updateSkillsArea(selectedSkills);
+            updateSkillScore(selectedSkills);
+        }
+
+        function updateSkillsArea(selectedSkills) {
+            const skillsArea = document.getElementById("skills-area");
+            skillsArea.innerHTML = "";
+            selectedSkills.forEach(skill => {
+                const skillDiv = document.createElement("div");
+                skillDiv.innerText = `${skill.name} (${skill.rarity})`;
+                skillsArea.appendChild(skillDiv);
+            });
+        }
+
+        function updateSkillScore(selectedSkills) {
+            let score = selectedSkills.reduce((sum, skill) => {
+                if (skill.rarity === 'B') return sum + 200;
+                if (skill.rarity === 'A') return sum + 1000;
+                if (skill.rarity === 'S') return sum + 6000;
+                if (skill.rarity === 'SS') return sum + 10000;
+            }, 0);
+
+            const hasS = selectedSkills.some(skill => skill.rarity === 'S');
+            const hasSS = selectedSkills.some(skill => skill.rarity === 'SS');
+            const numS = selectedSkills.filter(skill => skill.rarity === 'S').length;
+            const numSS = selectedSkills.filter(skill => skill.rarity === 'SS').length;
+
+            if (hasS && hasSS) score += 20000;
+            if (numS > 1) score += 10000;
+            if (numSS > 1) score += 20000;
+
+            skillScore = score;
+            document.getElementById("skill-score").innerText = skillScore;
+
+            if (score > highestScore) {
+                highestScore = score;
+                document.getElementById("highest-score").innerText = highestScore;
+            }
+        }
+
+        function upgradeWisdomTo() {
+            const target = prompt("你期待将宠物悟性提升至【x】值 (1-20):");
+            const targetValue = parseInt(target, 10);
+            if (isNaN(targetValue) || targetValue < 1 || targetValue > 20) {
+                alert("无效输入，请输入1到20之间的数字");
+                return;
+            }
+
+            while (currentWisdom < targetValue && highGradePill > 0) {
+                upgradeWisdom();
+            }
+        }
+
+        function resetGame() {
+            location.reload();
+        }
+
+        function updateDescriptionBox() {
+            const descriptionBox = document.getElementById("description-box");
+            const randomIndex = Math.floor(Math.random() * descriptions.length);
+            descriptionBox.innerText = descriptions[randomIndex];
+        }
+
+        setInterval(updateDescriptionBox, 30000);
+        updateDescriptionBox(); // 初始化描述框
+    </script>
+</body>
+</html>
