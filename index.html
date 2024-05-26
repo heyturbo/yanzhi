@@ -97,10 +97,10 @@
     </div>
     <div class="core-area">
         <div class="buttons">
-            <button onclick="upgradeWisdom()">提升悟性</button>
-            <button onclick="trainSkills()">洗练技能</button>
-            <button onclick="upgradeWisdomTo()">一键提悟</button>
-            <button onclick="resetGame()">返璞归真</button>
+            <button onclick="upgradeWisdom()">提悟</button>
+            <button onclick="trainSkills()">洗练</button>
+            <button onclick="upgradeWisdomTo()">顿悟</button>
+            <button onclick="resetGame()">复位</button>
         </div>
         <div class="skills" id="skills-area"></div>
     </div>
@@ -145,6 +145,9 @@
             "通过提升悟性值，可以很大程度上提高获取高级天赋技能的概率，以及有更大的可能洗练出多个天赋技能！",
             "天赋技能的评分由各天赋的评级决定，B技能为200分，A技能为1000分，S技能为6000分，SS技能为10000分。当你洗出多个S或SS技能时，还会有额外分值！",
             "悟性提升会有几率失败，请谨慎操作！"
+            "只有当悟性提升到一定程度，你的宠物才有可能领悟到某些稀有天赋技能。"
+            "早期测试游戏，数据有限，请酌情体验。"
+            "如果你选择顿悟，你可以尝试将宠物悟性一次性提升到你想要的值。当然，也有可能适得其反。"
         ];
 
         function upgradeWisdom() {
