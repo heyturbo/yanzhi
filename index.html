@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>来给你的爱宠洗天赋吧！</title>
+    <title>神兽天赋洗练机</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -21,9 +21,18 @@
             background-color: #fff;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             display: flex;
-            justify-content: space-between;
+            justify-content: space-around;
             align-items: center;
             border-radius: 10px;
+        }
+        .top-bar div, .bottom-bar div {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .top-bar img, .bottom-bar img {
+            width: 50px;
+            height: 50px;
         }
         .core-area {
             width: 90%;
@@ -63,13 +72,22 @@
         }
         .core-area .skills div {
             width: 100%;
-            padding: 15px;
+            padding: 10px;
             background-color: #e0e0e0;
             text-align: center;
             border-radius: 5px;
             font-size: 14px;
             font-weight: bold;
             box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            box-sizing: border-box;
+            cursor: pointer;
+        }
+        .core-area .skills .s-skill {
+            border: 2px solid gold;
+        }
+        .core-area .skills .ss-skill {
+            border: 2px solid gold;
+            background-color: gold;
         }
         .bottom-bar .info {
             display: flex;
@@ -88,24 +106,61 @@
             border-radius: 10px;
             text-align: center;
         }
+        .pet-selector {
+            width: 90%;
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            text-align: center;
+        }
+        .pet-selector select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .pet-image {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .pet-image img {
+            width: 80px;
+            height: 80px;
+            border-radius: 10px;
+        }
     </style>
 </head>
 <body>
     <div class="top-bar">
-        <div>高级悟性丹: <span id="high-grade-pill">1000</span></div>
-        <div>万化灵丹: <span id="transmutation-pill">50</span></div>
+        <div>
+            <img src="https://pic.imgdb.cn/item/66541c01d9c307b7e9208aea.png" alt="高级悟性丹">
+            <div>高级悟性丹</div>
+            <div><span id="high-grade-pill">1000</span></div>
+        </div>
+        <div>
+            <img src="https://pic.imgdb.cn/item/66541c01d9c307b7e9208add.png" alt="万化灵丹">
+            <div>万化灵丹</div>
+            <div><span id="transmutation-pill">100</span></div>
+        </div>
     </div>
     <div class="core-area">
         <div class="buttons">
             <button onclick="upgradeWisdom()">提悟</button>
             <button onclick="trainSkills()">洗练</button>
             <button onclick="upgradeWisdomTo()">顿悟</button>
-            <button onclick="resetGame()">复位</button>
+            <button onclick="resetGame()">刷新</button>
         </div>
         <div class="skills" id="skills-area"></div>
     </div>
     <div class="bottom-bar">
-        <div>宠物名称: 胭脂</div>
+        <div class="pet-image">
+            <img id="pet-image" src="https://pic.imgdb.cn/item/66542639d9c307b7e92c235d.gif" alt="胭脂">
+            <div>宠物名称: <span id="pet-name">胭脂</span></div>
+        </div>
         <div class="info">
             <div>当前悟性: <span id="current-wisdom">0</span></div>
             <div>洗练次数: <span id="train-count">0</span></div>
@@ -114,28 +169,119 @@
         </div>
     </div>
     <div class="description-box" id="description-box"></div>
+    <div class="pet-selector">
+        <select id="pet-select" onchange="changePet()">
+            <option value="yanzhi">胭脂</option>
+            <option value="shengtian">圣天使</option>
+            <option value="guhe">古河锦鲤</option>
+            <option value="banlan">斑斓公主</option>
+            <option value="daming">妲茗儿</option>
+        </select>
+    </div>
     <script>
-        const skills = [
-            { name: '法术精通', rarity: 'A' },
-            { name: '冥想', rarity: 'B' },
-            { name: '万法归宗', rarity: 'B' },
-            { name: '仙风道骨', rarity: 'A' },
-            { name: '长寿', rarity: 'B' },
-            { name: '法力吸取·法术', rarity: 'B' },
-            { name: '女神外壳', rarity: 'A' },
-            { name: '全面进化', rarity: 'S' },
-            { name: '妩媚身姿', rarity: 'A' },
-            { name: '智慧守护', rarity: 'S' },
-            { name: '月之祝福', rarity: 'A' },
-            { name: '硕果累累', rarity: 'SS' },
-            { name: '琼珠玉液', rarity: 'SS' },
-            { name: '灼若旭日', rarity: 'SS' },
-            { name: '春风徐徐', rarity: 'SS' },
-            { name: '榴花如丹', rarity: 'SS' }
-        ];
+        const pets = {
+            yanzhi: {
+                name: '胭脂',
+                image: 'https://pic.imgdb.cn/item/66542639d9c307b7e92c235d.gif',
+                skills: [
+                    { name: '法术精通', rarity: 'A', description: '被动技能，法术攻击上升' },
+                    { name: '冥想', rarity: 'B', description: '被动技能，每回合法力值恢复' },
+                    { name: '万法归宗', rarity: 'B' , description: '被动技能，法术暴击上升'},
+                    { name: '仙风道骨', rarity: 'A' , description: '被动技能，耐力、敏捷、强壮大幅提升。' },
+                    { name: '长寿', rarity: 'B', description: '被动技能，寿命上限上升' },
+                    { name: '法力吸取·法术', rarity: 'B', description: '对目标造成法术伤害并吸取一定得法力值' },
+                    { name: '女神外壳', rarity: 'A' , description: '被动技能，物理和法术防御上升。' },
+                    { name: '全面进化', rarity: 'S', description: '被动技能，耐力、敏捷、强壮上升' },
+                    { name: '妩媚身姿', rarity: 'A' , description: '被动技能，身型婀娜。提高自身物理和法术闪避。' },
+                    { name: '智慧守护', rarity: 'S' , description: '被动技能，被动技能,通过追随智慧与战斗的守护者,使此生物学会用法力值抵消一部分受到的伤害.可抵消的比例根据技能等级而定。' },
+                    { name: '月之祝福', rarity: 'A' , description: '被动技能，耐力、敏捷、智力上升' },
+                    { name: '硕果累累', rarity: 'SS' , description: '胭脂抖了抖身，漫天果实坠落，对横排敌人造成法术伤害，并以35%的概率，施加3回合迟缓状态。根据自身血量上限增加威力。' },
+                    { name: '琼珠玉液', rarity: 'SS' , description: '胭脂小手一挥，消耗自身60%寿命，百分百驱散我方全体成员的部分负面状态（破甲，减攻，迟缓，眩晕，中毒，灼烧，流血，混乱，冻伤，沉睡，沉默，虚弱，冷嘲热讽）并恢复血量，胭脂血量上限越高回复量越多。' },
+                    { name: '灼若旭日', rarity: 'SS' , description: '胭脂单手投掷石榴花给单体目标造成法术伤害，按伤害量20%减少目标HP上限，单次最多可减少目标2%HP上限，并根据伤害少量恢复我方全体成员的血量。' },
+                    { name: '春风徐徐', rarity: 'SS' , description: '被动技能，胭脂每回合有概率生成霸体护盾，护盾可免疫部分负面状态（破甲，减攻，迟缓，眩晕，中毒，灼烧，流血，混乱，冻伤，沉睡，沉默，虚弱，冷嘲热讽），成功生成时，将消耗一定的寿命。' },
+                    { name: '榴花如丹', rarity: 'SS' , description: '被动技能，榴花如丹红似火，源源不断为胭脂永久提升耐力。' }
+                ]
+            },
+            guhe: {
+                name: '古河锦鲤',
+                image: 'https://pic.imgdb.cn/item/66542638d9c307b7e92c22fd.gif',
+                skills: [
+                    { name: '惊涛骇浪', rarity: 'B', description: '对十字范围造成物理伤害并有几率造成速度和物理攻击力下降' },
+                    { name: '冥想', rarity: 'B', description: '被动技能， 每回合法力值恢复' },
+                    { name: '如鱼得水', rarity: 'B', description: '被动技能，水中的锦鲤能力有所加强，物理攻击和法术攻击上升' },
+                    { name: '天赐矫健', rarity: 'A', description: '被动技能，物理和法术闪避上升' },
+                    { name: '长寿', rarity: 'B', description: '被动技能，有此天赋的生物寿命得到额外增长。被动技能，寿命上限增加。增加的寿命值与生物种类，技能等级有关。' },
+                    { name: '法力吸取·法术', rarity: 'B', description: '对目标造成法术伤害并吸取一定的法力值' },
+                    { name: '全面进化', rarity: 'A', description: '被动技能，从神魔大战中存活下来的宠物们，极大的提高了自己的强壮、耐力和敏捷。' },
+                    { name: '水魔爆', rarity: 'S', description: '对敌全体造成物理伤害' },
+                    { name: '相濡以沫', rarity: 'S', description: '被动技能，传于危难之时，锦鲤会触发一次复活，消耗20%寿命！' },
+                    { name: '智慧守护', rarity: 'A', description: '被动技能，法术攻击上升' },
+                    { name: '借花献佛', rarity: 'SS', description: '被动技能，上善若水，水善利万物而不争。当锦鲤受到伤害时，会将自身的受到的伤害值转化为对我方队友的治疗，治疗范围为以双鲤中心的十字范围队友。转化伤害的比例随技能等级提升。' },
+                    { name: '锦鲤庇佑', rarity: 'SS', description: '被动技能，传说锦鲤受莫大吉运庇佑，战斗中第一次受到致死伤害时不会死亡，血量降为1血，此效果仅触发一次。触发几率随技能等级提升。	' },
+                    { name: '梦幻泡影', rarity: 'SS', description: '被动技能，锦鲤消耗30%寿命制造强大的梦境使十字目标进入三回合深层睡眠状态，深层睡眠中的目标受伤降低且只有受到足额伤害才会提前醒来。深度睡眠中的受伤减免和从深层睡眠中醒来所需伤害的额度随技能等级提升。' },
+                ]
+            },
+            banlan: {
+                name: '斑斓公主',
+                image: 'https://pic.imgdb.cn/item/665425a9d9c307b7e92b8c0b.gif',
+                skills: [
+                    { name: '长寿', rarity: 'B', description: '被动技能，有此天赋的生物寿命得到额外增长，被动技能，寿命上限增加，增加的寿命值与生物种类，技能等级有关' },
+                    { name: '冥想', rarity: 'B', description: ' 被动技能，每回合法力值恢复' },
+                    { name: '三倍速冲击', rarity: 'B', description: '以三倍速度对目标发动攻击，以目标为中心的十字范围内所有其他目标都会被冲击的余波刮伤。被攻击到的目标有可能会陷入手足无措的状态中。' },
+                    { name: '防护结界', rarity: 'B', description: '被动技能，此生物具有极高的法术防御力，可大大降低被法术造成的伤害。' },
+                    { name: '神威之怒', rarity: 'A', description: '被动技能，此技能可使宠物获得大量的物理攻击力。' },
+                    { name: '仙风道骨', rarity: 'A', description: '被动技能，耐力、敏捷、强壮大幅提升。' },
+                    { name: '智慧守护', rarity: 'A', description: '被动技能，通过追随智慧与战斗的守护者,使此生物学会用法力值抵消一部分受到的伤害.可抵消的比例根据技能等级而定。' },
+                    { name: '元素守护（复仇）', rarity: 'S', description: '被动技能，拥有此技能的生物,任何针对敌方的攻击都可能触发"元素复仇效果".元素复仇效果可使攻击者释放一种元素类法术技能。' },
+                    { name: '土魔爆', rarity: 'S', description: '召唤土之灵对敌方全体目标造成巨大伤害，土之灵产生的伤害需以召唤者的物理攻击为基础。召唤土之灵需以自身寿命作为祭献。' },
+                    { name: '虎视眈眈', rarity: 'SS', description: '被动技能，斑斓公主虎视眈眈盯着敌人，积蓄力量，如斑斓公主本回合没有使用主动技能，则回合结束时物攻和物理暴击率上升，此状态最大叠加两次，增加值和技能等级有关。' },
+                    { name: '如虎添翼', rarity: 'SS', description: '被动技能，斑斓公主和主人出场时不会受到沉默、眩晕、混乱、睡眠的影响。免疫几率和技能等级有关。' },
+                    { name: '生龙活虎', rarity: 'SS', description: '被动技能，每三回合有几率清除身上的部分异常状态，清除几率和技能等级有关。' },
+                    { name: '虎阵龙威', rarity: 'SS', description: '对敌方全体造成巨量物理伤害并清除对手一定怒气值，清除量与技能等级和法攻有关。' },
+                ]
+            },
+            daming: {
+                name: '妲茗儿',
+                image: 'https://pic.imgdb.cn/item/66542639d9c307b7e92c23a4.gif',
+                skills: [
+                    { name: '长寿', rarity: 'B', description: ' 被动技能，有此天赋的生物寿命得到额外增长，被动技能，寿命上限增加，增加的寿命值与生物种类，技能等级有关' },
+                    { name: '冥想', rarity: 'B', description: ' 被动技能，每回合法力值恢复' },
+                    { name: '元素力量（宽容）', rarity: 'SS', description: ' 被动技能，被动技能,借助元素的力量,在受到群体攻击时,减免部分伤害.减免的额度与技能等级有关。' },
+                    { name: '法力灼烧', rarity: 'A', description: ' 对敌方单一目标喷吐火焰，将目标法力蒸发，并同时造成伤害。产生的伤害需以使用者的法术攻击为基础。' },
+                    { name: '智慧守护', rarity: 'A', description: ' 被动技能，被动技能,通过追随智慧与战斗的守护者,使此生物学会用法力值抵消一部分受到的伤害.可抵消的比例根据技能等级而定。' },
+                    { name: '仙风道骨', rarity: 'SS', description: ' 被动技能，耐力、敏捷、强壮大幅提升。' },
+                    { name: '女神外壳', rarity: 'A', description: ' 被动技能，物理和法术防御上升。' },
+                    { name: '美腿术', rarity: 'A', description: ' 被动技能，一双美腿是她引以为豪的本钱，学会此技能可为她增加速度。' },
+                    { name: '妩媚身姿', rarity: 'A', description: ' 被动技能，身型婀娜。提高自身物理和法术闪避。' },
+                    { name: '疗伤解毒', rarity: 'SS', description: ' 被动技能，姮茗儿和在天宫捣药的前辈学到了疗伤解毒技能，使自己免疫一切中毒、流血和灼烧效果。但是需以寿命做献祭，每回合消耗40点寿命。' },
+                    { name: '上善若水', rarity: 'SS', description: ' 被动技能，会疗伤的姮茗儿爱主人胜过爱自己，姮茗儿的主人受到伤害后姮茗儿会主动治疗主人（不治疗中毒和流血、等负面效果造成的伤害）。姮茗儿法术攻击越高治疗效果越好。' },
+                    { name: '步步生莲', rarity: 'SS', description: ' 姮茗儿曼妙的舞姿迷惑敌人后对敌方所有目标进行攻击，我方血量最低1个单位受到鼓舞恢复一定血量。' },
+                    { name: '气急攻心', rarity: 'SS', description: ' 被动技能，姮茗儿天生是个急性子，每回合结束后消耗当前生命1%，恢复最大生命1%的血量，恢复生命需要以寿命作为献祭，每回合扣除100寿命（技能16级以后不消耗寿命）。' },
+                    { name: '狡兔三窟', rarity: 'SS', description: ' 被动技能，姮茗儿每次战斗可以免疫2次致死伤害，触发狡兔三窟后会回复最大血量的5%，最大法力的5%，每次触发狡兔三窟以20%寿命做献祭。' },
+                ]
+            },
+            shengtian: {
+                name: '圣天使',
+                image: 'https://pic.imgdb.cn/item/66541c01d9c307b7e9208aba.png',
+                skills: [
+                    { name: '法术精通', rarity: 'A', description: ' 被动技能，法术攻击上升' },
+                    { name: '冥想', rarity: 'A', description: ' 被动技能，每回合法力值恢复' },
+                    { name: '战斗专注', rarity: 'B', description: ' 被动技能，法术暴击上升' },
+                    { name: '灵力充盈', rarity: 'B', description: ' 被动技能，速度上升' },
+                    { name: '圣灵济世', rarity: 'A', description: ' 为友方目标及其周围6个单位恢复生命值' },
+                    { name: '法力灼烧', rarity: 'B', description: ' 单体法术攻击同时消耗目标法力和生命值' },
+                    { name: '女神外壳', rarity: 'A', description: ' 被动技能，物理和法术防御上升' },
+                    { name: '智慧守护', rarity: 'S', description: ' 被动技能，用法力值抵消部分伤害' },
+                    { name: '智慧超群', rarity: 'S', description: ' 被动技能，智力上升' },
+                    { name: '法术审判', rarity: 'SS', description: ' 对敌方全体造成法术伤害并有几率附加禁止法术释放效果' },
+                    { name: '圣灵护体', rarity: 'S', description: ' 被动技能，每回合可恢复一定血量' }
+                ]
+            }
+        };
 
+        let currentPet = pets.yanzhi;
         let highGradePill = 1000;
-        let transmutationPill = 50;
+        let transmutationPill = 100;
         let currentWisdom = 0;
         let trainCount = 0;
         let skillScore = 0;
@@ -187,12 +333,11 @@
             trainCount++;
             document.getElementById("train-count").innerText = trainCount;
 
-            // 根据当前悟性值调整生成多个技能的概率
             let baseProbabilities = [0.80, 0.05, 0.05, 0.02, 0.02, 0.02, 0.01, 0.01, 0.008, 0.002];
             let adjustedProbabilities = baseProbabilities.map(prob => prob * (1 + currentWisdom * 0.1));
             let totalProbability = adjustedProbabilities.reduce((sum, prob) => sum + prob, 0);
 
-            let skillNum = 1; // 确保至少生成1个技能
+            let skillNum = 1;
             let rand = Math.random() * totalProbability;
 
             for (let i = 0; i < adjustedProbabilities.length; i++) {
@@ -209,38 +354,33 @@
                 do {
                     const rarityRoll = Math.random() * 100;
                     if (currentWisdom < 7) {
-                        // 在悟性小于7时
-                        if (rarityRoll < 80) skill = skills.filter(s => s.rarity === 'B')[Math.floor(Math.random() * 6)];
-                        else skill = skills.filter(s => s.rarity === 'A')[Math.floor(Math.random() * 5)];
+                        if (rarityRoll < 80) skill = currentPet.skills.filter(s => s.rarity === 'B')[Math.floor(Math.random() * currentPet.skills.filter(s => s.rarity === 'B').length)];
+                        else skill = currentPet.skills.filter(s => s.rarity === 'A')[Math.floor(Math.random() * currentPet.skills.filter(s => s.rarity === 'A').length)];
                     } else if (currentWisdom < 13) {
-                        // 在悟性7-12时
-                        if (rarityRoll < 80) skill = skills.filter(s => s.rarity === 'B')[Math.floor(Math.random() * 6)];
-                        else if (rarityRoll < 95) skill = skills.filter(s => s.rarity === 'A')[Math.floor(Math.random() * 5)];
-                        else skill = skills.filter(s => s.rarity === 'S')[Math.floor(Math.random() * 2)];
+                        if (rarityRoll < 80) skill = currentPet.skills.filter(s => s.rarity === 'B')[Math.floor(Math.random() * currentPet.skills.filter(s => s.rarity === 'B').length)];
+                        else if (rarityRoll < 95) skill = currentPet.skills.filter(s => s.rarity === 'A')[Math.floor(Math.random() * currentPet.skills.filter(s => s.rarity === 'A').length)];
+                        else skill = currentPet.skills.filter(s => s.rarity === 'S')[Math.floor(Math.random() * currentPet.skills.filter(s => s.rarity === 'S').length)];
                     } else if (currentWisdom < 17) {
-                        // 在悟性13-16时
-                        if (rarityRoll < 80) skill = skills.filter(s => s.rarity === 'B')[Math.floor(Math.random() * 6)];
-                        else if (rarityRoll < 95) skill = skills.filter(s => s.rarity === 'A')[Math.floor(Math.random() * 5)];
-                        else if (rarityRoll < 97.5) skill = skills.filter(s => s.rarity === 'S')[Math.floor(Math.random() * 2)];
-                        else skill = skills.filter(s => s.rarity === 'SS')[Math.floor(Math.random() * 5)];
+                        if (rarityRoll < 80) skill = currentPet.skills.filter(s => s.rarity === 'B')[Math.floor(Math.random() * currentPet.skills.filter(s => s.rarity === 'B').length)];
+                        else if (rarityRoll < 95) skill = currentPet.skills.filter(s => s.rarity === 'A')[Math.floor(Math.random() * currentPet.skills.filter(s => s.rarity === 'A').length)];
+                        else if (rarityRoll < 97.5) skill = currentPet.skills.filter(s => s.rarity === 'S')[Math.floor(Math.random() * currentPet.skills.filter(s => s.rarity === 'S').length)];
+                        else skill = currentPet.skills.filter(s => s.rarity === 'SS')[Math.floor(Math.random() * currentPet.skills.filter(s => s.rarity === 'SS').length)];
                     } else if (currentWisdom < 20) {
-                        // 在悟性17-19时
-                        if (rarityRoll < 80) skill = skills.filter(s => s.rarity === 'B')[Math.floor(Math.random() * 6)];
-                        else if (rarityRoll < 95) skill = skills.filter(s => s.rarity === 'A')[Math.floor(Math.random() * 5)];
-                        else if (rarityRoll < 97.5) skill = skills.filter(s => s.rarity === 'S')[Math.floor(Math.random() * 2)];
-                        else skill = skills.filter(s => s.rarity === 'SS')[Math.floor(Math.random() * 5)];
+                        if (rarityRoll < 80) skill = currentPet.skills.filter(s => s.rarity === 'B')[Math.floor(Math.random() * currentPet.skills.filter(s => s.rarity === 'B').length)];
+                        else if (rarityRoll < 95) skill = currentPet.skills.filter(s => s.rarity === 'A')[Math.floor(Math.random() * currentPet.skills.filter(s => s.rarity === 'A').length)];
+                        else if (rarityRoll < 97.5) skill = currentPet.skills.filter(s => s.rarity === 'S')[Math.floor(Math.random() * currentPet.skills.filter(s => s.rarity === 'S').length)];
+                        else skill = currentPet.skills.filter(s => s.rarity === 'SS')[Math.floor(Math.random() * currentPet.skills.filter(s => s.rarity === 'SS').length)];
                     } else {
-                        // 在悟性20时
-                        if (rarityRoll < 80) skill = skills.filter(s => s.rarity === 'B')[Math.floor(Math.random() * 6)];
-                        else if (rarityRoll < 95) skill = skills.filter(s => s.rarity === 'A')[Math.floor(Math.random() * 5)];
-                        else if (rarityRoll < 97.5) skill = skills.filter(s => s.rarity === 'S')[Math.floor(Math.random() * 2)];
-                        else skill = skills.filter(s => s.rarity === 'SS')[Math.floor(Math.random() * 5)];
+                        if (rarityRoll < 80) skill = currentPet.skills.filter(s => s.rarity === 'B')[Math.floor(Math.random() * currentPet.skills.filter(s => s.rarity === 'B').length)];
+                        else if (rarityRoll < 95) skill = currentPet.skills.filter(s => s.rarity === 'A')[Math.floor(Math.random() * currentPet.skills.filter(s => s.rarity === 'A').length)];
+                        else if (rarityRoll < 97.5) skill = currentPet.skills.filter(s => s.rarity === 'S')[Math.floor(Math.random() * currentPet.skills.filter(s => s.rarity === 'S').length)];
+                        else skill = currentPet.skills.filter(s => s.rarity === 'SS')[Math.floor(Math.random() * currentPet.skills.filter(s => s.rarity === 'SS').length)];
                     }
                 } while (!skill || selectedSkills.includes(skill));
                 selectedSkills.push(skill);
             }
 
-            if (selectedSkills.length >= 7) {
+            if (selectedSkills.length >= 8) {
                 if (!confirm("您洗出了好！多！技！能！确定不留着看看吗？")) {
                     return;
                 }
@@ -256,6 +396,14 @@
             selectedSkills.forEach(skill => {
                 const skillDiv = document.createElement("div");
                 skillDiv.innerText = `${skill.name} (${skill.rarity})`;
+                skillDiv.onclick = () => {
+                    document.getElementById("description-box").innerText = skill.description;
+                };
+                if (skill.rarity === 'S') {
+                    skillDiv.classList.add('s-skill');
+                } else if (skill.rarity === 'SS') {
+                    skillDiv.classList.add('ss-skill');
+                }
                 skillsArea.appendChild(skillDiv);
             });
         }
@@ -287,16 +435,31 @@
         }
 
         function upgradeWisdomTo() {
-            const target = prompt("你期待将宠物悟性提升至【x】值 (1-20):");
+            const target = prompt("你期待将宠物悟性提升至__ (请输入1-20之间的整数):");
+            if (target === null) return;
+
+            if (target === "super") {
+                currentWisdom = 20;
+                highGradePill = 0;
+                document.getElementById("high-grade-pill").innerText = highGradePill;
+                document.getElementById("current-wisdom").innerText = currentWisdom;
+                document.getElementById("description-box").innerText = `您消耗了全部高级悟性丹，将悟性提升至${currentWisdom}`;
+                return;
+            }
+
             const targetValue = parseInt(target, 10);
             if (isNaN(targetValue) || targetValue < 1 || targetValue > 20) {
                 alert("无效输入，请输入1到20之间的数字");
                 return;
             }
 
+            let initialWisdom = currentWisdom;
             while (currentWisdom < targetValue && highGradePill > 0) {
                 upgradeWisdom();
             }
+
+            let usedPills = initialWisdom < currentWisdom ? highGradePill + initialWisdom - currentWisdom : 0;
+            document.getElementById("description-box").innerText = `您消耗了${usedPills}颗高级悟性丹，将悟性提升至${currentWisdom}`;
         }
 
         function resetGame() {
@@ -307,6 +470,26 @@
             const descriptionBox = document.getElementById("description-box");
             const randomIndex = Math.floor(Math.random() * descriptions.length);
             descriptionBox.innerText = descriptions[randomIndex];
+        }
+
+        function changePet() {
+            const selectedPet = document.getElementById("pet-select").value;
+            currentPet = pets[selectedPet];
+            document.getElementById("pet-name").innerText = currentPet.name;
+            document.getElementById("pet-image").src = currentPet.image;
+            highGradePill = 1000;
+            transmutationPill = 100;
+            currentWisdom = 0;
+            trainCount = 0;
+            skillScore = 0;
+            highestScore = 0;
+            document.getElementById("high-grade-pill").innerText = highGradePill;
+            document.getElementById("transmutation-pill").innerText = transmutationPill;
+            document.getElementById("current-wisdom").innerText = currentWisdom;
+            document.getElementById("train-count").innerText = trainCount;
+            document.getElementById("skill-score").innerText = skillScore;
+            document.getElementById("highest-score").innerText = highestScore;
+            document.getElementById("skills-area").innerHTML = "";
         }
 
         setInterval(updateDescriptionBox, 30000);
