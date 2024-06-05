@@ -540,7 +540,10 @@
             height: 50px;
         }
         .red-text {
-            color: red;
+            color: #088c01;
+        }
+        .gold-text {
+            color: #ff1100;
         }
         .message-box {
             display: none;
@@ -711,6 +714,7 @@
                     <div>法攻: <span id="secondary-magic-attack"></span> <span id="secondary-magic-attack-bonus"></span></div>
                     <div>法防: <span id="secondary-magic-defense"></span> <span id="secondary-magic-defense-bonus"></span></div>
                     <div>速度: <span id="secondary-speed"></span> <span id="secondary-speed-bonus"></span></div>
+                    <div>宠物评分: <span id="skill-score">0</span></div>
                 </div>
             </div>
             <div class="button-grid">
@@ -797,10 +801,9 @@
         </div>
         <div class="info">
             <div>宠物名称: <span id="pet-name">胭脂</span></div>
-            <div>剩余金子: <span id="gold-amount">20000</span></div> <!-- 新增剩余金子显示 -->
             <div>当前悟性: <span id="current-wisdom">0</span></div>
             <div>洗练次数: <span id="train-count">0</span></div>
-            <div>宠物评分: <span id="skill-score">0</span></div>
+            <div>剩余金子: <span id="gold-amount">20000</span></div> <!-- 新增剩余金子显示 -->
         </div>
     </div>
     <div class="pet-selector">
@@ -1313,7 +1316,95 @@ const imageUrls = [
 preloadImages(imageUrls);
 
 
+function showGuide() {
+    const messageBox = document.createElement('div');
+    messageBox.style = `
+        width: 350px; 
+        height: 500px; 
+        padding: 20px; 
+        background: white; 
+        border: 1px solid black; 
+        position: fixed; 
+        top: 50%; 
+        left: 50%; 
+        transform: translate(-50%, -50%); 
+        z-index: 1000;
+        overflow: auto; 
+        font-size: 16px;
+    `;
+    messageBox.innerHTML =  `<button onclick="document.body.removeChild(this.parentNode)">关闭引导</button>
+                            <p>欢迎大侠试玩养宠模拟器！当前是V6.0</p>
+                            <p>- 1. 调整了部分按钮位置和配色</p>
+                            <p>- 2. 修复了使用快捷还童和一键提升悟性的道具消耗显示问题；</p>
+                            <p>- 3. 修复了商店的部分bug；</p>
+                            <p>- 4. 修复了悟性对二级属性的影响错误bug；</p>
+                            <p>- 5. 修复了其他显示问题；</p>
+                            <p>- 6. 新增宠物觉醒和幻化系统（调试中，功能尚不完全）；</p>
+                            <p>- 7. 新增部分新道具；</p>
+                            <p>- 8. 优化宠物金子培养的计数，玩家可以更有针对性地进行分配培养次数了；</p>
+                            <p>- 9. 新增场景系统，玩法会陆续上线；</p>
+                            <p>- 10. 优化部分道具排列；</p>
+                            <p>如果大侠未接触过某网页游戏的宠物养成系统，您可能需要花费几分钟时间来阅读这些引导。</p>
+                            <p>养宠模拟器可以让大侠通过各种操作，如还童、洗练、变异等，来让您的宠物变得更强。</p>
+                            <p>❗️❗️❗️重要提示：大侠可以通过页面下拉栏选择不同宠物进行培养。但请注意，一旦切换其他宠物，系统将丢失此前宠物的所有信息。如果你没有想好优先培养哪只宠物，请先不要进行任何操作！</p>
+                            <p>玩法按钮：点击引导按钮可弹出本提示框，供大侠查看各种功能。</p>
+                            <p>资质按钮：点击后，会弹出当前宠物的资质界面。宠物的资质决定了当前宠物的总体品质。宠物资质由段位、成长率和资质值组成。资质也会影响宠物的评分，资质值越高，评分越高。</p>
+                            <p>资质内部有多个功能</p>
+                            <p>a.普通还童：消耗1颗还童丹重新生成当前宠物的资质和技能，并有极低的概率让宠物变异。</p>
+                            <p>当宠物变异后，宠物的资质会有概率突破上限值，且段位必定为卓越或完美。一般而言，变异的宠物比未变异的宠物更强大。</p>
+                            <p>当宠物变异后，继续使用还童丹将会使当前宠物失去变异状态。如果你对变异宠物的段位和成长率不满意，你可以在资质面板中的“使用还童金丹”按钮，消耗1颗还童金丹对当前宠物执行更新资质的操作，还童金丹不会改变宠物的变异状态。</p>
+                            <p>b. 快速还童：如果你厌倦了手动还童，想交给系统一键提升，你可以按照弹窗指引进行输入。请注意，你也有可能消耗所有还童丹而未能达成预期结果。</p>
+                            <p>c. 还童金丹：还童金丹可以在商店购买，当宠物变异后，使用还童金丹可以在不改变变异状态的情况下刷新宠物的成长率。</p>
+                            <p>d. 冰魄还童：冰魄还童丹可以在不改变宠物资质的情况下更新宠物段位和成长率。</p>
+                            <p>e. 刷新资质：消耗1颗资质丹，在不改变段位、成长率和变异状态的情况下，更新宠物的资质值。请注意，更新后的资质值未必比之前更好。</p>
+                            <p>f. 变异宠物：消耗1颗稀有道具“灵异金丹”使当前宠物立即变异。</p>
+                            <p>变异后的宠物，资质值有机会爆棚：变为未变异状态上限值的1.1倍。灵异金丹会直接在宠物当前未变异的资质值上乘以1.1倍。因此，未变异状态下，宠物资质值越高，使用灵异金丹的收益越大。</p>
+                            <p>g. 进化宠物：宠物成功进化后，会随机增加各项资质的当前值。宠物可以最大进化30级，每次进化需要消耗进化之灵，宝箱可以开出不同的进化之灵。颤抖之灵用于1~6级进化，发光之灵用于7~12级进化，活跃之灵用于13~18级进化，跳动之灵用于19~24级进化，闪耀之灵用于25~30级进化。</p>
+                            <p>h. 洗练技能：消耗1颗万化灵丹，为你的当前宠物随机生成技能。所生成的技能可以通过点击来查看技能说明。悟性越高，越有可能生成多个技能，稀有技能也越可能出现。</p>
+                            <p>属性按钮：显示当前宠物的属性面板。宠物的资质越高，各项属性也会越高。属性是影响宠物评分的重要因素，请用心培养。属性界面中有很多按钮，功能分别如下：</p>
+                            <p>a. 培养宠物：宠物在1级、60级、120级和180级时会分别获得一次培养机会，每次培养需要花费一定数量的金子，培养成功后宠物的各项属性值会按一定倍数增加。（请注意，在第一次培养后，后期培养只有当宠物刚好为规定等级时才可以执行！）</p>
+                            <p>b. 普通修炼：消耗一本普通经验书（宝箱获得），让宠物提升一级。宠物等级提升时，属性会增加。</p>
+                            <p>c. 高级修炼：消耗一本高级经验书（宝箱获得），让宠物提升三级。宠物等级提升时，属性会增加。</p>
+                            <p>d. 提升悟性：玩家可以通过使用悟性丹来使宠物随机增加一点悟性，提升悟性失败时，会减少悟性值。</p>
+                            <p>e. 一键提悟：玩家可以输入目标悟性值，由系统计算并使用道具，当悟性丹不够时，会自动停止。</p>
+                            <p>f. 神级领悟：玩家可以通过宝箱获得稀有道具“举世无双悟性丹”，使用后立即让宠物悟性提升至20。</p>
+                            <p>g. 飞升突破：当玩家的宠物到达160级，20悟性，且宝库中存在一颗飞升之石，可以让宠物飞升突破当前等级上限至180级。</p>
+                            <p>h. 宠物传记：查看当前宠物的传记，每个宠物共有三个传记，需要评分达到各自规定值才能解锁查看。</p>
+                            <p>商店按钮：弹出商店面板。商店每隔5分钟会随机刷新一次货物，大侠也可以花费50金子手动刷新。付费刷新有更大的概率出现稀有道具和更多货品。</p>
+                            <p>商店所出售的道具根据其品质会随机定价，购买后会直接添加至道具栏中。</p>
+                            <p>如果你购买的是宠物的天赋技能，你需要判断当前宠物的名称是否和天赋技能的宠物名称一致，其次保证你的当前宠物没有该技能，否则你将不能购买。一旦购买成功，这个技能会直接打在你的宠物技能位里。</p>
+                            <p>在本游戏中，宠物的SS技能无法全部通过洗练生成，因此，如果你想要让宠物习得更多强力技能增加评分，你需要在商店里购买并使用天赋道具。</p>
+                            <p>商店面板中，你可以进行宠物出售的操作，当宠物评分不足10000时，将无法出售。</p>
+                            <p>当你点击出售按钮时，系统会根据你当前宠物评分的1/50进行出价，成功出售后，当前宠物各项属性会归零，同时得到等量金子。</p>
+                            <p>宝箱按钮：玩家可以在宝箱界面花费金子打开各种宝箱，获得奇珍异宝和神秘道具！</p>
+                            <p>宝库按钮：除页面顶部道具外，玩家通过宝箱获得的各种稀有道具会存放在此处。</p>
+                            <p>💁请大侠尽情探索，本游戏还会继续更新功能，敬请期待！</p>
+                            <button onclick="document.body.removeChild(this.parentNode)">关闭引导</button>`;
+    document.body.appendChild(messageBox);
+}
+
+let highGradePill = 100;
+let transmutationPill = 20;
+let rebornPill = 20;
+let bingpoRebornPill = 5;
+let qualityPill = 20;
+let currentWisdom = 0;
+let trainCount = 0;
+let skillScore = 0;
+let petWisdom = 0; 
         
+const descriptions = [
+    "请特别注意，更换宠物会导致此前的分数全部作废，如果你没有想好先培养谁，请决定后再尝试！",
+    "宠物评分由多个维度组成，请你同时兼顾技能质量、资质水平和宠物等级！",
+    "如果你需要删除某个技能，你可以长按该技能确认删除。（如果是PC端，你需要右键确认）"
+];        
+
+function updateDescriptionBox() {
+    const descriptionBox = document.getElementById("description-box");
+    const randomIndex = Math.floor(Math.random() * descriptions.length);
+    descriptionBox.innerText = descriptions[randomIndex];
+}
+
 let evolutionLevel = 0;
 
 function evolvePet() {
@@ -1751,8 +1842,17 @@ function updateJinnangItems() {
     });
 }
 
+// 更新顶栏道具数量
+function updateTopBarItems() {
+    document.getElementById("high-grade-pill").innerText = highGradePill;
+    document.getElementById("transmutation-pill").innerText = transmutationPill;
+    document.getElementById("reborn-pill").innerText = rebornPill;
+    document.getElementById("quality-pill").innerText = qualityPill;
+    document.getElementById("miraculous-pill").innerText = miraculousPill;
+    document.getElementById("bingpo-reborn-pill").innerText = bingpoRebornPill;
+    document.getElementById("golden-reborn-pill").innerText = goldenRebornPill;
+}
 
-        
 function addItemToTopBar(item) {
     switch (item.name) {
         case '神兽还童丹':
@@ -1782,10 +1882,6 @@ function toggleAttributeDrawer() {
     const info = document.getElementById('attribute-info');
     drawer.classList.toggle('open');
     info.classList.toggle('open');
-    updateAttributePanel();
-}
-
-function refreshAttributes() {
     updateAttributePanel();
 }
         
@@ -1855,7 +1951,7 @@ function trainAttributes() {
 
     // 检查当前培养次数是否达到可用次数
     if (trainingCount >= availableTrainingCount) {
-        alert("只有当宠物等级达到60、120和180时，才能各获得一次培养机会！每次培养会按比例增加宠物的属性值，请合理分配培养机会。"); // 如果没有剩余次数，提示用户
+        alert("当前没有可用培养次数了。只有当宠物等级达到60、120和180时，才能各获得一次培养机会！每次培养会按比例增加宠物的属性值，请合理分配培养机会。");
         return; // 退出函数
     }
 
@@ -1893,7 +1989,6 @@ function trainAttributes() {
     // 更新属性面板
     updateAttributePanel();
 }
-
 
 function updatePetLevel() {
     document.getElementById('pet-level').innerText = petLevel;
@@ -1943,94 +2038,17 @@ function showBiography() {
     document.body.appendChild(messageBox);
 }
 
-function showGuide() {
-    const messageBox = document.createElement('div');
-    messageBox.style = `
-        width: 350px; 
-        height: 500px; 
-        padding: 20px; 
-        background: white; 
-        border: 1px solid black; 
-        position: fixed; 
-        top: 50%; 
-        left: 50%; 
-        transform: translate(-50%, -50%); 
-        z-index: 1000;
-        overflow: auto; 
-        font-size: 16px;
-    `;
-    messageBox.innerHTML =  `<button onclick="document.body.removeChild(this.parentNode)">关闭引导</button>
-                            <p>欢迎大侠试玩养宠模拟器！当前是V6.0</p>
-                            <p>- 1. 调整了部分按钮位置和配色</p>
-                            <p>- 2. 修复了使用快捷还童和一键提升悟性的道具消耗显示问题；</p>
-                            <p>- 3. 修复了商店的部分bug；</p>
-                            <p>- 4. 修复了悟性对二级属性的影响错误bug；</p>
-                            <p>- 5. 修复了其他显示问题；</p>
-                            <p>- 6. 新增宠物觉醒和幻化系统（调试中，功能尚不完全）；</p>
-                            <p>- 7. 新增部分新道具；</p>
-                            <p>- 8. 优化宠物金子培养的计数，玩家可以更有针对性地进行分配培养次数了；</p>
-                            <p>- 9. 新增场景系统，玩法会陆续上线；</p>
-                            <p>- 10. 优化部分道具排列；</p>
-                            <p>如果大侠未接触过某网页游戏的宠物养成系统，您可能需要花费几分钟时间来阅读这些引导。</p>
-                            <p>养宠模拟器可以让大侠通过各种操作，如还童、洗练、变异等，来让您的宠物变得更强。</p>
-                            <p>❗️❗️❗️重要提示：大侠可以通过页面下拉栏选择不同宠物进行培养。但请注意，一旦切换其他宠物，系统将丢失此前宠物的所有信息。如果你没有想好优先培养哪只宠物，请先不要进行任何操作！</p>
-                            <p>玩法按钮：点击引导按钮可弹出本提示框，供大侠查看各种功能。</p>
-                            <p>资质按钮：点击后，会弹出当前宠物的资质界面。宠物的资质决定了当前宠物的总体品质。宠物资质由段位、成长率和资质值组成。资质也会影响宠物的评分，资质值越高，评分越高。</p>
-                            <p>资质内部有多个功能</p>
-                            <p>a.普通还童：消耗1颗还童丹重新生成当前宠物的资质和技能，并有极低的概率让宠物变异。</p>
-                            <p>当宠物变异后，宠物的资质会有概率突破上限值，且段位必定为卓越或完美。一般而言，变异的宠物比未变异的宠物更强大。</p>
-                            <p>当宠物变异后，继续使用还童丹将会使当前宠物失去变异状态。如果你对变异宠物的段位和成长率不满意，你可以在资质面板中的“使用还童金丹”按钮，消耗1颗还童金丹对当前宠物执行更新资质的操作，还童金丹不会改变宠物的变异状态。</p>
-                            <p>b. 快速还童：如果你厌倦了手动还童，想交给系统一键提升，你可以按照弹窗指引进行输入。请注意，你也有可能消耗所有还童丹而未能达成预期结果。</p>
-                            <p>c. 还童金丹：还童金丹可以在商店购买，当宠物变异后，使用还童金丹可以在不改变变异状态的情况下刷新宠物的成长率。</p>
-                            <p>d. 冰魄还童：冰魄还童丹可以在不改变宠物资质的情况下更新宠物段位和成长率。</p>
-                            <p>e. 刷新资质：消耗1颗资质丹，在不改变段位、成长率和变异状态的情况下，更新宠物的资质值。请注意，更新后的资质值未必比之前更好。</p>
-                            <p>f. 变异宠物：消耗1颗稀有道具“灵异金丹”使当前宠物立即变异。</p>
-                            <p>变异后的宠物，资质值有机会爆棚：变为未变异状态上限值的1.1倍。灵异金丹会直接在宠物当前未变异的资质值上乘以1.1倍。因此，未变异状态下，宠物资质值越高，使用灵异金丹的收益越大。</p>
-                            <p>g. 进化宠物：宠物成功进化后，会随机增加各项资质的当前值。宠物可以最大进化30级，每次进化需要消耗进化之灵，宝箱可以开出不同的进化之灵。颤抖之灵用于1~6级进化，发光之灵用于7~12级进化，活跃之灵用于13~18级进化，跳动之灵用于19~24级进化，闪耀之灵用于25~30级进化。</p>
-                            <p>h. 洗练技能：消耗1颗万化灵丹，为你的当前宠物随机生成技能。所生成的技能可以通过点击来查看技能说明。悟性越高，越有可能生成多个技能，稀有技能也越可能出现。</p>
-                            <p>属性按钮：显示当前宠物的属性面板。宠物的资质越高，各项属性也会越高。属性是影响宠物评分的重要因素，请用心培养。属性界面中有很多按钮，功能分别如下：</p>
-                            <p>a. 培养宠物：宠物在1级、60级、120级和180级时会分别获得一次培养机会，每次培养需要花费一定数量的金子，培养成功后宠物的各项属性值会按一定倍数增加。（请注意，在第一次培养后，后期培养只有当宠物刚好为规定等级时才可以执行！）</p>
-                            <p>b. 普通修炼：消耗一本普通经验书（宝箱获得），让宠物提升一级。宠物等级提升时，属性会增加。</p>
-                            <p>c. 高级修炼：消耗一本高级经验书（宝箱获得），让宠物提升三级。宠物等级提升时，属性会增加。</p>
-                            <p>d. 提升悟性：玩家可以通过使用悟性丹来使宠物随机增加一点悟性，提升悟性失败时，会减少悟性值。</p>
-                            <p>e. 一键提悟：玩家可以输入目标悟性值，由系统计算并使用道具，当悟性丹不够时，会自动停止。</p>
-                            <p>f. 神级领悟：玩家可以通过宝箱获得稀有道具“举世无双悟性丹”，使用后立即让宠物悟性提升至20。</p>
-                            <p>g. 飞升突破：当玩家的宠物到达160级，20悟性，且宝库中存在一颗飞升之石，可以让宠物飞升突破当前等级上限至180级。</p>
-                            <p>h. 宠物传记：查看当前宠物的传记，每个宠物共有三个传记，需要评分达到各自规定值才能解锁查看。</p>
-                            <p>商店按钮：弹出商店面板。商店每隔5分钟会随机刷新一次货物，大侠也可以花费50金子手动刷新。付费刷新有更大的概率出现稀有道具和更多货品。</p>
-                            <p>商店所出售的道具根据其品质会随机定价，购买后会直接添加至道具栏中。</p>
-                            <p>如果你购买的是宠物的天赋技能，你需要判断当前宠物的名称是否和天赋技能的宠物名称一致，其次保证你的当前宠物没有该技能，否则你将不能购买。一旦购买成功，这个技能会直接打在你的宠物技能位里。</p>
-                            <p>在本游戏中，宠物的SS技能无法全部通过洗练生成，因此，如果你想要让宠物习得更多强力技能增加评分，你需要在商店里购买并使用天赋道具。</p>
-                            <p>商店面板中，你可以进行宠物出售的操作，当宠物评分不足10000时，将无法出售。</p>
-                            <p>当你点击出售按钮时，系统会根据你当前宠物评分的1/50进行出价，成功出售后，当前宠物各项属性会归零，同时得到等量金子。</p>
-                            <p>宝箱按钮：玩家可以在宝箱界面花费金子打开各种宝箱，获得奇珍异宝和神秘道具！</p>
-                            <p>宝库按钮：除页面顶部道具外，玩家通过宝箱获得的各种稀有道具会存放在此处。</p>
-                            <p>💁请大侠尽情探索，本游戏还会继续更新功能，敬请期待！</p>
-                            <button onclick="document.body.removeChild(this.parentNode)">关闭引导</button>`;
-    document.body.appendChild(messageBox);
-}
-
-
-// 更新顶栏道具数量
-function updateTopBarItems() {
-    document.getElementById("high-grade-pill").innerText = highGradePill;
-    document.getElementById("transmutation-pill").innerText = transmutationPill;
-    document.getElementById("reborn-pill").innerText = rebornPill;
-    document.getElementById("quality-pill").innerText = qualityPill;
-    document.getElementById("miraculous-pill").innerText = miraculousPill;
-    document.getElementById("bingpo-reborn-pill").innerText = bingpoRebornPill;
-    document.getElementById("golden-reborn-pill").innerText = goldenRebornPill;
-}
-
 let goldenRebornPill = 5;
-document.getElementById("golden-reborn-pill").innerText = goldenRebornPill;
 
 function useGoldenRebornPill() {
     if (goldenRebornPill < 1) {
         alert("您的还童金丹已耗尽！");
         return;
     }
-
+    if (awakened) {
+        alert("您的宠物已经觉醒，无法还童！");
+        return;
+    }
     goldenRebornPill--;
     document.getElementById("golden-reborn-pill").innerText = goldenRebornPill;
 
@@ -2260,7 +2278,6 @@ function getRandomRareItem() {
     return rareItems[Math.floor(Math.random() * rareItems.length)];
 }
 
-
 function buyItem() {
     const selectedItem = document.querySelector('.shop-item.selected');
     if (!selectedItem) {
@@ -2273,13 +2290,6 @@ function buyItem() {
 
     if (goldAmount < price) {
         alert("金子不够，购买失败！");
-        return;
-    }
-
-    // 检查技能数量上限
-    const skillsArea = document.getElementById('skills-area');
-    if (skillsArea.children.length >= 12 && !itemName.includes('包裹')) {
-        alert("您的宠物已经达到技能上限，无法购买！");
         return;
     }
 
@@ -2325,6 +2335,13 @@ function buyItem() {
         // 处理非包裹类型物品
         const [petName, skillName] = itemName.split('·');
         if (skillName) {
+            // 检查技能数量上限
+            const skillsArea = document.getElementById('skills-area');
+            if (skillsArea.children.length >= 12) {
+                alert("您的宠物已经达到技能上限，无法购买！");
+                return;
+            }
+
             if (petName !== currentPet.name) {
                 alert("您的当前宠物不会此技能，购买失败！");
                 return;
@@ -2439,14 +2456,39 @@ function changePet() {
 
 
 function resetPet() {
-    currentPet.qualities.tier = '普通'; // 重置宠物资质为普通
-    currentPet.qualities.growthRate = 100; // 重置宠物成长率为100
-    currentPet.qualities.mutated = false; // 重置宠物变异状态为未变异
-    currentPet.qualities.endurance.current = currentPet.qualities.endurance.min; // 重置耐力当前值为最小值
-    currentPet.qualities.strength.current = currentPet.qualities.strength.min; // 重置力量当前值为最小值
-    currentPet.qualities.faith.current = currentPet.qualities.faith.min; // 重置信念当前值为最小值
-    currentPet.qualities.agility.current = currentPet.qualities.agility.min; // 重置敏捷当前值为最小值
-    currentPet.qualities.intelligence.current = currentPet.qualities.intelligence.min; // 重置智力当前值为最小值
+    // 重置宠物资质和属性
+    currentPet.qualities.tier = '普通';
+    currentPet.qualities.growthRate = 100;
+    currentPet.qualities.mutated = false;
+
+    // 重置当前属性值为最小值
+    currentPet.qualities.endurance.current = currentPet.qualities.endurance.min;
+    currentPet.qualities.strength.current = currentPet.qualities.strength.min;
+    currentPet.qualities.faith.current = currentPet.qualities.faith.min;
+    currentPet.qualities.agility.current = currentPet.qualities.agility.min;
+    currentPet.qualities.intelligence.current = currentPet.qualities.intelligence.min;
+
+    // 初始化等级和其他基础属性
+    petLevel = 1;
+    evolutionLevel = 0;
+    remainingPoints = 0;
+    trainingCount = 0;
+    currentWisdom = 0;
+    petAscended = false;
+    petMaxLevel = 149;
+    petWisdom = currentWisdom;
+    awakened = false;
+    hallucinated = false;
+    document.body.style.backgroundImage = "";
+
+    // 重置基础属性为初始值，调用calculateAttribute
+    baseAttributes = {
+        endurance: calculateAttribute(currentPet.qualities.endurance.min, currentPet.qualities.growthRate / 100, petLevel, 0, false),
+        intelligence: calculateAttribute(currentPet.qualities.intelligence.min, currentPet.qualities.growthRate / 100, petLevel, 0, false),
+        strength: calculateAttribute(currentPet.qualities.strength.min, currentPet.qualities.growthRate / 100, petLevel, 0, false),
+        agility: calculateAttribute(currentPet.qualities.agility.min, currentPet.qualities.growthRate / 100, petLevel, 0, false),
+        faith: calculateAttribute(currentPet.qualities.faith.min, currentPet.qualities.growthRate / 100, petLevel, 0, false)
+    };
 
     // 更新显示的资质和属性值
     setInnerText("tier", currentPet.qualities.tier);
@@ -2458,23 +2500,8 @@ function resetPet() {
     setInnerText("agility-current", currentPet.qualities.agility.current);
     setInnerText("intelligence-current", currentPet.qualities.intelligence.current);
 
-    // 初始化等级和进化等级等基础属性
-    petLevel = 1; // 重置宠物等级为1
-    evolutionLevel = 0; // 重置进化等级为0
-    remainingPoints = 0; // 重置剩余点数为0
-    trainingCount = 0; // 重置金培次数为0
-    currentWisdom = 0;
-    petAscended = false;
-    petMaxLevel = 149;
-    petWisdom = currentWisdom;
-    awakened = false;
-    hallucinated = false;
-    // 取消变异和恢复原背景
-    currentPet.qualities.mutated = false;    
-    document.body.style.backgroundImage = "";
-    
     // 初始化评分
-    skillScore = 0; // 重置技能分数为0
+    skillScore = 0;
     setInnerText("skill-score", skillScore);
 
     // 清空技能区域
@@ -2486,17 +2513,18 @@ function resetPet() {
     // 更新显示的各项数值
     setInnerText("current-wisdom", 0);
     setInnerText("train-count", 0);
-    setInnerText("attribute-endurance", currentPet.qualities.endurance.current);
-    setInnerText("attribute-intelligence", currentPet.qualities.intelligence.current);
-    setInnerText("attribute-strength", currentPet.qualities.strength.current);
-    setInnerText("attribute-agility", currentPet.qualities.agility.current);
-    setInnerText("attribute-faith", currentPet.qualities.faith.current);
+    setInnerText("attribute-endurance", baseAttributes.endurance);
+    setInnerText("attribute-intelligence", baseAttributes.intelligence);
+    setInnerText("attribute-strength", baseAttributes.strength);
+    setInnerText("attribute-agility", baseAttributes.agility);
+    setInnerText("attribute-faith", baseAttributes.faith);
     setInnerText("pet-level", petLevel);
     setInnerText("evolution-level", evolutionLevel);
 
-    updateQualityCard(); // 更新资质卡片
-    updateAttributepanel(); //更新属性面板
-    updateTopBarItems(); // 确保顶栏道具数量更新
+    // 确保属性面板在所有属性重置和计算后更新
+    updateQualityCard();
+    updateAttributePanel();
+    updateTopBarItems();
 }
 
 function setInnerText(id, value) {
@@ -2507,22 +2535,6 @@ function setInnerText(id, value) {
         console.warn(`元素ID为 ${id} 的元素未找到。`);
     }
 }
-
-let highGradePill = 100;
-let transmutationPill = 20;
-let rebornPill = 20;
-let bingpoRebornPill = 5;
-let qualityPill = 20;
-let currentWisdom = 0;
-let trainCount = 0;
-let skillScore = 0;
-let petWisdom = 0; 
-        
-const descriptions = [
-    "请特别注意，更换宠物会导致此前的分数全部作废，如果你没有想好先培养谁，请决定后再尝试！",
-    "宠物评分由多个维度组成，请你同时兼顾技能质量、资质水平和宠物等级！",
-    "如果你需要删除某个技能，你可以长按该技能确认删除。（如果是PC端，你需要右键确认）"
-];
 
 function toggleDrawer() {
     const drawer = document.getElementById('quality-drawer');
@@ -2665,7 +2677,7 @@ function trainSkills() {
     }
 
     if (selectedSkills.length >= 8) {
-        if (!confirm("您洗出了好！多！技！能！确定不留着看看吗？")) {
+        if (!confirm("你把技能洗爆了，点击确定查看！")) {
             return;
         }
     }
@@ -2688,27 +2700,20 @@ function getRandomSkillNum(probabilities) {
 
 function updateSkillsArea(selectedSkills) {
     const skillsArea = document.getElementById("skills-area");
-    const existingSkills = Array.from(skillsArea.children).map(skillDiv => skillDiv.innerText.split(' ')[0]); // 获取现有技能名称
+    const existingSkills = Array.from(skillsArea.children).map(skillDiv => skillDiv.innerText.split(' ')[0]);
     skillsArea.innerHTML = "";
     selectedSkills.forEach(skill => {
-        if (!existingSkills.includes(skill.name)) { // 检查技能名称是否已存在
+        if (!existingSkills.includes(skill.name)) {
             const skillDiv = document.createElement("div");
             skillDiv.innerText = `${skill.name} (${skill.rarity})`;
             skillDiv.onclick = () => {
-                document.getElementById("description-box").innerText = skill.description;
+                deleteSkill(skill, skillDiv, skillsArea);
             };
             if (skill.rarity === 'S') {
                 skillDiv.classList.add('s-skill');
             } else if (skill.rarity === 'SS') {
                 skillDiv.classList.add('ss-skill');
             }
-
-            // 添加长按事件监听器
-            skillDiv.addEventListener('contextmenu', (e) => {
-                e.preventDefault(); // 阻止默认的右键菜单
-                deleteSkill(skill, skillDiv, skillsArea);
-            });
-
             skillsArea.appendChild(skillDiv);
         }
     });
@@ -2718,8 +2723,9 @@ function deleteSkill(skill, skillDiv, skillsArea) {
     const messageBox = document.createElement('div');
     messageBox.style = "padding: 20px; background: white; border: 1px solid black; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1000;";
     messageBox.innerHTML = `
-        <p>确定要删除技能 ${skill.name} 吗？</p>
-        <button id="confirm-delete">确认</button>
+        <p>技能描述：${skill.description}</p>
+        <p>是否删除？</p>
+        <button id="confirm-delete">删除</button>
         <button id="cancel-delete">取消</button>
     `;
 
@@ -2806,19 +2812,17 @@ function updateSkillScore(selectedSkills = []) {
 
     // 计算总评分
     const totalScore = qualityScore + attributeScore + skillScore + secondaryAttributeScore;
-    document.getElementById("skill-score").innerText = totalScore;
+    // 获取具有 ID "skill-score" 的元素
+    const skillScoreElement = document.getElementById("skill-score");
+    // 设置该元素的文本内容为 totalScore
+    skillScoreElement.innerText = totalScore;
+    // 添加 .text 类以应用红色样式
+    skillScoreElement.classList.add("gold-text");
 }
 
 function upgradeWisdomTo() {
     const target = prompt("你期待将宠物悟性提升至__ (请输入1-20之间的整数):");
     if (target === null) return;
-
-    if (target === "66666") {
-        goldAmount += 999999;
-        document.getElementById("gold-amount").innerText = goldAmount;
-        document.getElementById("description-box").innerText = "您获得了999999金子！";
-        return;
-    }
 
     if (target === "111") {
         transmutationPill += 999;
@@ -2864,9 +2868,7 @@ function upgradeWisdomTo() {
         document.getElementById("description-box").innerText = "您获得了万能锦囊！";
         return;
     }
-
     
-
     const targetValue = parseInt(target, 10);
     if (isNaN(targetValue) || targetValue < 1 || targetValue > 20) {
         alert("无效输入，请输入1到20之间的数字");
@@ -2912,46 +2914,38 @@ function upgradeWisdomTo() {
     }
 }
 
-function updateDescriptionBox() {
-    const descriptionBox = document.getElementById("description-box");
-    const randomIndex = Math.floor(Math.random() * descriptions.length);
-    descriptionBox.innerText = descriptions[randomIndex];
-}
+let awakened = false; // 复位觉醒状态
+let baseAttributes = {
+    endurance: 0,
+    intelligence: 0,
+    strength: 0,
+    agility: 0,
+    faith: 0
+};
 
-let awakened = false; //复位觉醒状态
-
-function levelUpPet() {
-    if (petLevel >= petMaxLevel) {
-        alert("您的宠物已达到当前等级上限！");
-        return;
-    }
-
-    petLevel++;
-    const growthRateRange = awakened ? [400 + (hallucinationLevel - 1) * 5, 460] : [currentPet.qualities.growthRate, currentPet.qualities.growthRate];
-    const randomGrowthRate = Math.floor(Math.random() * (growthRateRange[1] - growthRateRange[0] + 1)) + growthRateRange[0];
-
+function calculateCurrentAttributes() {
     const qualities = currentPet.qualities;
-    const newAttributes = {
-        endurance: Math.floor(qualities.endurance.current * (1 + randomGrowthRate / 10000)),
-        intelligence: Math.floor(qualities.intelligence.current * (1 + randomGrowthRate / 10000)),
-        strength: Math.floor(qualities.strength.current * (1 + randomGrowthRate / 10000)),
-        agility: Math.floor(qualities.agility.current * (1 + randomGrowthRate / 10000)),
-        faith: Math.floor(qualities.faith.current * (1 + randomGrowthRate / 10000))
+    const growthRate = qualities.growthRate / 100;
+    const baseLevel = awakened ? qualities.baseLevel : 0;
+
+    return {
+        endurance: calculateAttribute(qualities.endurance.current, growthRate, petLevel, baseLevel, awakened),
+        intelligence: calculateAttribute(qualities.intelligence.current, growthRate, petLevel, baseLevel, awakened),
+        strength: calculateAttribute(qualities.strength.current, growthRate, petLevel, baseLevel, awakened),
+        agility: calculateAttribute(qualities.agility.current, growthRate, petLevel, baseLevel, awakened),
+        faith: calculateAttribute(qualities.faith.current, growthRate, petLevel, baseLevel, awakened)
     };
-
-    // 更新基础属性
-    baseAttributes.endurance += newAttributes.endurance;
-    baseAttributes.intelligence += newAttributes.intelligence;
-    baseAttributes.strength += newAttributes.strength;
-    baseAttributes.agility += newAttributes.agility;
-    baseAttributes.faith += newAttributes.faith;
-
-    updatePetLevel();
-    updateAttributePanel(); // 更新属性面板
-    updateQualityCard(); // 更新资质卡片
 }
 
-
+function calculateAttribute(currentValue, growthRate, level, baseLevel, isAwakened) {
+    if (isAwakened && level > baseLevel - 1) {
+        const awakenedLevels = level - baseLevel;
+        return Math.floor((currentValue / 2000) * growthRate * 4 * awakenedLevels * 0.6);
+    } else {
+        return Math.floor((currentValue / 2000) * growthRate * 4 * level * 0.6);
+    }
+}
+        
 // 宠物觉醒函数
 function awakenPet() {
     if (awakened) {
@@ -2965,22 +2959,22 @@ function awakenPet() {
         return;
     }
 
-    // 计算并提升属性值基于 baseAttributes
-    baseAttributes.endurance *= 1.2;
-    baseAttributes.intelligence *= 1.2;
-    baseAttributes.strength *= 1.2;
-    baseAttributes.agility *= 1.2;
-    baseAttributes.faith *= 1.2;
+    const qualities = currentPet.qualities;
+    const growthRate = qualities.growthRate / 100;
+    const baseLevel = petLevel; // 觉醒前的等级设为当前等级
+    const isAwakened = false; // 觉醒前标志设为false
 
+    // 记录觉醒前的属性值
+    baseAttributes = {
+        endurance: calculateAttribute(qualities.endurance.current, growthRate, petLevel, baseLevel, isAwakened) * 1.2,
+        intelligence: calculateAttribute(qualities.intelligence.current, growthRate, petLevel, baseLevel, isAwakened) * 1.2,
+        strength: calculateAttribute(qualities.strength.current, growthRate, petLevel, baseLevel, isAwakened) * 1.2,
+        agility: calculateAttribute(qualities.agility.current, growthRate, petLevel, baseLevel, isAwakened) * 1.2,
+        faith: calculateAttribute(qualities.faith.current, growthRate, petLevel, baseLevel, isAwakened) * 1.2
+    };
+    
     // 记录觉醒前的等级
     currentPet.qualities.baseLevel = petLevel;
-
-    // 更新 attributes 面板
-    document.getElementById("attribute-endurance").innerText = Math.round(baseAttributes.endurance);
-    document.getElementById("attribute-intelligence").innerText = Math.round(baseAttributes.intelligence);
-    document.getElementById("attribute-strength").innerText = Math.round(baseAttributes.strength);
-    document.getElementById("attribute-agility").innerText = Math.round(baseAttributes.agility);
-    document.getElementById("attribute-faith").innerText = Math.round(baseAttributes.faith);
 
     // 更新段位和成长率
     currentPet.qualities.tier = '超凡';
@@ -2997,147 +2991,170 @@ function awakenPet() {
     updateAttributePanel();
     updateQualityCard();
 }
-        
-function calculateCurrentAttributes() {
-    const qualities = currentPet.qualities;
-    const growthRate = qualities.growthRate / 100;
-    const baseLevel = awakened ? qualities.baseLevel : 0;
 
-    return {
-        endurance: calculateAttribute(qualities.endurance.current, growthRate, petLevel, baseLevel, awakened),
-        intelligence: calculateAttribute(qualities.intelligence.current, growthRate, petLevel, baseLevel, awakened),
-        strength: calculateAttribute(qualities.strength.current, growthRate, petLevel, baseLevel, awakened),
-        agility: calculateAttribute(qualities.agility.current, growthRate, petLevel, baseLevel, awakened),
-        faith: calculateAttribute(qualities.faith.current, growthRate, petLevel, baseLevel, awakened)
-    };
-}
-
-let baseAttributes = {
-    endurance: 0,
-    intelligence: 0,
-    strength: 0,
-    agility: 0,
-    faith: 0
-};
-
-function calculateAttribute(currentValue, growthRate, level, baseLevel, isAwakened) {
-    if (isAwakened && level > baseLevel) {
-        // 觉醒后的属性计算
-        const awakenedLevels = level - baseLevel;
-        return Math.floor((currentValue / 2000) * growthRate * 4 * awakenedLevels * 0.6);
-    } else {
-        // 常规属性计算
-        return Math.floor((currentValue / 2000) * growthRate * 4 * level * 0.6);
+function levelUpPet() {
+    if (petLevel >= petMaxLevel) {
+        alert("您的宠物已达到当前等级上限！");
+        return;
     }
+
+    petLevel++;
+    const growthRateRange = awakened ? [400 + (hallucinationLevel) * 5, 460] : [currentPet.qualities.growthRate, currentPet.qualities.growthRate];
+    const randomGrowthRate = Math.floor(Math.random() * (growthRateRange[1] - growthRateRange[0] + 1)) + growthRateRange[0];
+
+    const qualities = currentPet.qualities;
+    const newAttributes = {
+        endurance: Math.floor(qualities.endurance.current * (1 + randomGrowthRate / 10000)),
+        intelligence: Math.floor(qualities.intelligence.current * (1 + randomGrowthRate / 10000)),
+        strength: Math.floor(qualities.strength.current * (1 + randomGrowthRate / 10000)),
+        agility: Math.floor(qualities.agility.current * (1 + randomGrowthRate / 10000)),
+        faith: Math.floor(qualities.faith.current * (1 + randomGrowthRate / 10000))
+    };
+
+    // 无论是否觉醒，更新基础属性
+    baseAttributes.endurance += newAttributes.endurance;
+    baseAttributes.intelligence += newAttributes.intelligence;
+    baseAttributes.strength += newAttributes.strength;
+    baseAttributes.agility += newAttributes.agility;
+    baseAttributes.faith += newAttributes.faith;
+
+    updatePetLevel();
+    updateAttributePanel(); // 更新属性面板
+    updateQualityCard(); // 更新资质卡片
 }
 
-function updateAttributePanel() {
-    const pet = currentPet;
-    const qualities = pet.qualities;
-    let growthRateDisplay;
-    let growthRate;
+//以下是原function updateAttributePanel()分离之后的函数组        
 
-    if (awakened) {
-        if (hallucinated) {
-            const minGrowthRate = 400 + (hallucinationLevel) * 5;
-            if (hallucinationLevel >= 12) {
-                growthRateDisplay = `460%`;
-                growthRate = 460 / 100; // 固定值
+    function updateAttributePanel() {
+        const pet = currentPet;
+        const qualities = pet.qualities;
+        const { growthRateDisplay, growthRate } = calculateGrowthRateDisplayAndValue(qualities);
+    
+        const currentAttributes = calculateCurrentAttributes();
+    
+        // 计算总属性值
+        const totalAttributes = {
+            endurance: currentAttributes.endurance + baseAttributes.endurance,
+            intelligence: currentAttributes.intelligence + baseAttributes.intelligence,
+            strength: currentAttributes.strength + baseAttributes.strength,
+            agility: currentAttributes.agility + baseAttributes.agility,
+            faith: currentAttributes.faith + baseAttributes.faith
+        };
+    
+        // 更新属性面板
+        document.getElementById("attribute-tier").innerText = qualities.tier;
+        document.getElementById("attribute-growth-rate").innerText = growthRateDisplay;
+        document.getElementById("attribute-wisdom").innerText = currentWisdom; // 确保使用currentWisdom
+    
+        updatePrimaryAttributes(totalAttributes);
+        updateSecondaryAttributes(totalAttributes, currentWisdom);
+    
+        updateSkillScore(Array.from(document.querySelectorAll("#skills-area div")).map(div => {
+            const [name, rarity] = div.innerText.split(" (");
+            return { name, rarity: rarity.replace(")", "") };
+        }));
+    }
+    
+    function calculateGrowthRateDisplayAndValue(qualities) {
+        let growthRateDisplay;
+        let growthRate;
+    
+        if (awakened) {
+            if (hallucinated) {
+                const minGrowthRate = 400 + (hallucinationLevel) * 5;
+                if (hallucinationLevel >= 12) {
+                    growthRateDisplay = `460%`;
+                    growthRate = 460 / 100; // 固定值
+                } else {
+                    growthRateDisplay = `${minGrowthRate}% ~ 460%`;
+                    growthRate = (minGrowthRate + 460) / 200; // 平均值
+                }
             } else {
-                growthRateDisplay = `${minGrowthRate}% ~ 460%`;
-                growthRate = (minGrowthRate + 460) / 200; // 平均值
+                growthRateDisplay = `400% ~ 460%`;
+                growthRate = (460 + 400) / 200; // 平均值
             }
         } else {
-            growthRateDisplay = `400% ~ 460%`;
-            growthRate = (460 + 400) / 200; // 平均值
+            growthRate = qualities.growthRate / 100;
+            growthRateDisplay = `${Math.round(growthRate * 100)}%`;
         }
-    } else {
-        growthRate = qualities.growthRate / 100;
-        growthRateDisplay = `${Math.round(growthRate * 100)}%`;
+    
+        return { growthRateDisplay, growthRate };
     }
-
-    const baseLevel = awakened ? qualities.baseLevel : 0;
-    const currentAttributes = calculateCurrentAttributes();
-
-    // 更新属性面板
-    document.getElementById("attribute-tier").innerText = qualities.tier;
-    document.getElementById("attribute-growth-rate").innerText = growthRateDisplay;
-    document.getElementById("attribute-wisdom").innerText = currentWisdom; // 确保使用currentWisdom
-    document.getElementById("attribute-endurance").innerText = Math.round(currentAttributes.endurance + baseAttributes.endurance);
-    document.getElementById("attribute-intelligence").innerText = Math.round(currentAttributes.intelligence + baseAttributes.intelligence);
-    document.getElementById("attribute-strength").innerText = Math.round(currentAttributes.strength + baseAttributes.strength);
-    document.getElementById("attribute-agility").innerText = Math.round(currentAttributes.agility + baseAttributes.agility);
-    document.getElementById("attribute-faith").innerText = Math.round(currentAttributes.faith + baseAttributes.faith);
-
-    // 计算并更新二级属性
-    const secondaryAttributes = calculateSecondaryAttributes(currentAttributes, currentWisdom);
-    let wisdomBonus;
-    if (currentWisdom <= 12) {
-        wisdomBonus = currentWisdom * 0.5;
-    } else if (currentWisdom <= 20) {
-        wisdomBonus = 6 + (currentWisdom - 12) * 1;
-    } else {
-        switch (currentWisdom) {
-            case 21:
-                wisdomBonus = 20;
-                break;
-            case 22:
-                wisdomBonus = 21;
-                break;
-            case 23:
-                wisdomBonus = 22;
-                break;
-            case 24:
-                wisdomBonus = 23;
-                break;
-            case 25:
-                wisdomBonus = 25;
-                break;
-            default:
-                wisdomBonus = 0;
+    
+    function updatePrimaryAttributes(totalAttributes) {
+        document.getElementById("attribute-endurance").innerText = Math.round(totalAttributes.endurance);
+        document.getElementById("attribute-intelligence").innerText = Math.round(totalAttributes.intelligence);
+        document.getElementById("attribute-strength").innerText = Math.round(totalAttributes.strength);
+        document.getElementById("attribute-agility").innerText = Math.round(totalAttributes.agility);
+        document.getElementById("attribute-faith").innerText = Math.round(totalAttributes.faith);
+    }
+    
+    function updateSecondaryAttributes(totalAttributes, currentWisdom) {
+        const secondaryAttributes = calculateSecondaryAttributes(totalAttributes, currentWisdom);
+        let wisdomBonus;
+    
+        if (currentWisdom <= 12) {
+            wisdomBonus = currentWisdom * 0.5;
+        } else if (currentWisdom <= 20) {
+            wisdomBonus = 6 + (currentWisdom - 12) * 1;
+        } else {
+            switch (currentWisdom) {
+                case 21:
+                    wisdomBonus = 20;
+                    break;
+                case 22:
+                    wisdomBonus = 21;
+                    break;
+                case 23:
+                    wisdomBonus = 22;
+                    break;
+                case 24:
+                    wisdomBonus = 23;
+                    break;
+                case 25:
+                    wisdomBonus = 25;
+                    break;
+                default:
+                    wisdomBonus = 0;
+            }
         }
+    
+        document.getElementById("secondary-health").innerText = secondaryAttributes.health;
+        const healthBonusElement = document.getElementById("secondary-health-bonus");
+        healthBonusElement.innerText = `+${wisdomBonus}%`;
+        healthBonusElement.classList.toggle("red-text", wisdomBonus > 0);
+    
+        document.getElementById("secondary-mana").innerText = secondaryAttributes.mana;
+        const manaBonusElement = document.getElementById("secondary-mana-bonus");
+        manaBonusElement.innerText = `+${wisdomBonus}%`;
+        manaBonusElement.classList.toggle("red-text", wisdomBonus > 0);
+    
+        document.getElementById("secondary-physical-attack").innerText = secondaryAttributes.physicalAttack;
+        const physicalAttackBonusElement = document.getElementById("secondary-physical-attack-bonus");
+        physicalAttackBonusElement.innerText = `+${wisdomBonus}%`;
+        physicalAttackBonusElement.classList.toggle("red-text", wisdomBonus > 0);
+    
+        document.getElementById("secondary-physical-defense").innerText = secondaryAttributes.physicalDefense;
+        const physicalDefenseBonusElement = document.getElementById("secondary-physical-defense-bonus");
+        physicalDefenseBonusElement.innerText = `+${wisdomBonus}%`;
+        physicalDefenseBonusElement.classList.toggle("red-text", wisdomBonus > 0);
+    
+        document.getElementById("secondary-magic-attack").innerText = secondaryAttributes.magicAttack;
+        const magicAttackBonusElement = document.getElementById("secondary-magic-attack-bonus");
+        magicAttackBonusElement.innerText = `+${wisdomBonus}%`;
+        magicAttackBonusElement.classList.toggle("red-text", wisdomBonus > 0);
+    
+        document.getElementById("secondary-magic-defense").innerText = secondaryAttributes.magicDefense;
+        const magicDefenseBonusElement = document.getElementById("secondary-magic-defense-bonus");
+        magicDefenseBonusElement.innerText = `+${wisdomBonus}%`;
+        magicDefenseBonusElement.classList.toggle("red-text", wisdomBonus > 0);
+    
+        document.getElementById("secondary-speed").innerText = secondaryAttributes.speed;
+        const speedBonusElement = document.getElementById("secondary-speed-bonus");
+        speedBonusElement.innerText = `+${wisdomBonus}%`;
+        speedBonusElement.classList.toggle("red-text", wisdomBonus > 0);
     }
-
-    document.getElementById("secondary-health").innerText = secondaryAttributes.health;
-    const healthBonusElement = document.getElementById("secondary-health-bonus");
-    healthBonusElement.innerText = `+${wisdomBonus}%`;
-    healthBonusElement.classList.toggle("red-text", wisdomBonus > 0);
-
-    document.getElementById("secondary-mana").innerText = secondaryAttributes.mana;
-    const manaBonusElement = document.getElementById("secondary-mana-bonus");
-    manaBonusElement.innerText = `+${wisdomBonus}%`;
-    manaBonusElement.classList.toggle("red-text", wisdomBonus > 0);
-
-    document.getElementById("secondary-physical-attack").innerText = secondaryAttributes.physicalAttack;
-    const physicalAttackBonusElement = document.getElementById("secondary-physical-attack-bonus");
-    physicalAttackBonusElement.innerText = `+${wisdomBonus}%`;
-    physicalAttackBonusElement.classList.toggle("red-text", wisdomBonus > 0);
-
-    document.getElementById("secondary-physical-defense").innerText = secondaryAttributes.physicalDefense;
-    const physicalDefenseBonusElement = document.getElementById("secondary-physical-defense-bonus");
-    physicalDefenseBonusElement.innerText = `+${wisdomBonus}%`;
-    physicalDefenseBonusElement.classList.toggle("red-text", wisdomBonus > 0);
-
-    document.getElementById("secondary-magic-attack").innerText = secondaryAttributes.magicAttack;
-    const magicAttackBonusElement = document.getElementById("secondary-magic-attack-bonus");
-    magicAttackBonusElement.innerText = `+${wisdomBonus}%`;
-    magicAttackBonusElement.classList.toggle("red-text", wisdomBonus > 0);
-
-    document.getElementById("secondary-magic-defense").innerText = secondaryAttributes.magicDefense;
-    const magicDefenseBonusElement = document.getElementById("secondary-magic-defense-bonus");
-    magicDefenseBonusElement.innerText = `+${wisdomBonus}%`;
-    magicDefenseBonusElement.classList.toggle("red-text", wisdomBonus > 0);
-
-    document.getElementById("secondary-speed").innerText = secondaryAttributes.speed;
-    const speedBonusElement = document.getElementById("secondary-speed-bonus");
-    speedBonusElement.innerText = `+${wisdomBonus}%`;
-    speedBonusElement.classList.toggle("red-text", wisdomBonus > 0);
-
-    updateSkillScore(Array.from(document.querySelectorAll("#skills-area div")).map(div => {
-        const [name, rarity] = div.innerText.split(" (");
-        return { name, rarity: rarity.replace(")", "") };
-    }));
-}
+//以上是原function updateAttributePanel()分离之后的函数组
         
 // 宠物觉醒后，每一级成长率随机在400~460之间更新
 let hallucinated = false;
@@ -3434,7 +3451,10 @@ function useBingpoRebornPill() {
         console.warn("当前宠物未被正确初始化。");
         return;
     }
-
+    if (awakened) {
+        alert("您的宠物已经觉醒，无法还童！");
+        return;
+    }
     if (bingpoRebornPill < 1) {
         alert("您的冰魄还童丹已耗尽！");
         return;
@@ -3531,7 +3551,11 @@ function rebornPet() {
         console.warn("当前宠物未被正确初始化。");
         return;
     }
-
+    if (awakened) {
+        alert("您的宠物已经觉醒，无法还童！");
+        return;
+    }
+    
     if (rebornPill < 1) {
         alert("您的神兽还童丹已耗尽！");
         return;
@@ -3625,7 +3649,10 @@ function rebornPet() {
 
 function trainQuality() {
     if (!checkDrawerOpen()) return;
-
+    if (awakened) {
+        alert("您的宠物已经觉醒，无法还童！");
+        return;
+    }
     const targetTier = prompt("请选择预期段位（普通，优秀，杰出，卓越，完美）:");
     if (targetTier === null) return;
     const stopOnMutation = confirm("遇变异则停止？");
@@ -3723,7 +3750,11 @@ function mutatePet() {
         alert("必要道具灵异金丹数量不足！");
         return;
     }
-
+    if (awakened) {
+        alert("您的宠物已经觉醒，无法使用灵异金丹！");
+        return;
+    }
+    
     miraculousPill--;
     document.getElementById("miraculous-pill").innerText = miraculousPill;
 
