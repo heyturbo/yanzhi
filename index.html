@@ -1129,8 +1129,8 @@
 }
 
 .ascension-icon {
-    width: 100px;
-    height: 100px;
+    width: 75px;
+    height: 75px;
 }
 
 .ascension-info {
@@ -1148,9 +1148,13 @@
 }
 
 .ascension-button {
-    padding: 10px;
+    padding: 5px;
     font-size: 16px;
+    color: white;
     cursor: pointer;
+    border-radius: 10px;
+    background-color: #003670;
+    border-color: #ccc;
 }
 
 .ascension-skill-button {
@@ -2120,16 +2124,16 @@ const ascensionSkills = {
         { name: '固若金汤', effect: '提供5000点物理防御和5000点法术防御', baseValue: 5000, increment: level => 300 * level + 300 }
     ],
     combat: [
-        { name: '魔龙之力', effect: '恢复最大生命值2%的生命值', baseValue: 2, increment: level => 2 * level },
-        { name: '向死而生', effect: '消耗最大法力值上限60%的法力让自己血量变为1', baseValue: 60, increment: level => -2 * level },
+        { name: '魔龙之力', effect: '每10秒恢复最大生命值2%的生命值', baseValue: 2, increment: level => 2 * level },
+        { name: '向死而生', effect: '收到致命伤害时，消耗最大法力值上限60%的法力让自己血量变为1', baseValue: 60, increment: level => -2 * level },
         { name: '以牙还牙', effect: '反弹本次承受伤害的51%~82%', baseValue: 51, increment: level => 2 * level },
         { name: '天神祝福', effect: '敌人的第一次攻击伤害降低30%', baseValue: 30, increment: level => 2 * level }
     ],
     settlement: [
-        { name: '财源滚滚', effect: '金子奖励额外增加100', baseValue: 100, increment: level => 100 + 100 * level },
-        { name: '焉知非福', effect: '获得持续10秒的仙气护体', baseValue: 10, increment: level => 1 * level },
-        { name: '举一反三', effect: '获得的经验值增加30%', baseValue: 30, increment: level => 5 * level },
-        { name: '金牌调解', effect: '获得50金子的安慰金', baseValue: 50, increment: level => 50 * level }
+        { name: '财源滚滚', effect: '战斗胜利后金子奖励额外增加100', baseValue: 100, increment: level => 100 + 100 * level },
+        { name: '焉知非福', effect: '战斗失败后，下一轮获得持续10秒的仙气护体', baseValue: 10, increment: level => 1 * level },
+        { name: '举一反三', effect: '战斗胜利时获得的经验值增加30%', baseValue: 30, increment: level => 5 * level },
+        { name: '金牌调解', effect: '战斗失败时不扣除金子，并获得50金子的安慰金', baseValue: 50, increment: level => 50 * level }
     ]
 };
 
@@ -2191,7 +2195,6 @@ document.getElementById('enable-ascension').addEventListener('click', () => {
 // 监听刷新技能按钮点击事件
 document.getElementById('refresh-ascension').addEventListener('click', () => {
     if (useItem('heartStone')) {
-        alert('飞升之术技能已刷新！');
         refreshAscensionSkill(); // 刷新飞升之术技能
     } else {
         alert('您的心鉴之石不足！');
@@ -2201,7 +2204,6 @@ document.getElementById('refresh-ascension').addEventListener('click', () => {
 // 监听提升技能按钮点击事件
 document.getElementById('level-up-ascension').addEventListener('click', () => {
     if (useItem('earthlyEnergy', 10)) {
-        alert('飞升之术技能已提升！');
         levelUpAscensionSkill(); // 提升飞升之术技能
     } else {
         alert('您的天地灵气不足！');
