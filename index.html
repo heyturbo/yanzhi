@@ -17,13 +17,47 @@
             margin: 0;
             padding: 0;
         }
+        /* styles.css */
+        #loadingOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+        }
+        
+        #loadingText {
+            color: white;
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+        
+        #progressBarContainer {
+            width: 80%;
+            background: #ddd;
+            border-radius: 25px;
+        }
+        
+        #progressBar {
+            width: 0%;
+            height: 30px;
+            background: #4caf50;
+            border-radius: 25px;
+        }
+
         /* 顶部栏样式 */
         .top-bar {
             width: 90%;
             margin: 5px 5px;
             padding: 5px;
             background-color: #fff;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 1px 2px rgb(0 0 0 / 40%);
             display: flex;
             justify-content: space-around;
             align-items: center;
@@ -34,13 +68,15 @@
         
         .top-bar div {
             display: flex;
-            flex-direction: column;
+            font-size: 14px;
+            color: #5d4201;
             align-items: center;
+            flex-direction: column;
         }
         
         .top-bar img {
-            width: 45px;
-            height: 45px;
+            width: 40px;
+            height: 40px;
         }
         
         /* 底部栏样式 */
@@ -48,10 +84,10 @@
             width: 90%;
             margin: 5px 5px;
             padding: 5px;
-            background-color: #fff;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            background-color: rgb(255 255 255 / 90%);
+            box-shadow: 0 1px 2px rgb(0 0 0 / 40%);
             display: flex;
-            justify-content: space-around;
+            justify-content: space-between;
             align-items: stretch;
             border-radius: 10px;
             flex-direction: row;
@@ -71,58 +107,94 @@
             width: 90%;
             margin: 5px 5px;
             padding: 5px;
-            background-color: #fff;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            background-color: rgb(255 255 255 / 90%);
+            box-shadow: 0 1px 2px rgb(0 0 0 / 40%);
             display: flex;
             flex-direction: column;
             align-items: center;
             border-radius: 10px;
         }
-        .core-area .buttons {
+        .button-row {
             display: flex;
-            flex-direction: column;
-            width: 100%;
-            overflow-x: auto;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 5px 10px;
+            margin: 0px 0px;
+            padding: 0px;
+            flex-direction: row;
+            flex-wrap: wrap;
         }
-        .core-area .button-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 5px;
-        }
-        .core-area .button-row button {
-            flex: 1;
-            margin: 5px;
-            padding: 10px;
-            background-color: #e0b454;
-            color: white;
+        
+        .button-row button {
+            flex: auto;
+            margin: 0px;
+            padding: 0px; /* 去掉内边距以适应按钮大小 */
+            background-color: transparent; /* 背景色设为透明以显示背景图片 */
+            color: transparent; /* 隐藏按钮文本 */
             border: none;
-            border-radius: 5px;
             cursor: pointer;
-            font-size: 16px;
+            background-size: contain; /* 背景图像保持比例缩放 */
+            background-position: center; /* 背景图像居中 */
+            background-repeat: no-repeat; /* 防止背景图像平铺 */
+            width: 70px; /* 根据需要调整宽度 */
+            height: 40px; /* 根据需要调整高度 */
         }
-        .core-area .button-row button:active {
-            background-color: #c4a14e;
+        
+        /* 为每个按钮设置不同的背景图片 */
+        #guideButton {
+            background-image: url('https://pic.imgdb.cn/item/66616fec5e6d1bfa05b013ec.png');
         }
+        
+        #drawerButton {
+            background-image: url('https://pic.imgdb.cn/item/66616feb5e6d1bfa05b01312.png');
+        }
+        
+        #attributeButton {
+            background-image: url('https://pic.imgdb.cn/item/66616feb5e6d1bfa05b01297.png');
+        }
+        
+        #shopButton {
+            background-image: url('https://pic.imgdb.cn/item/66616fea5e6d1bfa05b0121c.png');
+        }
+        
+        #treasureButton {
+            background-image: url('https://pic.imgdb.cn/item/66616fea5e6d1bfa05b0117c.png');
+        }
+        
+        #jinnangButton {
+            background-image: url('https://pic.imgdb.cn/item/66616fe95e6d1bfa05b0103d.png');
+        }
+        
+        #fightingButton {
+            background-image: url('https://pic.imgdb.cn/item/6661a26a5e6d1bfa05edacf1.png');
+        }
+        
+        #lotteryButton {
+            background-image: url('https://pic.imgdb.cn/item/666466225e6d1bfa05b95973.png');
+        }
+        
         .core-area .skills {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            width: 100%;
+            padding: 0px 0px;
+            margin: 5px 0px;
+            gap: 5px 5px;
+            width: 95%;
         }
         .core-area .skills div {
-            width: 100%;
             padding: 10px;
-            background-color: #e0e0e0;
+            margin: 5px 0px;
+            background-color: #ffffffcf;
             text-align: center;
             border-radius: 5px;
-            font-size: 14px;
+            font-size: 12px;
             font-weight: bold;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            box-shadow: 0px 0px 1px 1px rgb(0 0 0 / 30%);
             box-sizing: border-box;
             cursor: pointer;
         }
         .core-area .skills .s-skill {
             border: 2px solid gold;
+            background-color: #fefefc;
         }
         .core-area .skills .ss-skill {
             border: 2px solid gold;
@@ -132,36 +204,46 @@
             display: flex;
             flex-direction: column;
             align-items: stretch;
-            justify-content: space-between;
+            justify-content: center;
+            padding: 0px 10px;
+            margin: 0px 10px;
         }
         .bottom-bar .info div {
             margin: 5px 0;
         }
         .description-box {
-            margin-top: 5px;
+            margin: 5px 0px;
             padding: 5px;
             width: 90%;
-            /* border: #ffc900; */
-            background-color: #fff;
+            background-color: rgb(255 255 255 / 90%);
             border-radius: 10px;
-            box-shadow: 1 1px 1px rgba(0, 0, 0, 0.1);
-            text-align: center;
+            box-shadow: 0 1px 2px rgb(0 0 0 / 40%);
+            text-align: justify;
+        }
+        .treasure-description-box {
+            margin: 5px 5px;
+            padding: 20px;
+            background-color: rgb(255 255 255 / 90%);
+            border-radius: 10px;
+            box-shadow: 0 1px 2px rgb(0 0 0 / 40%);
+            text-align: justify;
         }
         .pet-selector {
             width: 90%;
-            /* height: 90%; */
+            height: 90%;
             margin: 5px 5px;
             padding: 5px;
-            background-color: #fff;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            background-color: rgb(255 255 255 / 95%);
+            box-shadow: 0 1px 2px rgb(0 0 0 / 40%);
             border-radius: 10px;
             text-align: center;
         }
         .pet-selector select {
             width: 100%;
-            padding: 10px;
+            padding: 0px;
             font-size: 16px;
             border-radius: 5px;
+            background-color: #ffffff75;
             border: 1px solid #ccc;
         }
         .pet-image {
@@ -173,6 +255,8 @@
             width: 180px;
             height: 180px;
             border-radius: 10px;
+            padding: 0px 5px;
+            margin: 5px 0px;
         }
         .info-card {
             display: none;
@@ -220,7 +304,7 @@
             position: fixed;
             bottom: 0;
             width: 100%;
-            background-color: #fff;
+            background-color: #ffffff;
             box-shadow: 0 -2px 4px rgba(0,0,0,0.1);
             border-radius: 10px 10px 0 0;
             transform: translateY(100%);
@@ -232,14 +316,14 @@
         .drawer-toggle {
             padding: 5px;
             text-align: center;
-            background-color: #e4bb5c;
+            background-color: #0a8c00;
             color: white;
             cursor: pointer;
             border-radius: 10px 10px 0 0;
         }
         .quality-info {
             display: none;
-            padding: 10px;
+            padding: 5px;
         }
         .quality-info.open {
             display: block;
@@ -249,12 +333,12 @@
             background-color: #e3e3e3;
             border-radius: 5px;
             overflow: hidden;
-            margin-bottom: 6px;
+            margin-bottom: 10px;
             font-size: 14px;
         }
         .quality-info .progress-bar div {
             height: 10px;
-            background-color: #0a8c00;
+            background-color: #064701;
             text-align: right;
             padding-right: 5px;
             color: white;
@@ -298,14 +382,14 @@
             border-radius: 5px;
         }
         .shop-item.selected {
-            border-color: #e4bb5c;
+            border-color: #0a8c00;
             background-color: #fff;
         }
         .shop-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 10px;
+            padding: 15px;
         }
         .shop-bar button {
             padding: 5px 10px;
@@ -323,7 +407,7 @@
             padding: 2px 10px;
             margin: 5px;
             /* height: 66%; */
-            background-color: #0a8c00;
+            background-color: #088c01;
             color: white;
             border: none;
             border-radius: 5px;
@@ -331,7 +415,7 @@
             font-size: 16px;
         }
         .shop-bar button:active {
-            background-color: #c4a14e;
+            background-color: #064701;
         }
         .shop-timer {
             display: flex;
@@ -348,17 +432,17 @@
             font-size: 14px;
         }
         .shop-timer button:active {
-            background-color: #c4a14e;
+            background-color: #064701;
         }
         .attribute-info button {
-            padding: 2px 8px;
-            margin: 5px;
+            padding: 0px 5px;
+            margin: 0px 2px;
             background-color: #0a8c00;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 14px;
         }
         .attribute-info button:active {
             background-color: #064701;
@@ -404,29 +488,59 @@
             display: flex;
              /* 使两个子容器分布在容器的两边 */
             gap: 0px; /* 调整两列之间的间距 */
-            align-content: flex-start;
+            align-items: stretch;
+            font-size: 14px;
             flex-direction: row;
             justify-content: space-between;
         }
-        .progress-bars, .secondary-attributes {
+        .progress-bars {
+            display: flex;
+            gap: 0px; /* 调整每个条目之间的间距 */
+            flex-direction: column-reverse;
+            align-items: flex-start;
+            justify-content: space-evenly;
+        }
+        .secondary-attributes {
             display: flex;
             flex-direction: column;
-            gap: 2px; /* 调整每个条目之间的间距 */
-            justify-content: space-between;
+            gap: 5px; /* 调整每个条目之间的间距 */
+            align-items: flex-start;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
         }
         .image-frame {
             display: flex;
-            justify-content: flex-start;
-            
             /* 设置图片框的尺寸，可以根据需要调整 */
-            width: 180px;
-            height: 190px;
-            border: 0px solid #088c01; /* 添加边框 */
+            width: 140px;
+            padding: 60px 0px;
+            height: 140px;
+             /* 添加边框 */
             margin: 0px; /* 在容器内垂直居中 */
+            top: 50%;
+            left: 50%;
             align-items: center;
-            align-content: center;
+            flex-wrap: nowrap;
             flex-direction: column;
         }
+        .attributes-container .increase-btn {
+            background-color: #0a8c00; /* 绿色 */
+            border: none;
+            color: #fff;
+            padding: 1px 5px;
+            text-align: justify;
+            text-decoration: none;
+            display: flow;
+            font-size: 12px;
+            gap: 0px;
+            margin: 0px 0px 0px 0px;
+            cursor: pointer;
+            border-radius: 5px;
+        }    
+        
+        .attributes-container .increase-btn:hover {
+            background-color: #45a049; /* 深绿色 */
+        }
+
         .quality-container {
             display: flex;
              /* 使两个子容器分布在容器的两边 */
@@ -435,27 +549,31 @@
         }
         
         .quality-details {
-            display: flex;
-            flex-direction: column;
-            gap: 2px; /* 调整每个条目之间的间距 */
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            flex-direction: row;
+            padding: 0px 0px 10px 0px;
+            gap: 5px 0px; /* 调整每个条目之间的间距 */
             font-size: 14px;
-            justify-content: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
         }
         .image-frame img {
-            max-width: 90%;
-            max-height: 90%;
+            max-width: 100%;
+            max-height: 100%;
         }
         .button-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            gap: 2px; /* 调整按钮之间的间距 */
+            gap: 10px 0px; /* 调整按钮之间的间距 */
             align-items: stretch;
             justify-items: stretch;
+            padding: 15px 0px;
         }
         .button-grid button {
-            padding: 5px;
-            width: 85%;
-            font-size: 14px; /* 调整按钮字体大小 */
+            padding: 8px 0px;
+            width: 90%;
+            font-size: 12px; /* 调整按钮字体大小 */
             /* 你可以在这里添加更多的样式来定制按钮的外观 */
         }
         .treasure-drawer {
@@ -473,7 +591,7 @@
         }
         .treasure-info {
             display: none;
-            padding: 10px;
+            padding: 5px;
         }
         .treasure-info.open {
             display: block;
@@ -481,19 +599,23 @@
         .treasure-bar {
             display: flex;
             justify-content: space-around;
+            align-items: center;
         }
         .reward-box {
-            margin-top: 10px;
-            padding: 0px;
-            background-color: #fff;
+            display: flex;
+            background-color: #f1f0f0;
             border-radius: 10px;
-            box-shadow: 1 1px 1px rgba(0, 0, 0, 0.1);
             text-align: center;
+            flex-direction: row;
+            justify-content: center;
+            margin: 5px;
+            padding: 5px;
         }
         .treasure-action {
             display: flex;
             justify-content: space-around;
-            margin-top: 10px;
+            margin-top: 15px;
+            margin-bottom: 15px;
         }
         .treasure-action button {
             padding: 5px 10px;
@@ -505,7 +627,7 @@
             font-size: 14px;
         }
         .treasure-action button:active {
-            background-color: #c4a14e;
+            background-color: #064701;
         }
         /* 锦囊抽屉样式 */
         .jinnang-drawer {
@@ -522,22 +644,24 @@
             transform: translateY(0);
         }
         .jinnang-info {
-            display: none;
-            padding: 30px;
+            display: flex;
+            padding: 15px;
+            justify-items: center;
         }
         .jinnang-info.open {
             display: block;
         }
         .jinnang-reward {
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 10px;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 10px 0px;
             justify-content: center;
-            margin-top: 10px;
+            margin-top: 5px;
+            font-size: 14px;
         }
         .jinnang-reward img {
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
         }
         .red-text {
             color: #088c01;
@@ -563,7 +687,7 @@
         .message-box button {
             margin-top: 10px; /* 按钮与文本之间的间距 */
             padding: 5px 10px; /* 按钮内边距 */
-            background-color: #e4bb5c; /* 按钮背景颜色 */
+            background-color: #0a8c00; /* 按钮背景颜色 */
             color: white; /* 按钮文本颜色 */
             border: none; /* 去除边框 */
             border-radius: 3px; /* 按钮圆角 */
@@ -573,17 +697,493 @@
         .message-box button:hover {
             background-color: #0056b3; /* 按钮悬停颜色 */
         }
-        /* 变异状态视觉效果 */
-        .mutated .bottom-bar img {
-            border: 3px solid gold;
-        }
-        .mutated .bottom-bar div {
-            font-weight: bold;
-            color: blue;
-                }
-    </style>
+        
+/* lottery.css */
+.lottery-drawer {
+    position: fixed;
+    margin: 0px 0px 0px 0px;
+    padding: 20px 0px 0px 0px;
+    bottom: 0px;
+    width: 95%;
+    background-color: rgb(255 255 255 / 90%);
+    
+     /* 图片平铺 */
+     /* 保持原图大小 */
+     /* 背景固定 */
+    box-shadow: 0 -2px 4px rgba(0,0,0,0.1);
+    border-radius: 10px 10px 0 0;
+    transform: translateY(100%);
+    transition: transform 0.3s;
+    /* z-index: 0; */
+    max-height: 90%;
+    overflow-y: auto;
+}
+
+.lottery-drawer.open {
+    transform: translateY(0);
+}
+
+.lottery-section {
+    padding: 5px 0px 10px 0px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    align-content: space-around;
+    justify-content: space-evenly;
+}
+
+.lottery-top {
+    margin-bottom: 0px;
+    width: 100%;
+}
+.lottery-middle {
+    margin-bottom: 0px;
+    width: 100%;
+    align-items: center;
+}
+.lottery-bottom {
+    margin-bottom: 0px;
+    width: 100%;
+}
+.lottery-footer {
+    margin-bottom: 10px;
+    width: 100%;
+    display: flex;
+}
+.lottery-box, .lottery-number-box {
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    padding: 0px;
+    margin: 5px 0;
+    text-align: justify;
+    background-color: #f9f9f9;
+    font-weight: bold;
+}
+.lottery-number-box {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 15px 0;
+    text-align: center;
+    background-color: #f9f9f9;
+}
+
+.lottery-number-box {
+    display: flex;
+    grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
+    gap: 5px;
+    padding: 0px;
+    flex-direction: column;
+}
+
+#lotteryNumberButtons button {
+    margin: 5px;
+    gap: 2px;
+    padding: 5px;
+    background-color: #ff1100;
+    border-radius: 50%;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+#lotteryNumberButtons button:hover {
+    background-color: #6a0700;
+}
+
+.lottery-controls {
+    display: flex;
+    justify-content: center;
+    gap: 0px 10px;
+    padding: 5px;
+    flex-direction: row;
+}
+
+.lottery-footer button {
+    width: 21%;
+    display: flex;
+    margin-top: 5px;
+    background-color: #0a8c00;
+    padding: 5px;
+    color: rgb(255 255 255 / 90%);
+    font-size: 16px;
+    justify-content: center;
+    border-radius: 10px;
+}
+
+.lottery-footer button:hover {
+    background-color: #086600;
+}
+/* lottery.css */
+.lottery-controls button {
+    padding: 2px 10px;
+    margin: 2px;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.lottery-controls #lotteryBetButton {
+    background-color: #0056b3;
+    color: white;
+}
+
+.lottery-controls #lotteryBetButton:hover {
+    background-color: #003670;
+    transform: scale(1.05);
+}
+
+.lottery-controls #lotteryIncreaseBet {
+    background-color: #0a8c00;
+    color: white;
+}
+
+.lottery-controls #lotteryIncreaseBet:hover {
+    background-color: #064701;
+    transform: scale(1.05);
+}
+.lottery-controls #lotteryIncreaseTenBet {
+    background-color: #0a8c00;
+    color: white;
+}
+
+.lottery-controls #lotteryIncreaseTenBet:hover {
+    background-color: #064701;
+    transform: scale(1.05);
+}
+.lottery-controls #lotteryRuleButton {
+    background-color: #0056b3;
+    color: white;
+}
+
+.lottery-controls #lotteryRuleButton:hover {
+    background-color: #003670;
+    transform: scale(1.05);
+}
+.lottery-controls #lotteryDecreaseBet {
+    background-color: #dc3545;
+    color: white;
+}
+
+.lottery-controls #lotteryDecreaseBet:hover {
+    background-color: #841520;
+    transform: scale(1.05);
+}
+/* lottery.css */
+.highlight {
+    animation: highlight 1s ease-in-out;
+}
+
+@keyframes highlight {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.5);
+    }
+}
+/* lottery.css */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 10px;
+    border: 1px solid #888;
+    width: 90%;
+    max-width: 600px;
+    border-radius: 10px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+.battle-system-drawer {
+    display: none;
+    position: absolute;
+    right: 0px;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    box-shadow: -3px 0 5px rgba(0,0,0,0.2);
+    z-index: 1000;
+    overflow-y: auto;
+    padding: 10px 0px 0px 0px;
+}
+
+.battle-system-drawer-toggle {
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0px 0px 10px 0px;
+    text-align: left;
+}
+
+.battle-system-content {
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    padding: 10px;
+    width: 100%;
+}
+
+.battle-system-info-wrapper {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.battle-system-pet-info, .battle-system-enemy-info {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 0;
+    font-size: 14px;
+    flex: 1;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+}
+
+.battle-system-log {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 0px;
+    height: 25%;
+    overflow-y: auto;
+    font-size: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    width: 94%;
+}
+
+.battle-system-actions {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+.battle-system-actions button {
+    padding: 5px;
+    cursor: pointer;
+    border: 1px solid #ffffff;
+    width: 100%;
+    background-color: #0a8c00;
+    color: #ffffff;
+    font-size: 14px;
+    text-align: center;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.battle-system-actions button:hover {
+    background-color: #064701;
+}
+#visualEffectsContainer {
+    position: relative;
+    width: 95%;
+    height: 0px;
+}
+@keyframes critical-hit {
+    0% {
+        border: 5px solid red;
+    }
+    100% {
+        border: 1px solid rgb(255 255 255 / 0%);
+    }
+}
+
+.battle-system-log.critical-hit {
+    animation: critical-hit 0.3s forwards;
+}
+
+.visual-effect {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    opacity: 0;
+    transform: scale(0);
+    transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+#playerEffect {
+    left: 20%;
+    top: 50%;
+    background-color: rgba(0, 255, 0, 0.5);
+}
+
+#enemyEffect {
+    right: 20%;
+    top: 50%;
+    background-color: rgba(255, 0, 0, 0.5);
+}
+
+.show-effect {
+    opacity: 1;
+    transform: scale(1);
+}
+.status-display {
+    font-size: 14px;
+    margin-top: 0px;
+    color: red;
+    font-weight: bold;
+}
+#battle-spirit-modal {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.8);
+    padding: 10px;
+    width: 80%;
+    border: 2px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    border-radius: 10px;
+}
+
+#battle-spirit-modal .modal-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#battle-spirit-modal button {
+    background: #a70b00;
+    border-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 14px;
+    ga'padding: gap';
+    border-radius: 5px;
+    margin: 5px;
+}
+.ascension-skill-modal {
+    display: none; /* 默认隐藏 */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+}
+
+.ascension-modal-content {
+    background-color: rgba(0, 0, 0, 0.8);
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+.ascension-close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.ascension-close:hover,
+.ascension-close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.ascension-header {
+    display: flex;
+    align-items: center;
+}
+
+.ascension-icon {
+    width: 100px;
+    height: 100px;
+}
+
+.ascension-info {
+    margin-left: 20px;
+}
+
+.ascension-body {
+    margin-top: 20px;
+}
+
+.ascension-footer {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.ascension-button {
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.ascension-skill-button {
+    margin: 10px;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+   </style>
 </head>
 <body>
+    <div id="loadingOverlay">
+        <div id="loadingText">加载中... 0%</div>
+        <div id="progressBarContainer">
+            <div id="progressBar"></div>
+        </div>
+    </div>
+    <div class="core-area">
+        <div class="buttons">
+            <div class="button-row">
+                <button id="guideButton" onclick="showGuide()">玩法</button>
+                <button id="drawerButton" onclick="toggleDrawer()">资质</button>
+                <button id="attributeButton" onclick="toggleAttributeDrawer()">属性</button>
+                <button id="shopButton" onclick="toggleShop()">商店</button> 
+                <button id="treasureButton" onclick="toggleTreasureDrawer()">宝箱</button>
+                <button id="jinnangButton" onclick="toggleJinnangDrawer()">锦囊</button>
+                <button id="fightingButton" onclick="toggleFightingDrawer()">战斗</button>
+                <button id="lotteryButton" onclick="toggleLotteryDrawer()">彩票</button>
+            </div>
+        </div>
+        <div class="skills" id="skills-area"></div>
+    </div>
     <div class="top-bar">
         <div>
             <img src="https://pic.imgdb.cn/item/66541c01d9c307b7e9208aea.png" alt="高级悟性丹">
@@ -621,131 +1221,22 @@
             <div><span id="miraculous-pill">1</span></div>
         </div>
     </div>
-    <div class="core-area">
-        <div class="buttons">
-            <div class="button-row">
-                <button onclick="showGuide()">玩法</button>
-                <button onclick="toggleDrawer()">资质</button>
-                <button onclick="toggleAttributeDrawer()">属性</button>
-                <button onclick="toggleShop()">商店</button> 
-                <button onclick="toggleTreasureDrawer()">宝箱</button>
-                <button onclick="toggleJinnangDrawer()">锦囊</button>
-            </div>
-        </div>
-        <div class="skills" id="skills-area"></div>
-    </div>
-    <div class="jinnang-drawer" id="jinnang-drawer">
-        <div class="drawer-toggle" onclick="toggleJinnangDrawer()">宝库</div>
-        <div class="jinnang-info" id="jinnang-info">
-            <div class="jinnang-reward" id="jinnang-reward"></div>
-        </div>
-    </div>
-    <div class="treasure-drawer" id="treasure-drawer">
-        <div class="drawer-toggle" onclick="toggleTreasureDrawer()">宝箱</div>
-        <div class="treasure-info" id="treasure-info">
-            <div class="treasure-bar">
-            <div>
-                <img src="https://pic.imgdb.cn/item/6656e598d9c307b7e906ca29.png" onclick="selectTreasure('经验宝箱')">
-                <div>经验宝箱</div>
-            </div>
-            <div>
-                <img src="https://pic.imgdb.cn/item/6656e598d9c307b7e906ca29.png" onclick="selectTreasure('资质宝箱')">
-                <div>资质宝箱</div>
-            </div>
-            <div>
-                <img src="https://pic.imgdb.cn/item/6656e598d9c307b7e906ca29.png" onclick="selectTreasure('灵魂宝箱')">
-                <div>灵魂宝箱</div>
-            </div>
-            <div>
-                <img src="https://pic.imgdb.cn/item/6656e598d9c307b7e906ca29.png" onclick="selectTreasure('至尊宝箱')">
-                <div>至尊宝箱</div>
-            </div>
-            </div>
-            <div id="treasure-description" class="description-box"></div>
-            <div id="treasure-reward" class="reward-box"></div>
-            <div class="treasure-action">
-                <button onclick="openTreasure()">打开宝箱</button>
-                <button onclick="collectTreasure()">取出奖品</button>
-            </div>
-        </div>
-    </div>
-    <div class="attribute-drawer" id="attribute-drawer">
-        <div class="drawer-toggle" onclick="toggleAttributeDrawer()">属性</div>
-        <div class="attribute-info" id="attribute-info">
-            <div class="attributes-container">
-                <div class="progress-bars">
-                    <div class="progress-bar">
-                        宠物等级: <span id="pet-level">1</span>
-                    </div>
-                    <div class="progress-bar">
-                        段位: <span id="attribute-tier"></span>
-                    </div>
-                    <div class="progress-bar">
-                        成长率: <span id="attribute-growth-rate"></span>
-                    </div>
-                    <div class="progress-bar">
-                        悟性: <span id="attribute-wisdom"></span>
-                    </div>
-                    <div class="progress-bar">
-                        耐力: <span id="attribute-endurance"></span>
-                    </div>
-                    <div class="progress-bar">
-                        智力: <span id="attribute-intelligence"></span>
-                    </div>
-                    <div class="progress-bar">
-                        强壮: <span id="attribute-strength"></span>
-                    </div>
-                    <div class="progress-bar">
-                        敏捷: <span id="attribute-agility"></span>
-                    </div>
-                    <div class="progress-bar">
-                        信仰: <span id="attribute-faith"></span>
-                    </div>
-                </div>
-                <div class="image-frame">
-                    <img src="https://pic.imgdb.cn/item/665d02afd9c307b7e903151b.png" alt="神兽之地">
-                    <div>修炼之地</div>
-                </div>
-                <div class="secondary-attributes">
-                    <div>HP: <span id="secondary-health"></span> <span id="secondary-health-bonus"></span></div>
-                    <div>MP: <span id="secondary-mana"></span> <span id="secondary-mana-bonus"></span></div>
-                    <div>物攻: <span id="secondary-physical-attack"></span> <span id="secondary-physical-attack-bonus"></span></div>
-                    <div>物防: <span id="secondary-physical-defense"></span> <span id="secondary-physical-defense-bonus"></span></div>
-                    <div>法攻: <span id="secondary-magic-attack"></span> <span id="secondary-magic-attack-bonus"></span></div>
-                    <div>法防: <span id="secondary-magic-defense"></span> <span id="secondary-magic-defense-bonus"></span></div>
-                    <div>速度: <span id="secondary-speed"></span> <span id="secondary-speed-bonus"></span></div>
-                    <div>宠物评分: <span id="skill-score">0</span></div>
-                </div>
-            </div>
-            <div class="button-grid">
-                <button onclick="trainAttributes()">宠物培养</button>
-                <button onclick="absorbExperience()">普通修炼</button>
-                <button onclick="absorbAdvancedExperience()">高级修炼</button>
-                <button onclick="upgradeWisdom()">提升悟性</button>
-                <button onclick="upgradeWisdomTo()">一键提悟</button>
-                <button onclick="useSupremeWisdomPill()">神级领悟</button>
-                <button onclick="awakenPet()">觉醒宠物</button>
-                <button onclick="hallucinatePet()">幻化提升</button>
-                <button onclick="ascend()">飞升突破</button>
-                <button onclick="showBiography()">解锁传记</button>
-            </div>
-        </div>
-    </div>
-    <div class="shop-drawer" id="shop-drawer">
-        <div class="drawer-toggle" onclick="toggleShop()">商店</div>
-        <div class="shop-info" id="shop-info">
-            <div class="shop-items" id="shop-items">
-                <!-- 商店商品展示区 -->
-            </div>
-            <div class="shop-bar">
-                <button onclick="buyItem()">购买道具</button>
-                <button onclick="sellPet()">出售宠物</button>
-                <div class="shop-timer">
-                    <span id="shop-timer">05:00</span>
-                    <button onclick="refreshShop()">付费刷新</button>
-                </div>
-            </div>
-        </div>
+    <div class="pet-selector">
+        <select id="pet-select" onchange="changePet()">
+            <option value="yanzhi">胭脂</option>
+            <option value="zhulin">竹林隐士</option>
+            <option value="jinmin">金珉奎</option>
+            <option value="zhanshen">战神阿毛</option>
+            <option value="tengshe">腾蛇</option>
+            <option value="qingmou">青眸白虎</option>
+            <option value="jingjue">净角神将</option>
+            <option value="shanggu">上古神藤</option>
+            <option value="guhe">古河锦鲤</option>
+            <option value="banlan">斑斓公主</option>
+            <option value="juling">巨灵战姬</option>
+            <option value="aoshi">敖十七</option>
+            <option value="daming">妲茗儿</option>
+        </select>
     </div>
     <div class="quality-drawer" id="quality-drawer">
         <div class="drawer-toggle" onclick="toggleDrawer()">宠物资质</div>
@@ -757,16 +1248,6 @@
                     <div>成长率: <span id="quality-growth-rate">100%</span></div>
                     <div>变异: <span id="quality-mutated">未变异</span></div>
                     <div>进化等级: <span id="evolution-level">0</span></div>
-                </div>
-                <div class="button-grid">
-                    <button onclick="rebornPet()">普通还童</button>
-                    <button onclick="trainQuality()">快速还童</button>
-                    <button onclick="useGoldenRebornPill()">还童金丹</button>
-                    <button onclick="useBingpoRebornPill()">冰魄还童</button>
-                    <button onclick="enhanceQuality()">刷新资质</button>
-                    <button onclick="mutatePet()">变异宠物</button>
-                    <button onclick="evolvePet()">进化宠物</button>
-                    <button onclick="trainSkills()">洗练技能</button>
                 </div>
             </div>
             <div class="progress-bar">
@@ -789,10 +1270,259 @@
                 智力: <span id="intelligence-current">5250</span> / <span id="intelligence-max">10350</span>
                 <div id="intelligence-bar" style="width: 50%"></div>
             </div>
+                <div class="button-grid">
+                    <button onclick="rebornPet()">普通还童</button>
+                    <button onclick="trainQuality()">一键还童</button>
+                    <button onclick="useGoldenRebornPill()">还童金丹</button>
+                    <button onclick="useBingpoRebornPill()">冰魄还童</button>
+                    <button onclick="enhanceQuality()">更新资质</button>
+                    <button onclick="mutatePet()">变异宠物</button>
+                    <button onclick="evolvePet()">进化宠物</button>
+                    <button onclick="showBiography()">解锁传记</button>
+                </div>
             <div id="message-box" class="message-box">
                 <span id="message-text"></span>
                 <button onclick="closeMessage()">关闭</button>
             </div>
+        </div>
+    </div>
+    <div class="attribute-drawer" id="attribute-drawer">
+        <div class="drawer-toggle" onclick="toggleAttributeDrawer()">属性</div>
+        <div class="attribute-info" id="attribute-info">
+            <div class="attributes-container">
+                <div class="progress-bars">
+                    <div class="progress-bar">
+                        耐力: <span id="attribute-endurance"></span><button class="increase-btn" onclick="increaseBonusAttribute('endurance')">＋</button>
+                    </div>
+                    <div class="progress-bar">
+                        智力: <span id="attribute-intelligence"></span><button class="increase-btn" onclick="increaseBonusAttribute('intelligence')">＋</button>
+                    </div>
+                    <div class="progress-bar">
+                        强壮: <span id="attribute-strength"></span><button class="increase-btn" onclick="increaseBonusAttribute('strength')">＋</button>
+                    </div>
+                    <div class="progress-bar">
+                        敏捷: <span id="attribute-agility"></span><button class="increase-btn" onclick="increaseBonusAttribute('agility')">＋</button>
+                    </div>
+                    <div class="progress-bar">
+                        信仰: <span id="attribute-faith"></span><button class="increase-btn" onclick="increaseBonusAttribute('faith')">＋</button>
+                    </div>
+                    <div id="remaining-points-display">剩余点数: 0</div>
+                    <div>宠物评分: <span id="skill-score">0</span></div>
+                </div>
+                <div class="image-frame">
+                    <img src="https://pic.imgdb.cn/item/665d02afd9c307b7e903151b.png" alt="神兽之地">
+                    <div>修炼之地</div>
+                </div>
+                <div class="secondary-attributes">
+                    <div class="progress-bar">
+                        宠物等级: <span id="pet-level">1</span>
+                    </div>
+                    <div class="progress-bar">
+                        品质: <span id="attribute-tier"></span>
+                    </div>
+                    <div class="progress-bar">
+                        成长率: <span id="attribute-growth-rate"></span>
+                    </div>
+                    <div class="progress-bar">
+                        悟性: <span id="attribute-wisdom"></span>
+                    </div>
+                    <div>HP: <span id="secondary-health"></span> <span id="secondary-health-bonus"></span></div>
+                    <div>MP: <span id="secondary-mana"></span> <span id="secondary-mana-bonus"></span></div>
+                    <div>物攻: <span id="secondary-physical-attack"></span> <span id="secondary-physical-attack-bonus"></span></div>
+                    <div>物防: <span id="secondary-physical-defense"></span> <span id="secondary-physical-defense-bonus"></span></div>
+                    <div>法攻: <span id="secondary-magic-attack"></span> <span id="secondary-magic-attack-bonus"></span></div>
+                    <div>法防: <span id="secondary-magic-defense"></span> <span id="secondary-magic-defense-bonus"></span></div>
+                    <div>速度: <span id="secondary-speed"></span> <span id="secondary-speed-bonus"></span></div>
+                </div>
+            </div>
+            <div class="button-grid">
+                <button onclick="trainSkills()">洗练技能</button>
+                <button onclick="trainAttributes()">金子培养</button>
+                <button onclick="absorbExperience()">普通修炼</button>
+                <button onclick="absorbAdvancedExperience()">高级修炼</button>
+                <button onclick="upgradeWisdom()">提升悟性</button>
+                <button onclick="upgradeWisdomTo()">一键提悟</button>
+                <button onclick="useSupremeWisdomPill()">神级领悟</button>
+                <button onclick="ascend()">飞升突破</button>
+                <button onclick="awakenPet()">觉醒宠物</button>
+                <button onclick="hallucinatePet()">幻化提升</button>
+            </div>
+        </div>
+    </div>
+    <div class="shop-drawer" id="shop-drawer">
+        <div class="drawer-toggle" onclick="toggleShop()">商店</div>
+        <div class="shop-info" id="shop-info">
+            <div class="shop-items" id="shop-items">
+                <!-- 商店商品展示区 -->
+            </div>
+            <div class="shop-bar">
+                <button onclick="buyItem()">购买道具</button>
+                <button onclick="sellPet()">出售宠物</button>
+                <div class="shop-timer">
+                    <span id="shop-timer">05:00</span>
+                    <button onclick="refreshShop()">付费刷新</button>
+                </div>
+            </div>
+        </div>
+    </div>   
+    <div class="treasure-drawer" id="treasure-drawer">
+        <div class="drawer-toggle" onclick="toggleTreasureDrawer()">宝箱</div>
+        <div class="treasure-info" id="treasure-info">
+            <div class="treasure-bar">
+            <div>
+                <img src="https://pic.imgdb.cn/item/6656e598d9c307b7e906ca29.png" onclick="selectTreasure('经验宝箱')">
+                <div>经验宝箱</div>
+            </div>
+            <div>
+                <img src="https://pic.imgdb.cn/item/6656e598d9c307b7e906ca29.png" onclick="selectTreasure('奇馈宝箱')">
+                <div>奇馈宝箱</div>
+            </div>
+            <div>
+                <img src="https://pic.imgdb.cn/item/6656e598d9c307b7e906ca29.png" onclick="selectTreasure('灵魂宝箱')">
+                <div>灵魂宝箱</div>
+            </div>
+            <div>
+                <img src="https://pic.imgdb.cn/item/6656e598d9c307b7e906ca29.png" onclick="selectTreasure('武神宝箱')">
+                <div>武神宝箱</div>
+            </div>
+            <div>
+                <img src="https://pic.imgdb.cn/item/6656e598d9c307b7e906ca29.png" onclick="selectTreasure('至尊宝箱')">
+                <div>至尊宝箱</div>
+            </div>
+            </div>
+            <div id="treasure-description" class="treasure-description-box"></div>
+            <div id="treasure-reward" class="reward-box"></div>
+            <div class="treasure-action">
+                <button onclick="openTreasure()">打开宝箱</button>
+                <button onclick="collectTreasure()">取出奖品</button>
+            </div>
+        </div>
+    </div>
+    <div class="jinnang-drawer" id="jinnang-drawer">
+        <div class="drawer-toggle" onclick="toggleJinnangDrawer()">背包</div>
+        <div class="jinnang-info" id="jinnang-info">
+            <div class="jinnang-reward" id="jinnang-reward"></div>
+        </div>
+    </div>
+    <div class="lottery-drawer" id="lotteryDrawer">
+        <div class="lottery-section lottery-top">
+            <div class="lottery-box" id="lotteryPrizePool">奖池: 无上限奖池</div>
+            <div class="lottery-box" id="lotteryBetCount">投注数: 0</div>
+            <div class="lottery-box" id="lotteryBetAmount">投注金: 0</div>
+        </div>
+        <div class="lottery-section lottery-middle">
+            <div class="lottery-box" id="lotteryDrawResults">开奖区: </div>
+            <div class="lottery-box" id="lastSelectedNumbers">上次选号: </div>
+            <div class="lottery-number-box" id="lotteryAvailableNumbers">备选区: 
+                <div id="lotteryNumberButtons"></div>
+            </div>
+            <div class="lottery-controls">
+                <button id="lotteryBetButton">投注</button>
+                <button id="lotteryIncreaseBet">+1</button>
+                <button id="lotteryIncreaseTenBet">+10</button>
+                <button id="lotteryDecreaseBet">-1</button>
+                <button id="lotteryRuleButton">规则</button>
+                <!-- 规则信息框 -->
+                <div id="lotteryRuleModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <div id="ruleContent"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="lottery-section lottery-bottom">
+            <div class="lottery-number-box" id="lotterySelectedNumbers">已选: </div>
+            <div class="lottery-box" id="lotteryResultAmount">奖金区: 0</div>
+        </div>
+        <div class="lottery-section lottery-footer">
+            <div class="lottery-box" id="lotteryCountdown">倒计时: 10s</div>
+            <button id="lotteryClaimPrize">领取奖金</button>
+        </div>
+    </div>
+    <div id="fightingDrawer" class="battle-system-drawer">
+        <div class="battle-system-content">
+        <div class="battle-system-drawer-toggle" onclick="toggleFightingDrawer()">&times;</div>
+            <div class="battle-system-info-wrapper">
+                <div class="battle-system-pet-info">
+                    <h2>当前宠物</h2><div id="player-status" class="status-display"></div>
+                    <p>生命值: <span id="your-pet-health"></span></p>
+                    <p>法力值: <span id="your-pet-mana"></span></p>
+                    <p>物理攻击: <span id="your-pet-physical-attack"></span></p>
+                    <p>物理防御: <span id="your-pet-physical-defense"></span></p>
+                    <p>法术攻击: <span id="your-pet-magic-attack"></span></p>
+                    <p>法术防御: <span id="your-pet-magic-defense"></span></p>
+                    <p>速度: <span id="your-pet-speed"></span></p>
+                    <div id="exp-bar-container">
+                    <p>经验值:<span id="exp-bar">0 / 208</span></p>
+                    </div>
+                </div>
+                <div class="battle-system-enemy-info">
+                    <h2>无尽の怪(物理)</h2><div id="enemy-status" class="status-display"></div>
+                    <p>生命值: <span id="enemy-pet-health"></span></p>
+                    <p>法力值: <span id="enemy-pet-mana"></span></p>
+                    <p>物理攻击: <span id="enemy-pet-physical-attack"></span></p>
+                    <p>物理防御: <span id="enemy-pet-physical-defense"></span></p>
+                    <p>法术攻击: <span id="enemy-pet-magic-attack"></span></p>
+                    <p>法术防御: <span id="enemy-pet-magic-defense"></span></p>
+                    <p>速度: <span id="enemy-pet-speed"></span></p>
+                </div>
+            </div>
+            <div id="visualEffectsContainer">
+                <div id="playerEffect" class="visual-effect"></div>
+                <div id="enemyEffect" class="visual-effect"></div>
+            </div>
+            <!-- 战斗精灵弹出界面 -->
+            <div id="battle-spirit-modal" style="display: none;">
+                <div>
+                    <h2>战斗精灵（已觉醒）</h2>
+                    <p>等级: <span id="spirit-level">1</span></p>
+                    <p>增幅: <span id="spirit-multiplier">1.00</span>（0.01~4.15）</p>
+                    <p>生命值增加: <span id="spirit-health">0</span></p>
+                    <p>法力值增加: <span id="spirit-mana">0</span></p>
+                    <p>物理攻击增加: <span id="spirit-physical-attack">0</span></p>
+                    <p>物理防御增加: <span id="spirit-physical-defense">0</span></p>
+                    <p>法术攻击增加: <span id="spirit-magic-attack">0</span></p>
+                    <p>法术防御增加: <span id="spirit-magic-defense">0</span></p>
+                    <p>速度增加: <span id="spirit-speed">0</span></p>
+                    <button id="level-up-spirit">精灵升级</button>
+                    <button id="enhance-spirit">增幅洗练</button>
+                    <button id="close-spirit-modal">关闭面板</button>
+                </div>
+            </div>            
+            <!-- 飞升之术面板 -->
+            <div id="ascension-skill-modal" class="ascension-skill-modal modal">
+                <div class="ascension-modal-content modal-content">
+                    <span id="close-ascension-modal" class="ascension-close close">&times;</span>
+                    <div class="ascension-header">
+                        <img id="ascension-icon" src="https://pic.imgdb.cn/item/666aa7b6d9c307b7e9495e97.png" alt="Ascension Skill Icon" class="ascension-icon">
+                        <div class="ascension-info">
+                            <p id="ascension-name" class="ascension-name">飞升之术名字</p>
+                            <p id="ascension-level" class="ascension-level">等级: 1</p>
+                        </div>
+                    </div>
+                    <div class="ascension-body">
+                        <p id="ascension-effect" class="ascension-effect">飞升之术的增益效果信息</p>
+                    </div>
+                    <div class="ascension-footer">
+                        <button id="enable-ascension" class="ascension-button">开启增益</button>
+                        <button id="refresh-ascension" class="ascension-button">刷新技能</button>
+                        <button id="level-up-ascension" class="ascension-button">提升技能</button>
+                    </div>
+                </div>
+            </div>
+            <div class="battle-system-log">
+                <h2>战斗记录</h2>
+                <div id="log"></div>
+            </div>
+            <div class="battle-system-actions">
+                <button onclick="performAttack('physical')">物理攻击</button>
+                <button onclick="performAttack('magical')">法术攻击</button>
+                <button onclick="performHeal()">治疗之术</button>
+                <button id="battle-spirit-button">精灵面板</button>
+                <button id="ascension-skill-button" class="ascension-button">飞升之术</button><!-- 飞升之术按钮 -->
+            </div>
+            
         </div>
     </div>
     <div class="bottom-bar">
@@ -803,25 +1533,9 @@
             <div>宠物名称: <span id="pet-name">胭脂</span></div>
             <div>当前悟性: <span id="current-wisdom">0</span></div>
             <div>洗练次数: <span id="train-count">0</span></div>
-            <div>剩余金子: <span id="gold-amount">20000</span></div> <!-- 新增剩余金子显示 -->
+            <div>剩余金子: <span id="gold-amount">50000</span></div> <!-- 新增剩余金子显示 -->
         </div>
-    </div>
-    <div class="pet-selector">
-        <select id="pet-select" onchange="changePet()">
-            <option value="yanzhi">胭脂</option>
-            <option value="zhulin">竹林隐士</option>
-            <option value="zhanshen">战神阿毛</option>
-            <option value="tengshe">腾蛇</option>
-            <option value="qingmou">青眸白虎</option>
-            <option value="jingjue">净角神将</option>
-            <option value="shanggu">上古神藤</option>
-            <option value="guhe">古河锦鲤</option>
-            <option value="banlan">斑斓公主</option>
-            <option value="juling">巨灵战姬</option>
-            <option value="aoshi">敖十七</option>
-            <option value="daming">妲茗儿</option>
-        </select>
-    </div>
+    </div>    
     <div class="description-box" id="description-box"></div>
     </div>
     <script>
@@ -881,6 +1595,36 @@
                     faith: { current: 1800, min: 1800, max: 3200 },
                     agility: { current: 4950, min: 4950, max: 7050 },
                     intelligence: { current: 1350, min: 1350, max: 2650 },
+                    mutated: false
+                }
+            },
+            jinmin: {
+                name: '金珉奎',
+                image: 'https://pic.imgdb.cn/item/6669a02bd9c307b7e935f2a2.jpg',
+                skills: [
+                    { name: '唯爱结城', rarity: 'SS', description: '如果此生只能爱一人，她的姓，必须是结城。' },
+                    { name: '跨国相遇', rarity: 'A', description: '在一个异国他乡的采访中，命运让他们相遇，从此开始了一段浪漫的爱情故事。' },
+                    { name: '意外之事', rarity: 'B', description: '一次意外的车祸让他们被困在一个偏远的小镇，爱情在危险中悄然萌芽。' },
+                    { name: '隐瞒身份', rarity: 'B', description: '他隐藏了自己的明星身份，只为在她面前做个普通人，享受片刻的平凡。' },
+                    { name: '温柔一面', rarity: 'S', description: '她在后台看到了他温柔的一面，这让她对他有了新的认识。' },
+                    { name: '共同依赖', rarity: 'S', description: '在偏远小镇的日子里，他们面对未知的危险，渐渐彼此依赖。' },
+                    { name: '发现真心', rarity: 'A', description: '在谎言揭穿后，她终于看清了他的真心，两人决定坦然面对所有挑战。' },
+                    { name: '日记重现', rarity: 'A', description: '一本旧日记让她找回了失去的记忆，重新记起了他们之间的点点滴滴。' },
+                    { name: '心灵触动', rarity: 'SS', description: '看着他的真心付出，她的心灵被深深触动，爱情在心中萌芽。' },
+                    { name: '保护她', rarity: 'S', description: '他在关键时刻挺身而出，保护她免受伤害，展现了真正的男子汉气概。' },
+                    { name: '继父威胁', rarity: 'B', description: '继父的威胁不断升级，他挺身而出，保护她不受伤害。' },
+                    { name: '记忆恢复', rarity: 'SS', description: '在危机中，她的记忆终于完全恢复，找回了曾经的甜蜜时光。' },
+                    { name: '法律制裁', rarity: 'B', description: '他揭穿了继父的阴谋，让继父受到应有的法律制裁。' },
+                    { name: '重返工作', rarity: 'A', description: '她重返《Fantasy!》杂志，继续她的事业，与他一起迎接未来的挑战。' },
+                    { name: '幸福结局', rarity: 'SS', description: '经历了无数波折，他们最终找到了真正的幸福，成为彼此生命中最重要的存在。' },
+                    { name: '守护夏奈', rarity: 'SS', description: '如果此生只能守护一人，她的名，必须是夏奈。' }
+                ],
+                qualities: {
+                    endurance: { current: 4500, min: 4500, max: 6500 },
+                    strength: { current: 6750, min: 6750, max: 13400 },
+                    faith: { current: 1800, min: 1800, max: 3200 },
+                    agility: { current: 4950, min: 4950, max: 7050 },
+                    intelligence: { current: 3750, min: 3750, max: 10400 },
                     mutated: false
                 }
             },
@@ -1196,6 +1940,11 @@ const biographies = {
         "2️⃣——大家都说我是战神阿毛，凶猛无比，无人能敌。但你们知道我另一个身份吗？我是一个推拿师。我不只是在战斗中用武功征服对手，我还在平凡的日常中用推拿征服人心。我喜欢推拿，不是因为它能缓解疲劳，而是因为它让我感受到人类的脆弱和美丽。我看到那些筋骨僵硬的平民，我知道，他们和我一样，都在与生活搏斗。我用我的手法，让他们暂时忘却痛苦，找到片刻的宁静。这让我明白，力量不仅仅是摧毁和征服，还有抚慰和治愈。我，战神阿毛，不只是一个冷酷的战士，还是一个温柔的推拿师，用我的双手，为这个世界带来一丝丝温暖。",
         "3️⃣——有些人说我是命运的宠儿，有些人说我是厄运的化身。但你们知道吗，命运对我来说，不过是一个笑话。我是阿毛，一个在战斗中觉醒的战神，但我不相信命运。我相信的是选择。每一次挥剑，每一次战斗，都是我对命运的反抗。我走过无数的战场，见过无数的生死离别，但我从不屈服于命运的安排。我用红莲业火焚烧一切不公，用幽冥剧毒惩罚一切邪恶。我选择了这条路，就不会后悔。我站在这座古老的神殿前，看着那扇神秘的大门，心中有无限的思索。我知道，命运的轮回或许无法打破，但我可以选择如何面对它。我，战神阿毛，不是命运的傀儡，而是命运的挑战者。在无尽的轮回中，我将继续前行，用我的选择，谱写属于自己的传奇。"
     ],
+    jinmin: [
+        "1️⃣——结城夏奈是在一次工作中与金珉奎相遇的，那时她是《Fantasy!》杂志的主编，而他是炙手可热的K-pop明星。初次见面，两人并未擦出火花，但命运却将他们再次连接在一起。几个月后，夏奈在韩国的一次时尚发布会上再次遇见了金珉奎。这次，他不再是那个高高在上的明星，而是一个在后台默默帮助工作人员的普通人。两人因为共同的朋友被安排坐在一起，逐渐有了更多的交流。夏奈被金珉奎的谦逊和幽默所吸引，而金珉奎则被夏奈的智慧和独立所打动。发布会结束后，他们开始频繁联系，并在首尔的街头度过了许多美好时光。一次，夏奈在采访中遇到了难题，金珉奎不顾一切赶来帮她化解了困境。这让夏奈深深感受到他对她的在意和支持。两人在繁忙的工作之余，彼此成了最可靠的依靠，渐渐走进了对方的心里。",
+        "2️⃣——夏奈和金珉奎的关系逐渐升温，但一场突如其来的意外打破了他们的平静生活。在一次拍摄现场，夏奈不慎被道具砸中头部，失去了部分记忆。她忘记了与金珉奎的点点滴滴，只记得一些模糊的片段。金珉奎心痛不已，但决定不放弃，他每天陪在夏奈身边，试图唤起她的记忆。夏奈对这个温柔体贴的男人感到熟悉，却又无法完全想起他们之间的过去。金珉奎带她去他们曾经约会的地方，重温那些美好时光。某天，夏奈在整理旧物时，发现了一本她亲手制作的相册，里面记录了她和金珉奎的点点滴滴。那些照片和文字让她的记忆慢慢复苏，渐渐想起了他们之间的点点滴滴。看着金珉奎的笑脸，她的心里涌起一股暖流。虽然记忆尚未完全恢复，但她已经感受到他们之间深厚的感情。两人决定重新开始，无论未来有多少挑战，他们都将一起面对。",
+        "3️⃣——爱情在不断升温，但他们也面临着现实的考验。夏奈的工作需要她频繁往返于日本和韩国，而金珉奎的演艺事业则让他常年奔波在外。两人的见面机会越来越少，但他们并没有因此放弃这段感情。每次分别时，他们都会约定下次见面的时间和地点，尽可能地保持联系。某次，夏奈在东京采访时，继父突然出现，试图再次控制她的生活。金珉奎得知消息后，立刻飞往东京，帮助夏奈应对继父的威胁。他们一起面对了继父的阴谋，最终成功让他受到法律的制裁。这场危机让两人更加坚定了彼此的信任和依赖。夏奈决定辞去高强度的工作，转而从事更灵活的自由职业，以便能有更多时间陪伴金珉奎。金珉奎也调整了自己的工作计划，尽量减少不必要的出差。他们一起在韩国买了一套温馨的小公寓，开始了新的生活。虽然两人依然忙碌，但他们的心却紧紧连在一起。每次见面都像是一场久别重逢的约会，他们用心经营着这段跨越距离的爱情。"
+    ],
     tengshe: [
         "1️⃣——在古老的神话中，腾蛇是一种传说中的神兽，拥有星宿之力，被誉为守护神兽之一。它的外形如同巨蛇，身披火焰与毒雾，红莲业火与幽冥剧毒是它的两大绝技。腾蛇原本栖息在幽深的山谷中，远离尘世，但一场突如其来的变故改变了它的命运。某日，腾蛇感应到王朝边疆的动荡与战火，百姓生活在水深火热之中，苦不堪言。腾蛇决定不再隐居，决定用自己的力量推翻腐朽的王朝，解救苍生。腾蛇飞身而起，穿越山川湖泊，来到了王朝的都城。它的出现如同一场风暴，红莲业火焚烧着敌人的军营，幽冥剧毒让敌人闻风丧胆。腾蛇在战场上无往不利，所到之处，敌军溃不成军，百姓们看到了希望。",
         "2️⃣——腾蛇不仅是一位战士，更是一位救世主。它推翻了腐朽的王朝之后，并没有追求权力和财富，而是开始帮助百姓重建家园。腾蛇利用自己的神力，灌溉田地，清除瘟疫，使得百姓们能够安居乐业。它的红莲业火不再只是用来焚烧敌人，而是用来温暖寒冷的冬夜；幽冥剧毒也不再只是用来杀敌，而是用来制药救人。一天，一场前所未有的瘟疫袭击了整个王国，百姓们再一次陷入了恐慌之中。腾蛇不辞辛劳，昼夜不休地研制解药。它用自己的毒液作为药引，最终成功地研制出了解药，挽救了无数人的生命。百姓们感激涕零，将腾蛇视为神明般崇拜，并在都城为它建造了庙宇，以示敬仰。",
@@ -1243,6 +1992,26 @@ const biographies = {
     ]
 };
 
+// 模拟加载进度
+function simulateLoading() {
+    let progress = 0;
+    const interval = setInterval(() => {
+        progress += 15;
+        if (progress <= 100) {
+            document.getElementById('loadingText').innerText = `加载中... ${progress}%`;
+            document.getElementById('progressBar').style.width = `${progress}%`;
+        } else {
+            clearInterval(interval);
+            document.getElementById('loadingOverlay').style.display = 'none';
+        }
+    }, 100);
+}
+
+// 页面加载完成后隐藏进度条和遮罩层
+window.addEventListener('load', () => {
+    simulateLoading();
+});
+        
 if (window.GestureEvent || (navigator.maxTouchPoints > 0)) {
     let lastTouchEnd = 0;
 
@@ -1287,6 +2056,16 @@ function preloadImages(imageUrls) {
 const imageUrls = [
     "https://pic.imgdb.cn/item/663885620ea9cb14033e4f6e.png",
     "https://pic.imgdb.cn/item/66541c01d9c307b7e9208aea.png",
+    "https://pic.imgdb.cn/item/66542639d9c307b7e92c235d.gif",
+    "https://pic.imgdb.cn/item/6669a02bd9c307b7e935f2a2.jpg",
+    "https://pic.imgdb.cn/item/66616fe95e6d1bfa05b0103d.png",
+    "https://pic.imgdb.cn/item/66616fea5e6d1bfa05b0117c.png",
+    "https://pic.imgdb.cn/item/66616fea5e6d1bfa05b0121c.png",
+    "https://pic.imgdb.cn/item/66616feb5e6d1bfa05b01297.png",
+    "https://pic.imgdb.cn/item/66616feb5e6d1bfa05b01297.png",
+    "https://pic.imgdb.cn/item/66616feb5e6d1bfa05b01312.png",
+    "https://pic.imgdb.cn/item/66616fec5e6d1bfa05b013ec.png",
+    "https://pic.imgdb.cn/item/666466225e6d1bfa05b95973.png",
     "https://pic.imgdb.cn/item/66541c01d9c307b7e9208add.png",
     "https://pic.imgdb.cn/item/6654a944d9c307b7e9ca6423.png",
     "https://pic.imgdb.cn/item/6655a92ad9c307b7e9c04265.png",
@@ -1294,7 +2073,6 @@ const imageUrls = [
     "https://pic.imgdb.cn/item/6654a944d9c307b7e9ca63f5.png",
     "https://pic.imgdb.cn/item/66556068d9c307b7e9681672.png",
     "https://pic.imgdb.cn/item/6656e598d9c307b7e906ca29.png",
-    "https://pic.imgdb.cn/item/665d02afd9c307b7e903151b.png",
     "https://pic.imgdb.cn/item/6656e734d9c307b7e9088e9b.png",
     "https://pic.imgdb.cn/item/6656e734d9c307b7e9088e7b.png",
     "https://pic.imgdb.cn/item/6656e734d9c307b7e9088e6d.png",
@@ -1304,46 +2082,1358 @@ const imageUrls = [
     "https://pic.imgdb.cn/item/6656e81dd9c307b7e909844a.png",
     "https://pic.imgdb.cn/item/6656e81dd9c307b7e90984b7.png",
     "https://pic.imgdb.cn/item/6656e81dd9c307b7e909843e.png",
+    "https://pic.imgdb.cn/item/666ab20bd9c307b7e96301f6.png",
+    "https://pic.imgdb.cn/item/666ab20bd9c307b7e9630192.png",
+    "https://pic.imgdb.cn/item/666aa7b6d9c307b7e9495e97.png",
     "https://pic.imgdb.cn/item/665ef0855e6d1bfa055800f4.png",
     "https://pic.imgdb.cn/item/6656a1b6d9c307b7e9baa881.png",
     "https://pic.imgdb.cn/item/66556068d9c307b7e9681672.png",
     "https://pic.imgdb.cn/item/6656a1b6d9c307b7e9baa85b.png",
     "https://pic.imgdb.cn/item/665af22fd9c307b7e910c815.png",
     "https://pic.imgdb.cn/item/665566e5d9c307b7e971236e.png",
+    "https://pic.imgdb.cn/item/6661a2715e6d1bfa05edb3a2.png",
+    "https://pic.imgdb.cn/item/6661a26a5e6d1bfa05edacf1.png",
     "https://pic.imgdb.cn/item/665de3fd5e6d1bfa05564912.png",
     "https://pic.imgdb.cn/item/665c7652d9c307b7e991a20d.png"
 ];
 preloadImages(imageUrls);
 
+let ascensionSkill = {
+    name: '',
+    level: 1,
+    effect: ''
+};
+let ascensionAttributes = {
+    health: 0,
+    mana: 0,
+    physicalAttack: 0,
+    physicalDefense: 0,
+    magicAttack: 0,
+    magicDefense: 0,
+    speed: 0
+};
+const ascensionSkills = {
+    attribute: [
+        { name: '力劈华山', effect: '提供4000点物理攻击力', baseValue: 4000, increment: level => 100 + level * 200 },
+        { name: '慈悲心坏', effect: '提供5000点生命值和3000点法力值', baseValue: 5000, increment: level => 100 * level },
+        { name: '势如破竹', effect: '提供2000点速度和2400点法术攻击力', baseValue: 2000, increment: level => 180 + 50 * level },
+        { name: '固若金汤', effect: '提供5000点物理防御和5000点法术防御', baseValue: 5000, increment: level => 300 * level + 300 }
+    ],
+    combat: [
+        { name: '魔龙之力', effect: '恢复最大生命值2%的生命值', baseValue: 2, increment: level => 2 * level },
+        { name: '向死而生', effect: '消耗最大法力值上限60%的法力让自己血量变为1', baseValue: 60, increment: level => -2 * level },
+        { name: '以牙还牙', effect: '反弹本次承受伤害的51%~82%', baseValue: 51, increment: level => 2 * level },
+        { name: '天神祝福', effect: '敌人的第一次攻击伤害降低30%', baseValue: 30, increment: level => 2 * level }
+    ],
+    settlement: [
+        { name: '财源滚滚', effect: '金子奖励额外增加100', baseValue: 100, increment: level => 100 + 100 * level },
+        { name: '焉知非福', effect: '获得持续10秒的仙气护体', baseValue: 10, increment: level => 1 * level },
+        { name: '举一反三', effect: '获得的经验值增加30%', baseValue: 30, increment: level => 5 * level },
+        { name: '金牌调解', effect: '获得50金子的安慰金', baseValue: 50, increment: level => 50 * level }
+    ]
+};
 
+function applyAscensionAttributeBonus() {
+    switch (ascensionSkill.name) {
+        case '力劈华山':
+            ascensionAttributes.physicalAttack = ascensionSkill.baseValue + ascensionSkill.increment(ascensionSkill.level);
+            break;
+        case '慈悲心坏':
+            ascensionAttributes.health = ascensionSkill.baseValue + ascensionSkill.increment(ascensionSkill.level);
+            ascensionAttributes.mana = 3000 + ascensionSkill.increment(ascensionSkill.level);
+            break;
+        case '势如破竹':
+            ascensionAttributes.speed = ascensionSkill.baseValue + ascensionSkill.increment(ascensionSkill.level);
+            ascensionAttributes.magicAttack = 2400 + ascensionSkill.increment(ascensionSkill.level);
+            break;
+        case '固若金汤':
+            ascensionAttributes.physicalDefense = ascensionSkill.baseValue + ascensionSkill.increment(ascensionSkill.level);
+            ascensionAttributes.magicDefense = 5000 + ascensionSkill.increment(ascensionSkill.level);
+            break;
+    }
+}
+document.getElementById('ascension-skill-button').addEventListener('click', () => {
+    if (!petAscended) {
+        alert('您的宠物未飞升，还不会掌握飞升之术！');
+    } else {
+        document.getElementById('ascension-skill-modal').style.display = 'block';
+        updateAscensionDisplay(); // 打开时更新显示
+    }
+});
+
+// 关闭飞升之术面板
+document.getElementById('close-ascension-modal').addEventListener('click', () => {
+    document.getElementById('ascension-skill-modal').style.display = 'none';
+});
+
+// 更新飞升之术面板显示
+function updateAscensionDisplay() {
+    document.getElementById('ascension-icon').src = 'https://pic.imgdb.cn/item/666aa7b6d9c307b7e9495e97.png'; // 设置图标URL
+    document.getElementById('ascension-name').innerText = ascensionSkill.name;
+    document.getElementById('ascension-level').innerText = '等级: ' + ascensionSkill.level;
+    document.getElementById('ascension-effect').innerText = ascensionSkill.effect;
+}
+
+// 监听开启增益按钮点击事件
+document.getElementById('enable-ascension').addEventListener('click', () => {
+    if (!ascend) {
+        alert('飞升之术尚未启用！');
+        return;
+    }
+    if (useItem('heartStone')) {
+        alert('飞升之术增益已启用！');
+        applyAscensionBonus(); // 应用飞升之术增益
+    } else {
+        alert('您的心鉴之石不足！');
+    }
+});
+
+// 监听刷新技能按钮点击事件
+document.getElementById('refresh-ascension').addEventListener('click', () => {
+    if (useItem('heartStone')) {
+        alert('飞升之术技能已刷新！');
+        refreshAscensionSkill(); // 刷新飞升之术技能
+    } else {
+        alert('您的心鉴之石不足！');
+    }
+});
+
+// 监听提升技能按钮点击事件
+document.getElementById('level-up-ascension').addEventListener('click', () => {
+    if (useItem('earthlyEnergy', 10)) {
+        alert('飞升之术技能已提升！');
+        levelUpAscensionSkill(); // 提升飞升之术技能
+    } else {
+        alert('您的天地灵气不足！');
+    }
+});
+
+function useItem(itemName, quantity = 1) {
+    const itemIndex = jinnangItems.findIndex(item => item.name === itemName);
+    if (itemIndex !== -1 && jinnangItems[itemIndex].quantity >= quantity) {
+        jinnangItems[itemIndex].quantity -= quantity;
+        if (jinnangItems[itemIndex].quantity < 0) {
+            jinnangItems[itemIndex].quantity = 0;
+        }
+        updateJinnangItems();
+        return true;
+    }
+    return false;
+}
+
+function applyAscensionBonus() {
+    // 根据当前技能应用增益
+    switch (ascensionSkill.name) {
+        case '力劈华山':
+            battleAttributes.physicalAttack += ascensionSkill.baseValue + ascensionSkill.increment(ascensionSkill.level);
+            break;
+        case '慈悲心坏':
+            battleAttributes.health += ascensionSkill.baseValue + ascensionSkill.increment(ascensionSkill.level);
+            battleAttributes.mana += 3000 + ascensionSkill.increment(ascensionSkill.level);
+            break;
+        case '势如破竹':
+            battleAttributes.speed += ascensionSkill.baseValue + ascensionSkill.increment(ascensionSkill.level);
+            battleAttributes.magicAttack += 2400 + ascensionSkill.increment(ascensionSkill.level);
+            break;
+        case '固若金汤':
+            battleAttributes.physicalDefense += ascensionSkill.baseValue + ascensionSkill.increment(ascensionSkill.level);
+            battleAttributes.magicDefense += 5000 + ascensionSkill.increment(ascensionSkill.level);
+            break;
+        // 其他增益的处理...
+    }
+    updateUI();
+}
+
+function refreshAscensionSkill() {
+    const allSkills = [...ascensionSkills.attribute, ...ascensionSkills.combat, ...ascensionSkills.settlement];
+    const randomSkill = allSkills[Math.floor(Math.random() * allSkills.length)];
+    ascensionSkill = {
+        ...randomSkill,
+        level: 1
+    };
+    updateAscensionDisplay();
+}
+
+function levelUpAscensionSkill() {
+    if (ascensionSkill.level < 20) {
+        ascensionSkill.level += 1;
+        updateAscensionDisplay();
+        refreshBattleAttributes(); // 刷新战斗属性
+    } else {
+        alert('飞升之术技能已达最大等级！');
+    }
+}
+// 战斗精灵属性
+let spiritLevel = 1;
+let spiritMultiplier = 1.00;
+const maxSpiritLevel = 100;
+const minSpiritMultiplier = 0.01;
+const maxSpiritMultiplier = 4.15;
+
+// 获取精灵提供的基础属性增益
+function getBaseSpiritAttributes() {
+    return {
+        health: 38,
+        mana: 19,
+        physicalAttack: 6,
+        physicalDefense: 9,
+        magicAttack: 6,
+        magicDefense: 9,
+        speed: 1
+    };
+}
+
+// 计算精灵当前等级和倍数提供的属性增益
+function getCurrentSpiritAttributes() {
+    const baseAttributes = getBaseSpiritAttributes();
+    return {
+        health: Math.floor(baseAttributes.health * Math.pow(1.1, spiritLevel) * spiritMultiplier),
+        mana: Math.floor(baseAttributes.mana * Math.pow(1.1, spiritLevel) * spiritMultiplier),
+        physicalAttack: Math.floor(baseAttributes.physicalAttack * Math.pow(1.1, spiritLevel) * spiritMultiplier),
+        physicalDefense: Math.floor(baseAttributes.physicalDefense * Math.pow(1.1, spiritLevel) * spiritMultiplier),
+        magicAttack: Math.floor(baseAttributes.magicAttack * Math.pow(1.1, spiritLevel) * spiritMultiplier),
+        magicDefense: Math.floor(baseAttributes.magicDefense * Math.pow(1.1, spiritLevel) * spiritMultiplier),
+        speed: Math.floor(baseAttributes.speed * Math.pow(1.1, spiritLevel) * spiritMultiplier)
+    };
+}
+
+// 更新精灵属性显示
+function updateSpiritDisplay() {
+    const spiritAttributes = getCurrentSpiritAttributes();
+    document.getElementById('spirit-level').innerText = spiritLevel;
+    document.getElementById('spirit-multiplier').innerText = spiritMultiplier.toFixed(2);
+    document.getElementById('spirit-health').innerText = spiritAttributes.health;
+    document.getElementById('spirit-mana').innerText = spiritAttributes.mana;
+    document.getElementById('spirit-physical-attack').innerText = spiritAttributes.physicalAttack;
+    document.getElementById('spirit-physical-defense').innerText = spiritAttributes.physicalDefense;
+    document.getElementById('spirit-magic-attack').innerText = spiritAttributes.magicAttack;
+    document.getElementById('spirit-magic-defense').innerText = spiritAttributes.magicDefense;
+    document.getElementById('spirit-speed').innerText = spiritAttributes.speed;
+}
+
+// 显示战斗精灵按钮
+function checkAwakening() {
+    if (awakened) {
+        document.getElementById('battle-spirit-button').style.display = 'block';
+    } else {
+        document.getElementById('battle-spirit-button').style.display = 'block';
+    }
+}
+
+// 打开战斗精灵界面
+document.getElementById('battle-spirit-button').addEventListener('click', () => {
+    if (!awakened) {
+        alert('宠物会得到战斗精灵的赐福，提升各项能力值。但宠物只有在觉醒后才能真正掌握战斗精灵的使用和培养！');
+    } else {
+        document.getElementById('battle-spirit-modal').style.display = 'block';
+        updateSpiritDisplay(); // 打开时更新显示
+    }
+});
+
+// 关闭战斗精灵界面
+document.getElementById('close-spirit-modal').addEventListener('click', () => {
+    document.getElementById('battle-spirit-modal').style.display = 'none';
+});
+
+// 精灵洗练
+document.getElementById('level-up-spirit').addEventListener('click', () => {
+    if (spiritLevel >= maxSpiritLevel) {
+        alert('战斗精灵已达到最大等级！');
+        return;
+    }
+
+    if (useItem('spiritRefreshStone')) {
+        const successChance = Math.random();
+        if (successChance < 0.8) { // 80% 成功率
+            spiritLevel += 1;
+            updateSpiritDisplay(); // 更新显示
+            refreshBattleAttributes(); // 刷新战斗属性
+        } else {
+            alert('洗练失败！');
+        }
+    } else {
+        alert('您的精灵精炼石不足！');
+    }
+});
+
+// 精灵觉醒
+document.getElementById('enhance-spirit').addEventListener('click', () => {
+    if (useItem('spiritAwakenStone')) {
+        const newMultiplier = (Math.random() * (maxSpiritMultiplier - minSpiritMultiplier) + minSpiritMultiplier).toFixed(2);
+        spiritMultiplier = parseFloat(newMultiplier);
+        updateSpiritDisplay(); // 更新显示
+        refreshBattleAttributes(); // 刷新战斗属性
+    } else {
+        alert('您的精灵觉醒石不足！');
+    }
+});
+
+
+// 使用道具
+function useItem(itemName) {
+    const itemIndex = jinnangItems.findIndex(item => item.name === itemName);
+    if (itemIndex !== -1 && jinnangItems[itemIndex].quantity > 0) {
+        jinnangItems[itemIndex].quantity -= 1;
+        if (jinnangItems[itemIndex].quantity < 0) {
+            jinnangItems[itemIndex].quantity = 0;
+        }
+        updateJinnangItems();
+        return true;
+    }
+    return false;
+}
+
+// 初始化检查觉醒状态
+window.onload = function() {
+    initializeEnemyPet(); // 初始化敌人宠物
+    updatePetInfo(); // 更新宠物和敌人宠物的属性
+    document.getElementById("fightingDrawer").style.display = "none"; // 默认隐藏战斗抽屉
+    checkAwakening(); // 检查宠物觉醒状态
+    updateExpBar(); // 更新经验条
+}
+        
+let attributesFetched = false;
+let battleState;
+let enemyPet;
+let playerTurn;
+let battleInterval;
+let battleAttributes; // 用于存储战斗属性的独立容器
+let maxHealth, maxMana; // 独立的最大值变量
+let enemyMaxHealth, enemyMaxMana; // 敌人的最大值变量
+let battleRounds = 0; // 记录玩家胜利的轮次
+let currentExp = 0; // 当前经验值
+let maxExp = 208; // 经验值上限
+let enemyHealCount = 0; // 记录怪物治疗次数
+let enemyInitialState; // 存储每轮开始时的敌人初始状态
+
+function showEffect(effectId) {
+    const effect = document.getElementById(effectId);
+    effect.classList.add('show-effect');
+    setTimeout(() => {
+        effect.classList.remove('show-effect');
+    }, 500);
+}
+
+function initializeEnemyPet() {
+    enemyPet = {
+        health: 578,
+        mana: 336,
+        physicalAttack: 58,
+        physicalDefense: 118,
+        magicAttack: 35,
+        magicDefense: 118,
+        speed: 208,
+        silenced: false,
+        stunned: false
+    };
+
+    if (battleState) {
+        battleState.enemy = { ...enemyPet };
+    }
+
+    enemyMaxHealth = enemyPet.health;
+    enemyMaxMana = enemyPet.mana;
+
+    storeEnemyInitialState(); // 存储初始状态
+}
+
+function toggleFightingDrawer() {
+    if (!attributesFetched) {
+        alert("请先从属性面板获取属性。");
+        return;
+    }
+
+    const drawer = document.getElementById('fightingDrawer');
+    const isOpen = drawer.classList.toggle('open');
+
+    if (isOpen) {
+        drawer.style.display = "flex";
+        refreshBattleAttributes(); // 刷新战斗属性
+        startBattle();
+    } else {
+        drawer.style.display = "none";
+        stopBattle();
+    }
+}
+
+function updatePetInfo() {
+    if (!currentPet) {
+        console.error("currentPet is not initialized");
+        return;
+    }
+
+    const currentAttributes = calculateCurrentAttributes();
+    const totalAttributes = {
+        endurance: currentAttributes.endurance,
+        intelligence: currentAttributes.intelligence,
+        strength: currentAttributes.strength,
+        agility: currentAttributes.agility,
+        faith: currentAttributes.faith
+    };
+
+    const secondaryAttributes = calculateSecondaryAttributes(totalAttributes, currentWisdom);
+    const spiritAttributes = getCurrentSpiritAttributes();
+
+    if (!battleState) {
+        battleState = {
+            player: {
+                health: secondaryAttributes.health + spiritAttributes.health + ascensionAttributes.health,
+                mana: secondaryAttributes.mana + spiritAttributes.mana + ascensionAttributes.mana,
+                physicalAttack: secondaryAttributes.physicalAttack + spiritAttributes.physicalAttack + ascensionAttributes.physicalAttack,
+                physicalDefense: secondaryAttributes.physicalDefense + spiritAttributes.physicalDefense + ascensionAttributes.physicalDefense,
+                magicAttack: secondaryAttributes.magicAttack + spiritAttributes.magicAttack + ascensionAttributes.magicAttack,
+                magicDefense: secondaryAttributes.magicDefense + spiritAttributes.magicDefense + ascensionAttributes.magicDefense,
+                speed: secondaryAttributes.speed + spiritAttributes.speed + ascensionAttributes.speed,
+                intelligence: totalAttributes.intelligence
+            },
+            enemy: { ...enemyPet }
+        };
+    } else {
+        battleState.player.health = secondaryAttributes.health + spiritAttributes.health + ascensionAttributes.health;
+        battleState.player.mana = secondaryAttributes.mana + spiritAttributes.mana + ascensionAttributes.mana;
+        battleState.player.physicalAttack = secondaryAttributes.physicalAttack + spiritAttributes.physicalAttack + ascensionAttributes.physicalAttack;
+        battleState.player.physicalDefense = secondaryAttributes.physicalDefense + spiritAttributes.physicalDefense + ascensionAttributes.physicalDefense;
+        battleState.player.magicAttack = secondaryAttributes.magicAttack + spiritAttributes.magicAttack + ascensionAttributes.magicAttack;
+        battleState.player.magicDefense = secondaryAttributes.magicDefense + spiritAttributes.magicDefense + ascensionAttributes.magicDefense;
+        battleState.player.speed = secondaryAttributes.speed + spiritAttributes.speed + ascensionAttributes.speed;
+        battleState.player.intelligence = totalAttributes.intelligence;
+    }
+
+    battleAttributes = { ...battleState.player }; // 设置战斗属性
+
+    maxHealth = battleAttributes.health; // 设置独立的最大值变量
+    maxMana = battleAttributes.mana; // 设置独立的最大值变量
+    enemyMaxHealth = enemyPet.health;
+    enemyMaxMana = enemyPet.mana;
+
+    updateUI();
+    attributesFetched = true;
+}
+
+
+function refreshBattleAttributes() {
+    if (!currentPet) {
+        console.error("currentPet is not initialized");
+        return;
+    }
+
+    const currentAttributes = calculateCurrentAttributes();
+    const totalAttributes = {
+        endurance: currentAttributes.endurance,
+        intelligence: currentAttributes.intelligence,
+        strength: currentAttributes.strength,
+        agility: currentAttributes.agility,
+        faith: currentAttributes.faith
+    };
+
+    const secondaryAttributes = calculateSecondaryAttributes(totalAttributes, currentWisdom);
+    const spiritAttributes = getCurrentSpiritAttributes();
+
+    battleAttributes = {
+        health: secondaryAttributes.health + spiritAttributes.health,
+        mana: secondaryAttributes.mana + spiritAttributes.mana,
+        physicalAttack: secondaryAttributes.physicalAttack + spiritAttributes.physicalAttack,
+        physicalDefense: secondaryAttributes.physicalDefense + spiritAttributes.physicalDefense,
+        magicAttack: secondaryAttributes.magicAttack + spiritAttributes.magicAttack,
+        magicDefense: secondaryAttributes.magicDefense + spiritAttributes.magicDefense,
+        speed: secondaryAttributes.speed + spiritAttributes.speed
+    }; // 刷新战斗属性
+
+    updateUI();
+}
+
+function updateUI() {
+    document.getElementById("your-pet-health").innerText = battleAttributes.health;
+    document.getElementById("your-pet-mana").innerText = battleAttributes.mana;
+    document.getElementById("your-pet-physical-attack").innerText = battleAttributes.physicalAttack;
+    document.getElementById("your-pet-physical-defense").innerText = battleAttributes.physicalDefense;
+    document.getElementById("your-pet-magic-attack").innerText = battleAttributes.magicAttack;
+    document.getElementById("your-pet-magic-defense").innerText = battleAttributes.magicDefense;
+    document.getElementById("your-pet-speed").innerText = battleAttributes.speed;
+
+    document.getElementById("enemy-pet-health").innerText = battleState.enemy.health;
+    document.getElementById("enemy-pet-mana").innerText = battleState.enemy.mana;
+    document.getElementById("enemy-pet-physical-attack").innerText = battleState.enemy.physicalAttack;
+    document.getElementById("enemy-pet-physical-defense").innerText = battleState.enemy.physicalDefense;
+    document.getElementById("enemy-pet-magic-attack").innerText = battleState.enemy.magicAttack;
+    document.getElementById("enemy-pet-magic-defense").innerText = battleState.enemy.magicDefense;
+    document.getElementById("enemy-pet-speed").innerText = battleState.enemy.speed;
+
+    // 更新状态显示
+    document.getElementById("player-status").innerText = getPlayerStatus();
+    document.getElementById("enemy-status").innerText = getEnemyStatus();
+}
+
+function getPlayerStatus() {
+    let status = [];
+    if (battleState.player.silenced) status.push("沉默");
+    if (battleState.player.reflecting) status.push("反弹");
+    if (battleState.player.divineProtection) status.push("仙气护体");
+    return status.join(", ");
+}
+
+function getEnemyStatus() {
+    let status = [];
+    if (battleState.enemy.silenced) status.push("沉默");
+    if (battleState.enemy.poisoned) status.push("中毒");
+    if (battleState.enemy.stunned) status.push("眩晕");
+    if (battleState.enemy.sleeping) status.push("沉睡");
+    if (battleState.enemy.intimidated) status.push("恐吓");
+    return status.join(", ");
+}
+
+function logBattleEvent(event) {
+    const logDiv = document.getElementById("log");
+    if (logDiv) {
+        const newEvent = document.createElement("p");
+        newEvent.innerText = event;
+        logDiv.appendChild(newEvent);
+
+        // 检查日志条目数，如果超过 5 条，则删除最早的条目
+        const logs = logDiv.getElementsByTagName("p");
+        while (logs.length > 5) {
+            logDiv.removeChild(logs[0]);
+        }
+
+        // 尝试强制滚动到最底部
+        logDiv.scrollTop = logDiv.scrollHeight;
+        setTimeout(() => {
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }, 0);
+        setTimeout(() => {
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }, 50);
+        setTimeout(() => {
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }, 100);
+    } else {
+        console.error("logDiv not found");
+    }
+}
+
+
+function performAttack(type) {
+    if (!attributesFetched) {
+        alert("请先从属性面板获取属性。");
+        return;
+    }
+
+    if (!battleState || !battleState.enemy) {
+        console.error("战斗状态未初始化");
+        return;
+    }
+
+    if (battleAttributes.health <= 0) {
+        logBattleEvent("您已经输掉此次战斗，请再接再厉，点击重置本轮战斗！");
+        showNextBattlePrompt(false);
+        return;
+    }
+
+    let damage;
+    let isCritical = false;
+    let critMultiplier = 1;
+    const critChance = battleAttributes.speed / 100000; // 计算暴击概率
+
+    if (Math.random() < critChance) {
+        isCritical = true;
+        critMultiplier = (Math.random() * (1.1 - 0.9) + 0.9) * 2;
+        logBattleEvent("你发动了暴击，造成了双倍伤害！");
+        const logDiv = document.getElementById('log');
+        logDiv.classList.add('critical-hit');
+        setTimeout(() => {
+            logDiv.classList.remove('critical-hit');
+        }, 300);
+    }
+
+    if (type === 'physical' || battleState.enemy.silenced) { // 沉默时只能使用物理攻击
+        const defenseFactor = (Math.random() * (1.2 - 0.8) + 0.8);
+        const effectiveDefense = Math.floor(battleState.enemy.physicalDefense * defenseFactor / 2);
+        damage = Math.max(0, Math.floor((battleAttributes.physicalAttack || 0) * critMultiplier - effectiveDefense));
+        battleState.enemy.health = Math.max(0, battleState.enemy.health - damage);
+        logBattleEvent(`你进行了物理攻击，造成了 ${damage} 点伤害。`);
+    } else if (type === 'magical') {
+        if (battleAttributes.mana < 50) {
+            logBattleEvent("您的法力值不足！");
+            performAttack('physical');
+            return;
+        }
+
+        const defenseFactor = (Math.random() * (1.2 - 0.8) + 0.8);
+        const effectiveDefense = Math.floor(battleState.enemy.magicDefense * defenseFactor / 2);
+        damage = Math.max(0, Math.floor((battleAttributes.magicAttack || 0) * critMultiplier - effectiveDefense));
+        battleState.enemy.health = Math.max(0, battleState.enemy.health - damage);
+
+        const manaCost = Math.floor(Math.random() * (100 - 50 + 1)) + 50; // 随机扣除50到100之间的法力值
+        battleAttributes.mana = Math.max(0, battleAttributes.mana - manaCost);
+        logBattleEvent(`你进行了法术攻击，造成了 ${damage} 点伤害，消耗了 ${manaCost} 点法力值。`);
+        applyMagicEffects();
+
+        // 检查中毒效果
+        if (battleState.enemy.poisoned) {
+            const poisonDamage = Math.floor(battleAttributes.magicAttack * battleRounds * (Math.random() * (0.06 - 0.03) + 0.03));
+            battleState.enemy.health = Math.max(0, battleState.enemy.health - poisonDamage);
+            logBattleEvent(`敌人中毒，失去了 ${poisonDamage} 点生命值。`);
+        }
+    }
+
+    if (battleState.enemy.sleeping && type !== 'heal') { // 敌人沉睡状态
+        battleState.enemy.sleeping = false;
+        logBattleEvent("敌人从沉睡中醒来。");
+    }
+
+    if (battleState.enemy.health <= 0) {
+        logBattleEvent("您赢得了此次战斗，点击进入下一轮战斗！");
+        updateEnemyAttributes();
+        showNextBattlePrompt(true);
+        return;
+    }
+
+    playerTurn = false; // 轮到敌人回合
+    setTimeout(enemyAttack, 300); // 延迟0.3秒后敌人回合
+
+    updateUI();
+}
+
+function applyMagicEffects() {
+    const effects = ['silence', 'armorBreak', 'stun', 'weaken', 'poison', 'reflect', 'divineProtection', 'sleep', 'intimidate'];
+    const effect = effects[Math.floor(Math.random() * effects.length)];
+    const effectChance = Math.random(); // 生成一个0到1之间的随机数
+
+    if (effectChance < 0.3) { // 30%的概率触发效果
+        switch (effect) {
+            case 'silence':
+                battleState.enemy.silenced = true; // 敌人沉默
+                logBattleEvent("敌人被沉默，无法使用特殊技能。");
+                setTimeout(() => { battleState.enemy.silenced = false; }, 5000); // 沉默5秒
+                break;
+            case 'armorBreak':
+                const armorBreakValue = Math.floor(battleAttributes.physicalAttack * (Math.random() * (0.24 - 0.12) + 0.12));
+                battleState.enemy.physicalDefense -= armorBreakValue; // 破甲
+                logBattleEvent(`敌人的护甲被破坏，物理防御减少了 ${armorBreakValue} 点。`);
+                setTimeout(() => {
+                    battleState.enemy.physicalDefense += armorBreakValue;
+                    logBattleEvent("敌人的破甲状态消失。");
+                }, 10000); // 破甲持续10秒
+                break;
+            case 'weaken':
+                const weakenValue = Math.floor(battleAttributes.magicAttack * (Math.random() * (0.24 - 0.12) + 0.12));
+                battleState.enemy.physicalAttack -= weakenValue; // 虚弱
+                logBattleEvent(`敌人被虚弱，物理攻击减少了 ${weakenValue} 点。`);
+                setTimeout(() => {
+                    battleState.enemy.physicalAttack += weakenValue;
+                    logBattleEvent("敌人的虚弱状态消失。");
+                }, 10000); // 虚弱持续10秒
+                break;
+            case 'poison':
+                battleState.enemy.poisoned = true; // 敌人中毒
+                logBattleEvent("敌人被中毒，每次行动会扣除生命值。");
+                setTimeout(() => { battleState.enemy.poisoned = false; }, 3000); // 中毒持续3秒
+                break;
+            case 'reflect':
+                battleState.player.reflecting = true; // 玩家反弹状态
+                logBattleEvent("你获得了反弹状态，反弹敌人攻击的20%伤害。");
+                setTimeout(() => { battleState.player.reflecting = false; }, 5000); // 反弹持续5秒
+                break;
+            case 'divineProtection':
+                if (Math.random() < 0.15) { // 15%的概率触发仙气护体
+                    battleState.player.divineProtection = true; // 仙气护体
+                    logBattleEvent("你获得了仙气护体状态，受到伤害时会恢复生命值。");
+                    setTimeout(() => { battleState.player.divineProtection = false; }, 5000); // 仙气护体持续5秒
+                }
+                break;
+            case 'sleep':
+                battleState.enemy.sleeping = true; // 敌人沉睡
+                logBattleEvent("敌人进入沉睡状态，不会行动但会恢复生命值。");
+                break; // 沉睡状态会在玩家攻击时解除
+            case 'intimidate':
+                battleState.enemy.intimidated = true; // 敌人恐吓状态
+                logBattleEvent("敌人被恐吓，无法暴击。");
+                setTimeout(() => { battleState.enemy.intimidated = false; }, 5000); // 恐吓持续5秒
+                break;
+            case 'stun':
+                battleState.enemy.stunned = true; // 敌人眩晕
+                logBattleEvent("敌人被眩晕，无法行动。");
+                setTimeout(() => { battleState.enemy.stunned = false; }, 3000); // 眩晕3秒
+                break;
+        }
+    }
+
+    // 应用战斗增益
+    switch (ascensionSkill.name) {
+        case '魔龙之力':
+            setInterval(() => {
+                if (battleAttributes.health > 0) {
+                    const healAmount = Math.floor(maxHealth * (ascensionSkill.baseValue / 100));
+                    battleAttributes.health = Math.min(maxHealth, battleAttributes.health + healAmount);
+                    logBattleEvent(`魔龙之力触发，恢复了 ${healAmount} 点生命值。`);
+                    updateUI();
+                }
+            }, 10000); // 每10秒触发一次
+            break;
+        case '向死而生':
+            if (battleAttributes.health <= 0 && battleAttributes.mana >= Math.floor(maxMana * (ascensionSkill.baseValue / 100))) {
+                battleAttributes.health = 1;
+                battleAttributes.mana -= Math.floor(maxMana * (ascensionSkill.baseValue / 100));
+                logBattleEvent('向死而生触发，生命值恢复至1，消耗大量法力值。');
+                updateUI();
+            }
+            break;
+        case '以牙还牙':
+            battleState.player.reflectPercentage = ascensionSkill.baseValue + ascensionSkill.increment(ascensionSkill.level);
+            break;
+        case '天神祝福':
+            battleState.enemy.firstAttackReduced = ascensionSkill.baseValue + ascensionSkill.increment(ascensionSkill.level);
+            break;
+        case '焉知非福':
+            battleState.player.divineProtectionDuration = ascensionSkill.baseValue + ascensionSkill.increment(ascensionSkill.level);
+            break;
+    }
+}
+
+
+function performHeal() {
+    if (!attributesFetched) {
+        alert("请先从属性面板获取属性。");
+        return;
+    }
+
+    const manaCost = 88 * battleRounds;
+    if (battleAttributes.mana < manaCost) {
+        logBattleEvent("您的法力值不足，无法治疗！");
+        return;
+    }
+
+    const healAmount = Math.floor(3 * battleAttributes.magicAttack * (Math.random() * (1.2 - 0.8) + 0.8));
+    battleAttributes.health = Math.min(maxHealth, battleAttributes.health + healAmount);
+    battleAttributes.mana = Math.max(0, battleAttributes.mana - manaCost);
+
+    logBattleEvent(`你治疗了自己，恢复了 ${healAmount} 点生命值，消耗了 ${manaCost} 点法力值。`);
+
+    // 检查仙气护体效果
+    if (Math.random() < 0.15) {
+        battleState.player.divineProtection = true; // 仙气护体
+        logBattleEvent("你获得了仙气护体状态，受到伤害时会恢复生命值。");
+        setTimeout(() => { battleState.player.divineProtection = false; }, 5000); // 仙气护体持续5秒
+    }
+
+    playerTurn = false; // 轮到敌人回合
+    enemyAttack();
+    showEffect('enemyEffect');
+    updateUI();
+}
+
+function startBattle() {
+    if (!attributesFetched) {
+        alert("请先从属性面板获取属性。");
+        return;
+    }
+
+    logBattleEvent("战斗开始！");
+    
+    if (ascensionSkill.name === '天神祝福') {
+        battleState.enemy.firstAttackReduced = true; // 标记敌人的第一次攻击减伤
+    }
+    
+    playerTurn = battleAttributes.speed >= battleState.enemy.speed; // 根据速度值决定优先攻击顺序
+    updateUI();
+
+    if (!playerTurn) {
+        setTimeout(enemyAttack, 300); // 延迟0.3秒后敌人先攻
+    }
+}
+
+function stopBattle() {
+    clearInterval(battleInterval);
+    logBattleEvent("战斗停止。");
+}
+
+function showNextBattlePrompt(playerWon) {
+    if (playerWon) {
+        const minRewardMultiplier = 0.35;
+        const maxRewardMultiplier = 1.75;
+        const rewardMultiplier = Math.random() * (maxRewardMultiplier - minRewardMultiplier) + minRewardMultiplier;
+        let reward = Math.floor(288 * battleRounds * rewardMultiplier);
+        reward = Math.max(reward, 288); // 确保最低奖励为 288
+
+        // 应用结算增益
+        switch (ascensionSkill.name) {
+            case '财源滚滚':
+                reward += ascensionSkill.baseValue + ascensionSkill.increment(ascensionSkill.level);
+                break;
+            case '举一反三':
+                reward *= (1 + (ascensionSkill.baseValue / 100));
+                break;
+            case '金牌调解':
+                if (!playerWon) {
+                    reward += ascensionSkill.baseValue + ascensionSkill.increment(ascensionSkill.level);
+                }
+                break;
+        }
+
+        goldAmount += reward;
+        alert(`您赢得了此次战斗，金子+${reward}！点击进入下一轮战斗！您已经胜利了 ${battleRounds} 轮次`);
+
+        battleRounds++;
+        document.getElementById("gold-amount").innerText = goldAmount;
+        updateEnemyAttributes(); // 仅在玩家获胜时更新敌人属性
+        gainExp(); // 获取经验
+    } else {
+        const penalty = 388 * battleRounds;
+
+        // 应用结算增益
+        if (ascensionSkill.name === '金牌调解') {
+            const comfortReward = ascensionSkill.baseValue + ascensionSkill.increment(ascensionSkill.level);
+            goldAmount = Math.max(0, goldAmount + comfortReward);
+            alert(`您已经输掉此次战斗，获得安慰金 +${comfortReward}！请再接再厉，点击进入下一轮战斗！`);
+        } else {
+            goldAmount = Math.max(0, goldAmount - penalty); // 确保金子数量不为负
+            alert(`您已经输掉此次战斗，扣除金子-${penalty}！请再接再厉，点击进入下一轮战斗！`);
+        }
+
+        document.getElementById("gold-amount").innerText = goldAmount;
+    }
+
+    resetBattleState(playerWon); // 将玩家是否获胜传递给 resetBattleState
+}
+
+function gainExp() {
+    const gainedExp = Math.floor(maxExp * 0.18 + (12 * battleRounds) * 0.3);
+    currentExp += gainedExp;
+
+    if (currentExp >= maxExp) {
+        currentExp = 0;
+        maxExp = Math.floor(maxExp * 1.4);
+
+        if (petLevel >= 200) {
+            alert("宠物已达到最高等级，经验转化为普通经验书！");
+            addItemToJinnang('normalExperienceBook');
+            updateJinnangItems();
+        } else {
+            alert("恭喜您升级了！");
+            increasePetLevel(1); // 提升宠物一级
+        }
+    }
+
+    updateExpBar();
+}
+
+function updateExpBar() {
+    document.getElementById("exp-bar").innerText = `${currentExp} / ${maxExp}`;
+}
+
+function resetBattleState(playerWon) {
+    enemyHealCount = 0; // 重置怪物治疗次数
+    updatePetInfo(); // 更新宠物和敌人宠物的属性
+    if (!playerWon) {
+        // 如果玩家没有获胜，则恢复怪物属性到本轮初始状态
+        restoreEnemyState();
+    }
+    updateUI(); // 更新UI显示
+    clearBattleLog(); // 清除战斗日志
+    logBattleEvent(`新一轮战斗开始！当前是第 ${battleRounds} 轮！`); // 记录新一轮战斗开始的事件
+    // 存储怪物的初始状态
+    storeEnemyInitialState();
+}
+
+function storeEnemyInitialState() {
+    enemyInitialState = { ...enemyPet };
+}
+
+function restoreEnemyState() {
+    enemyPet = { ...enemyInitialState };
+    battleState.enemy = { ...enemyPet };
+}
+
+function clearBattleLog() {
+    const logDiv = document.getElementById("log");
+    if (logDiv) {
+        logDiv.innerHTML = ""; // 清除日志内容
+    } else {
+        console.error("logDiv not found");
+    }
+}
+
+function enemyAttack() {
+    if (!battleState || !battleAttributes || !battleState.enemy) {
+        console.error("战斗状态未初始化");
+        return;
+    }
+
+    if (battleState.enemy.stunned) {
+        logBattleEvent("敌人眩晕，无法行动。");
+        playerTurn = true;
+        return;
+    }
+
+    let damage;
+    let isCritical = false;
+    let critMultiplier = 1;
+    const critChance = battleState.enemy.speed / 100000; // 计算暴击概率
+
+    if (Math.random() < critChance) {
+        isCritical = true;
+        critMultiplier = (Math.random() * (1.1 - 0.9) + 0.9) * 2;
+        logBattleEvent("敌人发动了暴击，造成了双倍伤害！");
+        const logDiv = document.getElementById('log');
+        logDiv.classList.add('critical-hit');
+        setTimeout(() => {
+            logDiv.classList.remove('critical-hit');
+        }, 300);
+    }
+
+    const attackType = Math.random() < 0.5 ? 'physical' : 'magical';
+
+    if (attackType === 'physical') {
+        const defenseFactor = (Math.random() * (1.2 - 0.8) + 0.8);
+        const effectiveDefense = battleAttributes.physicalDefense * defenseFactor / 2;
+        damage = Math.max(0, Math.floor((battleState.enemy.physicalAttack || 0) * critMultiplier - effectiveDefense));
+        battleAttributes.health = Math.max(0, battleAttributes.health - damage);
+        logBattleEvent(`敌人进行了物理攻击，造成了 ${damage} 点伤害。`);
+    } else if (attackType === 'magical' && !battleState.enemy.silenced) {
+        if (battleState.enemy.mana < 50) {
+            logBattleEvent("敌人的法力值不足！");
+            enemyAttack('physical');
+            return;
+        }
+
+        const defenseFactor = (Math.random() * (1.2 - 0.8) + 0.8);
+        const effectiveDefense = battleAttributes.magicDefense * defenseFactor / 2;
+        damage = Math.max(0, Math.floor((battleState.enemy.magicAttack || 0) * critMultiplier - effectiveDefense));
+        battleAttributes.health = Math.max(0, battleAttributes.health - damage);
+
+        const manaCost = Math.floor(Math.random() * (100 - 50 + 1)) + 50; // 随机扣除50到100之间的法力值
+        battleState.enemy.mana = Math.max(0, battleState.enemy.mana - manaCost);
+        logBattleEvent(`敌人进行了法术攻击，造成了 ${damage} 点伤害，消耗了 ${manaCost} 点法力值。`);
+    } else {
+        logBattleEvent("敌人被沉默，无法进行法术攻击。");
+    }
+
+    // 确保 damage 是有效的数值
+    if (isNaN(damage)) {
+        damage = 0;
+    }
+    
+    // 检查反弹状态
+    if (battleState.player.reflecting) {
+        const reflectDamage = Math.floor(damage * (battleState.player.reflectPercentage / 100));
+        battleState.enemy.health = Math.max(0, battleState.enemy.health - reflectDamage);
+        logBattleEvent(`反弹状态触发，反弹了 ${reflectDamage} 点伤害给敌人。`);
+    }
+
+    // 检查仙气护体状态
+    if (battleState.player.divineProtection) {
+        const healAmount = Math.floor(3 * battleAttributes.magicAttack * (Math.random() * (1.2 - 0.8) + 0.8));
+        battleAttributes.health = Math.min(maxHealth, battleAttributes.health + healAmount);
+        logBattleEvent(`仙气护体触发，恢复了 ${healAmount} 点生命值。`);
+    }
+    
+    if (battleAttributes.health <= 0) {
+        logBattleEvent("您已经输掉此次战斗，请再接再厉，点击重新战斗！");
+        showNextBattlePrompt(false);
+    } else {
+        updateUI();
+        playerTurn = true; // 轮到玩家回合
+    }
+}
+
+function enemyHeal() {
+    if (enemyHealCount >= 3) {
+        logBattleEvent("敌人尝试使用治疗术，但被我方打断了！");
+        return;
+    }
+
+    const manaCost = 100;
+    const healAmount = Math.floor(3 * battleState.enemy.magicAttack * (Math.random() * (1.2 - 0.8) + 0.8));
+    battleState.enemy.health = Math.min(enemyMaxHealth, battleState.enemy.health + healAmount);
+    battleState.enemy.mana = Math.max(0, battleState.enemy.mana - manaCost);
+    enemyHealCount += 1; // 增加治疗次数
+
+    logBattleEvent(`敌人治疗了自己，恢复了 ${healAmount} 点生命值，消耗了 ${manaCost} 点法力值。`);
+    playerTurn = true; // 轮到玩家回合
+    showEffect('enemyEffect');
+    updateUI();
+}
+
+function updateEnemyAttributes() {
+    const player = battleAttributes;
+    enemyPet.health = Math.floor(enemyPet.health * 1.05);
+    enemyPet.mana = Math.floor(enemyPet.mana * 1.035);
+    enemyPet.physicalAttack = Math.floor(enemyPet.physicalAttack * 1.055);
+    enemyPet.physicalDefense = Math.floor(enemyPet.physicalDefense * 1.035);
+    enemyPet.magicAttack = Math.floor(enemyPet.magicAttack * 1.045);
+    enemyPet.magicDefense = Math.floor(enemyPet.magicDefense * 1.035);
+    enemyPet.speed = Math.floor(enemyPet.speed * 1.025);
+
+    if (enemyPet.health > player.maxHealth * 1.5) enemyPet.health = Math.floor(player.maxHealth * 1.5);
+    if (enemyPet.mana > player.maxMana * 1.5) enemyPet.mana = Math.floor(player.maxMana * 1.5);
+    if (enemyPet.physicalAttack > player.physicalAttack * 1.5) enemyPet.physicalAttack = Math.floor(player.physicalAttack * 1.5);
+    if (enemyPet.physicalDefense > player.physicalDefense * 1.5) enemyPet.physicalDefense = Math.floor(player.physicalDefense * 1.5);
+    if (enemyPet.magicAttack > player.magicAttack * 1.5) enemyPet.magicAttack = Math.floor(player.magicAttack * 1.5);
+    if (enemyPet.magicDefense > player.magicDefense * 1.5) enemyPet.magicDefense = Math.floor(player.magicDefense * 1.5);
+    if (enemyPet.speed > player.speed * 1.5) enemyPet.speed = Math.floor(player.speed * 1.5);
+
+    battleState.enemy = { ...enemyPet };
+}
+
+// lottery.js
+let lotteryPrizePool = "无上限奖池";
+let lotteryBetCount = 0;
+let lotteryBetAmount = 0;
+let lotterySelectedNumbers = [];
+let lastSelectedNumbers = [];
+let lotteryCountdown = 10;
+let lotteryDrawInterval;
+let canBet = true;
+let pendingPrize = 0;
+
+function toggleLotteryDrawer() {
+    const drawer = document.getElementById('lotteryDrawer');
+    drawer.classList.toggle('open');
+    if (drawer.classList.contains('open')) {
+        startLotteryCountdown();
+    } else {
+        stopLotteryCountdown();
+    }
+}
+document.getElementById('lotteryRuleButton').addEventListener('click', () => {
+    const ruleContent = document.getElementById('ruleContent');
+    ruleContent.innerHTML = `
+        <h2>彩券规则</h2>
+        <p>金子不够花，想要以小博大？</p>
+        <ul>
+            <li>玩家需选择6个数字，其中前5个数字为红球，第6个数字为蓝球。</li>
+            <li>每注200金子，最低投注1注。</li>
+            <li>上次选号区会以红色显示当次中奖的数字。</li>
+            <li>倒计时10秒实时开奖，离开彩券界面会暂停计时。</li>
+            <li>当玩家选择的数字和开奖数字匹配时，即可获得相应奖金。</li>
+            <li>详细中奖规则：</li>
+            <ul>
+                <li>5个红球全中且排列顺序一致：5000000金子</li>
+                <li>5个红球全中：150000金子</li>
+                <li>4个红球且排列顺序一致：1000000金子</li>
+                <li>4个红球全中：50000金子</li>
+                <li>3个红球全中且排列顺序一致：100000金子</li>
+                <li>3个红球全中：5000金子</li>
+                <li>2个红球全中且排列顺序一致：10000金子</li>
+                <li>2个红球全中：500金子</li>
+                <li>只中1个红球：200金子</li>
+            </ul>
+            <li>蓝球规则：</li>
+            <ul>
+                <li>如果蓝球一致且红球中奖，当前奖金翻10倍。</li>
+                <li>如果蓝球一致但红球未中奖，奖金为固定1000金子。</li>
+            </ul>
+            <li>本系统只用于游戏货币道具的随机获取，赌博是违法犯罪的行为，请勿铤而走险！</li>
+        </ul>
+    `;
+    document.getElementById('lotteryRuleModal').style.display = 'block';
+});
+
+document.querySelector('.modal .close').addEventListener('click', () => {
+    document.getElementById('lotteryRuleModal').style.display = 'none';
+});
+
+window.addEventListener('click', (event) => {
+    if (event.target == document.getElementById('lotteryRuleModal')) {
+        document.getElementById('lotteryRuleModal').style.display = 'none';
+    }
+});
+
+function startLotteryCountdown() {
+    lotteryDrawInterval = setInterval(() => {
+        lotteryCountdown--;
+        document.getElementById('lotteryCountdown').textContent = `倒计时: ${lotteryCountdown}s`;
+        if (lotteryCountdown === 0) {
+            performLotteryDraw();
+            lotteryCountdown = 10;
+            canBet = true;
+        }
+    }, 1000);
+}
+
+function stopLotteryCountdown() {
+    clearInterval(lotteryDrawInterval);
+    lotteryCountdown = 10;
+    document.getElementById('lotteryCountdown').textContent = `倒计时: ${lotteryCountdown}s`;
+}
+
+function performLotteryDraw() {
+    const { numbers: winningNumbers, blueBall: winningBlueBall } = generateLotteryWinningNumbers();
+    document.getElementById('lotteryDrawResults').innerHTML = `开奖区: ${winningNumbers.join(', ')} <span style="color: blue;">${winningBlueBall}</span>`;
+    const prize = calculateLotteryPrize(winningNumbers, winningBlueBall);
+    if (prize > 0) {
+        pendingPrize += prize;
+        updateDescriptionBox(`恭喜你彩票中得${prize}金子，请速速领取！`);
+    }
+    highlightMatchingNumbers(winningNumbers, winningBlueBall);
+    clearSelections();
+}
+
+
+function generateLotteryWinningNumbers() {
+    const numbers = [];
+    while (numbers.length < 5) {
+        const num = String(Math.floor(Math.random() * 30) + 1).padStart(2, '0');
+        if (!numbers.includes(num)) {
+            numbers.push(num);
+        }
+    }
+    const blueBall = String(Math.floor(Math.random() * 30) + 1).padStart(2, '0');
+    return { numbers, blueBall };
+}
+
+
+function calculateLotteryPrize(winningNumbers, winningBlueBall) {
+    const prizeTable = {
+        '5:exact': 5000000,
+        '5:any': 500000,
+        '4:exact': 1000000,
+        '4:any': 150000,
+        '3:exact': 100000,
+        '3:any': 5000,
+        '2:exact': 10000,
+        '2:any': 500,
+        '1:any': 200
+    };
+
+
+    const matchDetails = getMatchDetails(winningNumbers, lotterySelectedNumbers.slice(0, 5));
+    const key = `${matchDetails.count}:${matchDetails.type}`;
+    let prize = prizeTable[key] ? prizeTable[key] * lotteryBetCount : 0;
+    
+    const playerBlueBall = lotterySelectedNumbers[5];
+    if (playerBlueBall === winningBlueBall) {
+        if (prize > 0) {
+            prize *= 10;
+        } else {
+            prize += 1000;
+        }
+        // 奖金区数字放大和闪烁效果
+        const resultAmountElement = document.getElementById('lotteryResultAmount');
+        resultAmountElement.classList.add('highlight');
+        setTimeout(() => {
+            resultAmountElement.classList.remove('highlight');
+        }, 1000);
+    }
+    
+    document.getElementById('lotteryResultAmount').innerHTML = prize > 0 ? `结果区: <span style="color: gold; font-weight: bold;">${prize}</span>` : `结果区: ${prize}`;
+    return prize;
+}
+
+
+function getMatchDetails(winningNumbers, selectedNumbers) {
+    const matchedNumbers = selectedNumbers.filter(num => winningNumbers.includes(num));
+    const matchCount = matchedNumbers.length;
+    let matchType = 'any';
+
+    if (matchCount === 5 && arraysEqual(selectedNumbers, winningNumbers)) {
+        matchType = 'exact';
+    } else if (matchCount === 4 && arraysEqual(matchedNumbers, winningNumbers.slice(0, 4))) {
+        matchType = 'exact';
+    } else if (matchCount === 3 && arraysEqual(matchedNumbers, winningNumbers.slice(0, 3))) {
+        matchType = 'exact';
+    } else if (matchCount === 2 && arraysEqual(matchedNumbers, winningNumbers.slice(0, 2))) {
+        matchType = 'exact';
+    }
+
+    return { count: matchCount, type: matchType };
+}
+
+function arraysEqual(arr1, arr2) {
+    if (arr1.length !== arr2.length) return false;
+    for (let i = 0; i < arr1.length; i++) {
+        if (arr1[i] !== arr2[i]) return false;
+    }
+    return true;
+}
+
+function highlightMatchingNumbers(winningNumbers, winningBlueBall) {
+    const lastSelectedElement = document.getElementById('lastSelectedNumbers');
+    lastSelectedElement.innerHTML = '上次选号: ';
+    lastSelectedNumbers.forEach((num, index) => {
+        const span = document.createElement('span');
+        span.textContent = num;
+        if (index === 5) {
+            span.style.color = 'blue'; // 固定蓝色字体
+        }
+        if (winningNumbers.includes(num) || (index === 5 && num === winningBlueBall)) {
+            span.style.fontWeight = 'bold';
+            span.style.color = (index === 5) ? 'blue' : 'red';
+            if (index === 5 && num === winningBlueBall) {
+                // 添加放大和闪烁效果
+                span.classList.add('highlight');
+                setTimeout(() => {
+                    span.classList.remove('highlight');
+                }, 1000);
+            }
+        }
+        lastSelectedElement.appendChild(span);
+        lastSelectedElement.appendChild(document.createTextNode(' '));
+    });
+}
+
+
+
+document.getElementById('lotteryIncreaseBet').addEventListener('click', () => {
+    if (!canBet) {
+        alert('请等待本次开奖！');
+        return;
+    }
+    lotteryBetCount++;
+    lotteryBetAmount += 200;
+    updateLotteryDisplay();
+});
+
+document.getElementById('lotteryIncreaseTenBet').addEventListener('click', () => {
+    if (!canBet) {
+        alert('请等待本次开奖！');
+        return;
+    }
+    lotteryBetCount += 10; // 使用正确的语法增加10注
+    lotteryBetAmount += 2000; // 对应增加2000
+    updateLotteryDisplay();
+});
+
+document.getElementById('lotteryDecreaseBet').addEventListener('click', () => {
+    if (!canBet) {
+        alert('请等待本次开奖！');
+        return;
+    }
+    if (lotteryBetCount > 1) {
+        lotteryBetCount--;
+        lotteryBetAmount -= 200;
+        updateLotteryDisplay();
+    }
+});
+
+document.getElementById('lotteryBetButton').addEventListener('click', () => {
+    if (!canBet) {
+        alert('请等待当前开奖结束');
+        return;
+    }
+    if (lotterySelectedNumbers.length === 6) {
+        if (lotteryBetCount === 0) {
+            alert('请加注后点击投注按钮进行投注！');
+            return;
+        }
+        if (goldAmount >= lotteryBetAmount) {
+            goldAmount -= lotteryBetAmount;
+            lastSelectedNumbers = [...lotterySelectedNumbers];
+            document.getElementById("gold-amount").innerText = goldAmount;
+            canBet = false; // Disable further bets until next draw
+
+            // 修改这里使得第六个数字显示为蓝色
+            document.getElementById('lastSelectedNumbers').innerHTML = `已选: ${lastSelectedNumbers.slice(0, 5).join(', ')} <span style="color: blue;">${lastSelectedNumbers[5]}</span>`;
+            
+            updateLotteryDisplay();
+        } else {
+            alert('余额不足');
+        }
+    } else {
+        alert('请选择6个数字');
+    }
+});
+
+
+document.getElementById('lotteryClaimPrize').addEventListener('click', () => {
+    goldAmount += pendingPrize;
+    document.getElementById("gold-amount").innerText = goldAmount;
+    pendingPrize = 0;
+    document.getElementById('lotteryResultAmount').innerHTML = '奖金区: 0';
+    updateLotteryDisplay();
+});
+
+function updateLotteryDisplay() {
+    document.getElementById('lotteryPrizePool').textContent = `奖金池: ${lotteryPrizePool}`;
+    document.getElementById('lotteryBetCount').textContent = `投注数: ${lotteryBetCount}`;
+    document.getElementById('lotteryBetAmount').textContent = `投注金: ${lotteryBetAmount}`;
+    document.getElementById('lotteryResultAmount').innerHTML = pendingPrize > 0 ? `奖金区: <span style="color: gold; font-weight: bold;">${pendingPrize}</span>` : '奖金区: 0';
+}
+
+function clearSelections() {
+    lotterySelectedNumbers = [];
+    lotteryBetCount = 0;
+    lotteryBetAmount = 0;
+    document.getElementById('lotterySelectedNumbers').textContent = '已选: ';
+    updateLotteryDisplay();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const numberButtons = document.getElementById('lotteryNumberButtons');
+    for (let i = 1; i <= 30; i++) {
+        const button = document.createElement('button');
+        button.textContent = String(i).padStart(2, '0');
+        button.addEventListener('click', () => {
+            if (lotterySelectedNumbers.length < 5 && !lotterySelectedNumbers.includes(button.textContent)) {
+                lotterySelectedNumbers.push(button.textContent);
+                document.getElementById('lotterySelectedNumbers').textContent = `已选: ${lotterySelectedNumbers.join(', ')}`;
+            } else if (lotterySelectedNumbers.length === 5 && !lotterySelectedNumbers.includes(button.textContent)) {
+                lotterySelectedNumbers.push(button.textContent);
+                document.getElementById('lotterySelectedNumbers').innerHTML = `已选: ${lotterySelectedNumbers.slice(0, 5).join(', ')} <span style="color: blue;">${button.textContent}</span>`;
+            }
+        });
+        numberButtons.appendChild(button);
+    }
+    
+    document.getElementById('lotteryAutoSelect').addEventListener('click', () => {
+        autoSelectNumbers();
+    });
+});
+
+    
+const autoSelectButton = document.createElement('button');
+autoSelectButton.textContent = '系统选号';
+autoSelectButton.addEventListener('click', () => {
+    if (!canBet) {
+        alert('本轮您已经选号，请等待开奖！');
+        return;
+    }
+    lotterySelectedNumbers = [];
+    while (lotterySelectedNumbers.length < 5) {
+        const num = String(Math.floor(Math.random() * 30) + 1).padStart(2, '0');
+        if (!lotterySelectedNumbers.includes(num)) {
+            lotterySelectedNumbers.push(num);
+        }
+    }
+    const blueBall = String(Math.floor(Math.random() * 30) + 1).padStart(2, '0');
+    lotterySelectedNumbers.push(blueBall);
+    document.getElementById('lotterySelectedNumbers').innerHTML = `已选: ${lotterySelectedNumbers.slice(0, 5).join(', ')} <span style="color: blue;">${blueBall}</span>`;
+});
+document.querySelector('.lottery-footer').appendChild(autoSelectButton);
+
+
+
+function updateDescriptionBox(message) {
+    const descriptionBox = document.getElementById("description-box");
+    descriptionBox.innerText = message;
+}
+
+        
 function showGuide() {
     const messageBox = document.createElement('div');
     messageBox.style = `
-        width: 350px; 
-        height: 500px; 
-        padding: 20px; 
+        width: 90%; 
+        height: 65%; 
+        padding: 10px; 
         background: white; 
         border: 1px solid black; 
+        border-radius:10px;
         position: fixed; 
         top: 50%; 
         left: 50%; 
         transform: translate(-50%, -50%); 
         z-index: 1000;
         overflow: auto; 
-        font-size: 16px;
+        font-size: 14px;
     `;
     messageBox.innerHTML =  `<button onclick="document.body.removeChild(this.parentNode)">关闭引导</button>
-                            <p>欢迎大侠试玩养宠模拟器！当前是V6.0</p>
-                            <p>- 1. 调整了部分按钮位置和配色</p>
-                            <p>- 2. 修复了使用快捷还童和一键提升悟性的道具消耗显示问题；</p>
-                            <p>- 3. 修复了商店的部分bug；</p>
-                            <p>- 4. 修复了悟性对二级属性的影响错误bug；</p>
-                            <p>- 5. 修复了其他显示问题；</p>
-                            <p>- 6. 新增宠物觉醒和幻化系统（调试中，功能尚不完全）；</p>
-                            <p>- 7. 新增部分新道具；</p>
-                            <p>- 8. 优化宠物金子培养的计数，玩家可以更有针对性地进行分配培养次数了；</p>
-                            <p>- 9. 新增场景系统，玩法会陆续上线；</p>
-                            <p>- 10. 优化部分道具排列；</p>
+                            <p>欢迎大侠试玩养宠模拟器！当前是V9.1</p>
+                            <p>- 新增战斗精灵系统和相关道具，战斗精灵会给玩家提供战斗时的属性加成，觉醒后功能会完全开放；</p>
+                            <p>- 新增战斗系统，目前处于初期框架测试阶段，功能尚不完全，请谨慎游玩；</p>
+                            <p>- 新增彩券系统，拓展金子获取渠道；</p>
+                            <p>- 新增加载页面；</p>
+                            <p>- 优化部分函数逻辑；</p>
+                            <p>- 优化部分显示效果；</p>
                             <p>如果大侠未接触过某网页游戏的宠物养成系统，您可能需要花费几分钟时间来阅读这些引导。</p>
                             <p>养宠模拟器可以让大侠通过各种操作，如还童、洗练、变异等，来让您的宠物变得更强。</p>
                             <p>❗️❗️❗️重要提示：大侠可以通过页面下拉栏选择不同宠物进行培养。但请注意，一旦切换其他宠物，系统将丢失此前宠物的所有信息。如果你没有想好优先培养哪只宠物，请先不要进行任何操作！</p>
@@ -1394,9 +3484,21 @@ let skillScore = 0;
 let petWisdom = 0; 
         
 const descriptions = [
-    "请特别注意，更换宠物会导致此前的分数全部作废，如果你没有想好先培养谁，请决定后再尝试！",
+    "请特别注意，更换宠物会导致此前的分数复位，如果你没有想好先培养谁，请决定后再尝试！",
+    "宠物的资质可以用“资质重生丹”洗练到更高的程度",
+    "本游戏尽量还原养宠机制，但概率和具体玩法会有所不同，请勿视为参考",
+    "二级属性会随着悟性的提高得到百分比的增长",
+    "合理的分配金子培养机会可以让你的宠物评分得到最大化！",
+    "5爆400？极品宠物需要更多的耐心和更专业的培养方式，当然，对金子的消耗也会更大",
+    "宠物的S技能和SS技能属于稀缺技能，很难通过洗练得来，商店直接购买或许是更好的方式",
+    "宠物的成长上限会因为是否觉醒和是否飞升出现较大差异",
+    "为了避免双击页面放大，页面内对双击速度作出了限制",
+    "品质越高、成长率越高的宠物，资质所折算的属性就会越高，总体能力就会更强",
+    "宠物变异时，资质会得到明显的提升，甚至超出原有的资质上限！",
+    "目前共有三种还童丹，每种还童丹的功能各不同，详情可见“玩法”说明",
+    "稀有道具只能通过宝箱开启获得。开启宝箱时，有概率同时出现1~3个奖品",
     "宠物评分由多个维度组成，请你同时兼顾技能质量、资质水平和宠物等级！",
-    "如果你需要删除某个技能，你可以长按该技能确认删除。（如果是PC端，你需要右键确认）"
+    "如果你需要删除某个技能，你可以长按该技能确认删除（如果是PC端，你需要右键确认）"
 ];        
 
 function updateDescriptionBox() {
@@ -1437,11 +3539,11 @@ function evolvePet() {
     } else if (evolutionLevel < 25) {
         requiredItem = evolutionItems[19];
         successRate = 0.5;
-        increaseValue = 200;
+        increaseValue = 240;
     } else if (evolutionLevel < 30) {
         requiredItem = evolutionItems[25];
         successRate = 0.8;
-        increaseValue = 100;
+        increaseValue = 160;
     } else {
         // 如果进化等级达到上限，提示用户并退出函数。
         alert("您的宠物已达进化等级上限！");
@@ -1462,6 +3564,7 @@ function evolvePet() {
             increaseRandomQuality(increaseValue);
         }
 
+        remainingPoints += 5; // 增加5个剩余点数
         // 减少用户的所需道具数量。
         item.quantity--;
         // 增加进化等级。
@@ -1472,6 +3575,7 @@ function evolvePet() {
         document.getElementById("evolution-level").innerText = evolutionLevel;
         // 更新资质卡片和技能分数的显示。
         updateQualityCard();
+        updateRemainingPointsDisplay();
         updateSkillScore();
     } else {
         // 如果进化失败，减少用户的所需道具数量，并提示用户进化失败。
@@ -1538,6 +3642,29 @@ function useSupremeWisdomPill() {
     }
 }
 
+// Function to increase the pet's level with level cap adjustment
+function increasePetLevel(levels) {
+    if (petLevel >= petMaxLevel) {
+        alert("宠物等级已达上限，无法继续升级！");
+        console.log("Level Up Error: Max level reached.");
+        return;
+    }
+
+    const oldLevel = petLevel;
+    petLevel += levels;
+    if (petLevel > petMaxLevel) petLevel = petMaxLevel; // 确保等级不超过上限
+
+    const actualLevelsIncreased = petLevel - oldLevel;
+    remainingPoints += actualLevelsIncreased * 2; // 每提升1级增加2个可分配点数
+
+    updatePetLevel();
+    updateAttributePanel();
+    updateRemainingPointsDisplay();
+
+    console.log(`Pet Level Increased: Pet Level = ${petLevel}, Remaining Points = ${remainingPoints}`);
+}
+        
+// Function to handle normal experience absorption
 function absorbExperience() {
     const item = jinnangItems.find(i => i.name === 'normalExperienceBook');
     if (item.quantity <= 0) {
@@ -1548,12 +3675,14 @@ function absorbExperience() {
         alert("宠物等级已达上限，无法继续升级！");
         return;
     }
+    if (petAscended && petLevel >= 180) {
+        alert("强者只有经过战场的淬炼才会得到更惊人的成长");
+        return;
+    }
     item.quantity--;
-    petLevel++;
     updateJinnangItems();
-    updatePetLevel();
+    increasePetLevel(1);
 }
-
 
 function absorbAdvancedExperience() {
     const item = jinnangItems.find(i => i.name === 'advancedExperienceBook');
@@ -1565,11 +3694,13 @@ function absorbAdvancedExperience() {
         alert("宠物等级已达上限，无法继续升级！");
         return;
     }
+    if (petAscended && petLevel >= 180) {
+        alert("强者只有经过战场的淬炼才会得到更惊人的成长");
+        return;
+    }
     item.quantity--;
-    petLevel += 3;
-    if (petLevel > petMaxLevel) petLevel = petMaxLevel; // 确保等级不超过上限
     updateJinnangItems();
-    updatePetLevel();
+    increasePetLevel(3);
 }
 
 let petLevel = 1;
@@ -1599,10 +3730,10 @@ function ascend() {
     updateJinnangItems();
 
     // Update pet's max level and ascension status
-    petMaxLevel = 180;
+    petMaxLevel = 200;
     petAscended = true;
 
-    alert("恭喜大侠的爱宠飞升成功！");
+    alert("恭喜大侠的爱宠飞升成功！等级上限开放至200级。");
 }
 
 function updatePetLevel() {
@@ -1610,7 +3741,8 @@ function updatePetLevel() {
 }
 
 let selectedTreasure = null;
-let rewards = [];
+let rewards = []; // 定义全局变量来存储奖品
+let experienceTreasureOpenCount = 0; // 定义经验宝箱打开次数的全局变量
 
 function toggleTreasureDrawer() {
     const drawer = document.getElementById('treasure-drawer');
@@ -1621,20 +3753,29 @@ function toggleTreasureDrawer() {
 
 function selectTreasure(type) {
     selectedTreasure = type;
+    updateTreasureDescription(type);
+}
+
+function updateTreasureDescription(type) {
     let description;
-    switch (type) {
-        case '经验宝箱':
-            description = "充满智慧的宝箱，每次开启花费50金子，您可能获得普通经验书和高级经验书，甚至还能获得法宝飞升之石！";
-            break;
-        case '资质宝箱':
-            description = "充满奇异道具的宝箱，每次开启花费150金子，您可能获得神兽还童丹、还童金丹和资质重生丹，甚至还能获得稀有道具灵异金丹！";
-            break;
-        case '灵魂宝箱':
-            description = "神秘莫测的宝箱，每次开启花费300金子，您可能获得宠物进化所需的各种灵魂！";
-            break;
-        case '至尊宝箱':
-            description = "价值连城的宝箱，每次开启花费1000金子，您可能获得举世无双悟性丹，飞升之石等超稀有道具，甚至还有神秘觉醒法宝等你来拿！";
-            break;
+    if (type === '经验宝箱') {
+        const cost = getTreasureCost('经验宝箱');
+        description = `充满智慧的宝箱，本次开启将花费${cost}金子。有概率获得宠物升级的经验书和飞升之石。`;
+    } else {
+        switch (type) {
+            case '奇馈宝箱':
+                description = "充满奇异道具的宝箱，每次开启花费150金子，您可能获得神兽还童丹、还童金丹和资质重生丹，甚至还能获得培养战斗精灵的稀有道具！";
+                break;
+            case '灵魂宝箱':
+                description = "神秘莫测的宝箱，每次开启花费300金子，您可能获得宠物进化所需的各种灵魂！";
+                break;
+            case '武神宝箱':
+                description = "上古武神的战利品，每次开启花费800金子，您可能获得提升战斗能力的各种法宝！";
+                break;
+            case '至尊宝箱':
+                description = "价值连城的宝箱，每次开启花费1000金子，您可能获得举世无双悟性丹，飞升之石等超稀有道具，甚至还有神秘进化法宝等你来拿！";
+                break;
+        }
     }
     document.getElementById('treasure-description').innerText = description;
 }
@@ -1644,7 +3785,9 @@ function openTreasure() {
         alert("请先选择一个宝箱！");
         return;
     }
-    if (goldAmount < getTreasureCost(selectedTreasure)) {
+
+    const cost = getTreasureCost(selectedTreasure);
+    if (goldAmount < cost) {
         alert("金子不足！");
         return;
     }
@@ -1652,7 +3795,11 @@ function openTreasure() {
     // 自动收集上次未取出的奖品
     collectTreasure();
 
-    goldAmount -= getTreasureCost(selectedTreasure);
+    if (selectedTreasure === '经验宝箱') {
+        experienceTreasureOpenCount++; // 增加经验宝箱开启次数
+    }
+
+    goldAmount -= cost;
     document.getElementById("gold-amount").innerText = goldAmount;
 
     // 根据概率随机生成 1~3 个奖品
@@ -1722,6 +3869,18 @@ function collectTreasure() {
             case '凝魄石':
                 addItemToJinnang('coagulateStone');
                 break;
+            case '精灵精炼石':
+                addItemToJinnang('spiritRefreshStone');
+                break;
+            case '精灵觉醒石':
+                addItemToJinnang('spiritAwakenStone');
+                break;
+            case '心鉴之石':
+                addItemToJinnang('heartStone');
+                break;
+            case '天地灵气':
+                addItemToJinnang('earthlyEnergy');
+                break;
             default:
                 addItemToTopBar(reward);
                 break;
@@ -1731,16 +3890,34 @@ function collectTreasure() {
     // 清空奖品
     rewards = [];
     document.getElementById('treasure-reward').innerHTML = "";
+    // 更新经验宝箱描述
+    if (selectedTreasure === '经验宝箱') {
+        updateTreasureDescription('经验宝箱');
+    }
 }
 
 function getTreasureCost(type) {
+    if (type === '经验宝箱') {
+        if (experienceTreasureOpenCount < 20) {
+            return 100;
+        } else if (experienceTreasureOpenCount < 40) {
+            return 200 + (experienceTreasureOpenCount * 5);
+        } else if (experienceTreasureOpenCount < 60) {
+            return 400 + (experienceTreasureOpenCount * 10);
+        } else if (experienceTreasureOpenCount < 80) {
+            return 800 + (experienceTreasureOpenCount * 15);
+        } else {
+            return 2400;
+        }
+    }
+
     switch (type) {
-        case '经验宝箱':
-            return 50;
-        case '资质宝箱':
+        case '奇馈宝箱':
             return 150;
         case '灵魂宝箱':
             return 300;
+        case '武神宝箱':
+            return 800;
         case '至尊宝箱':
             return 1000;
     }
@@ -1753,17 +3930,23 @@ function getRandomReward(type) {
             { name: '高级经验书', url: 'https://pic.imgdb.cn/item/6656e734d9c307b7e9088e7b.png', chance: 19.95 },
             { name: '飞升之石', url: 'https://pic.imgdb.cn/item/6656e734d9c307b7e9088e6d.png', chance: 0.05 }
         ],
-        '资质宝箱': [
-            { name: '神兽还童丹', url: 'https://pic.imgdb.cn/item/6654a944d9c307b7e9ca6423.png', chance: 33.3 },
-            { name: '还童金丹', url: 'https://pic.imgdb.cn/item/6655a92ad9c307b7e9c04265.png', chance: 33.3 },
-            { name: '资质重生丹', url: 'https://pic.imgdb.cn/item/6654a944d9c307b7e9ca63f5.png', chance: 33.3 },
-            { name: '灵异金丹', url: 'https://pic.imgdb.cn/item/66556068d9c307b7e9681672.png', chance: 0.1 }
+        '奇馈宝箱': [
+            { name: '神兽还童丹', url: 'https://pic.imgdb.cn/item/6654a944d9c307b7e9ca6423.png', chance: 19 },
+            { name: '还童金丹', url: 'https://pic.imgdb.cn/item/6655a92ad9c307b7e9c04265.png', chance: 19 },
+            { name: '精灵精炼石', url: 'https://pic.imgdb.cn/item/6669666cd9c307b7e991c04a.png', chance: 19 },
+            { name: '精灵觉醒石', url: 'https://pic.imgdb.cn/item/6669666cd9c307b7e991bf78.png', chance: 19 },
+            { name: '资质重生丹', url: 'https://pic.imgdb.cn/item/6654a944d9c307b7e9ca63f5.png', chance: 19 },
+            { name: '灵异金丹', url: 'https://pic.imgdb.cn/item/66556068d9c307b7e9681672.png', chance: 5 }
         ],
         '灵魂宝箱': [
             { name: '颤抖之灵', url: 'https://pic.imgdb.cn/item/6656e821d9c307b7e90988b2.png', chance: 30 },
             { name: '发光之灵', url: 'https://pic.imgdb.cn/item/6656e81dd9c307b7e909844a.png', chance: 30 },
             { name: '活跃之灵', url: 'https://pic.imgdb.cn/item/6656e81dd9c307b7e90984b7.png', chance: 30 },
             { name: '跳动之灵', url: 'https://pic.imgdb.cn/item/6656e81dd9c307b7e909843e.png', chance: 10 }
+        ],
+        '武神宝箱': [
+            { name: '心鉴之石', url: 'https://pic.imgdb.cn/item/666ab20bd9c307b7e9630192.png', chance: 50 },
+            { name: '天地灵气', url: 'https://pic.imgdb.cn/item/666ab20bd9c307b7e96301f6.png', chance: 50 }
         ],
         '至尊宝箱': [
             { name: '飞升之石', url: 'https://pic.imgdb.cn/item/6656e734d9c307b7e9088e6d.png', chance: 10 },
@@ -1799,6 +3982,10 @@ let jinnangItems = [
     { name: 'seperateStone', displayName: '离魂石', url: 'https://pic.imgdb.cn/item/665ef5a15e6d1bfa056099a3.png', quantity: 0 },
     { name: 'ascensionStone', displayName: '飞升之石', url: 'https://pic.imgdb.cn/item/6656e734d9c307b7e9088e6d.png', quantity: 0 },
     { name: 'supremeWisdomPill', displayName: '举世无双悟性丹', url: 'https://pic.imgdb.cn/item/665ef0845e6d1bfa055800c7.png', quantity: 0 },
+    { name: 'spiritRefreshStone', displayName: '精灵精炼石', url: 'https://pic.imgdb.cn/item/6669666cd9c307b7e991c04a.png', quantity: 0 },
+    { name: 'spiritAwakenStone', displayName: '精灵觉醒石', url: 'https://pic.imgdb.cn/item/6669666cd9c307b7e991bf78.png', quantity: 0 },
+    { name: 'heartStone', displayName: '心鉴之石', url: 'https://pic.imgdb.cn/item/666ab20bd9c307b7e9630192.png', quantity: 0 },
+    { name: 'earthlyEnergy', displayName: '天地灵气', url: 'https://pic.imgdb.cn/item/666ab20bd9c307b7e96301f6.png', quantity: 0 },
     { name: 'radiantSoul', displayName: '闪耀之灵', url: 'https://pic.imgdb.cn/item/6656e81dd9c307b7e9098478.png', quantity: 0 },
     { name: 'shakingSoul', displayName: '颤抖之灵', url: 'https://pic.imgdb.cn/item/6656e821d9c307b7e90988b2.png', quantity: 0 },
     { name: 'glowingSoul', displayName: '发光之灵', url: 'https://pic.imgdb.cn/item/6656e81dd9c307b7e909844a.png', quantity: 0 },
@@ -1819,9 +4006,12 @@ function addItemToJinnang(itemName) {
     const item = jinnangItems.find(i => i.name === itemName);
     if (item) {
         item.quantity++;
-        updateJinnangItems(); // 更新锦囊内的道具数量显示
+    } else {
+        jinnangItems.push({ name: itemName, quantity: 1 });
     }
+    updateJinnangItems(); // 更新锦囊内的道具数量显示
 }
+
 
 // 更新锦囊内道具数量
 function updateJinnangItems() {
@@ -1883,6 +4073,7 @@ function toggleAttributeDrawer() {
     drawer.classList.toggle('open');
     info.classList.toggle('open');
     updateAttributePanel();
+    updatePetInfo(); // 确保更新属性后设置 attributesFetched
 }
         
 function calculateSecondaryAttributes(currentAttributes, currentWisdom) {
@@ -1976,12 +4167,17 @@ function trainAttributes() {
     // 获取当前培养的属性提升倍数
     const multiplier = trainingMultipliers[trainingCount];
 
-    // 提升currentPet中的qualities值
-    currentPet.qualities.endurance.current *= multiplier;
-    currentPet.qualities.intelligence.current *= multiplier;
-    currentPet.qualities.strength.current *= multiplier;
-    currentPet.qualities.agility.current *= multiplier;
-    currentPet.qualities.faith.current *= multiplier;
+    // 获取当前属性值
+    const currentAttributes = calculateCurrentAttributes();
+
+    // 提升bonusAttributes中的值
+    bonusAttributes.endurance += Math.floor(currentAttributes.endurance * (multiplier - 1));
+    bonusAttributes.intelligence += Math.floor(currentAttributes.intelligence * (multiplier - 1));
+    bonusAttributes.strength += Math.floor(currentAttributes.strength * (multiplier - 1));
+    bonusAttributes.agility += Math.floor(currentAttributes.agility * (multiplier - 1));
+    bonusAttributes.faith += Math.floor(currentAttributes.faith * (multiplier - 1));
+
+    console.log("Updated Bonus Attributes:", bonusAttributes);
 
     // 增加金子培养次数
     trainingCount++;
@@ -1989,6 +4185,7 @@ function trainAttributes() {
     // 更新属性面板
     updateAttributePanel();
 }
+
 
 function updatePetLevel() {
     document.getElementById('pet-level').innerText = petLevel;
@@ -2008,11 +4205,11 @@ function showBiography() {
     const skillScore = parseInt(document.getElementById("skill-score").innerText, 10);
 
     let message;
-    if (skillScore < 20000) {
-        message = "您的宠物评分过低，请提升到20000后再试！（宠物传记共有3段，当评分到达20000、600000、1200000会各自解锁）";
-    } else if (skillScore < 600000) {
+    if (skillScore < 200000) {
+        message = "您的宠物评分过低，请提升到200000后再试！（宠物传记共有3段，当评分到达200000、1000000、3000000时会各自解锁）";
+    } else if (skillScore < 1000000) {
         message = biography[0];
-    } else if (skillScore < 1200000) {
+    } else if (skillScore < 3000000) {
         message = biography[0] + "<br>" + biography[1];
     } else {
         message = biography[0] + "<br>" + biography[1] + "<br>" + biography[2];
@@ -2020,18 +4217,20 @@ function showBiography() {
 
     const messageBox = document.createElement('div');
     messageBox.style = `
-        width: 350px; 
-        height: 500px; 
-        padding: 20px; 
-        background: white; 
-        border: 1px solid black; 
-        position: fixed; 
-        top: 50%; 
-        left: 50%; 
-        transform: translate(-50%, -50%); 
+        width: 90%;
+        height: 70%;
+        padding: 5px;
+        background: rgb(255 255 255 / 95%);
+        border: 1px solid black;
+        position: fixed;
+        border-radius: 10px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
         z-index: 1000;
-        overflow: auto; 
-        font-size: 16px;
+        overflow: auto;
+        font-size: 14px;
+        line-height: 25px;
     `;
     messageBox.innerHTML = `<p>${message}</p>
                             <button onclick="document.body.removeChild(this.parentNode)">关闭</button>`;
@@ -2090,7 +4289,7 @@ function useGoldenRebornPill() {
     updateSkillScore();
 }
  
-let goldAmount = 20000; // 初始金子数量
+let goldAmount = 50000; // 初始金子数量
 document.getElementById("gold-amount").innerText = goldAmount;
 
 function toggleShop() {
@@ -2165,7 +4364,7 @@ function refreshShop(auto = false) {
         } else {
             item = getRandomCommonItem();
             if (item.name.includes('包裹')) {
-                if (commonBundleCount >= 2) {
+                if (commonBundleCount >= 3) {
                     i--; // 重试生成
                     continue;
                 } else {
@@ -2197,6 +4396,8 @@ function getRandomCommonItem() {
         { name: '还童金丹', url: 'https://pic.imgdb.cn/item/6655a92ad9c307b7e9c04265.png', price: getRandomInt(60, 220) },
         { name: '冰魄还童丹', url: 'https://pic.imgdb.cn/item/665ef0855e6d1bfa055800f4.png', price: getRandomInt(99, 299) },
         { name: '资质重生丹', url: 'https://pic.imgdb.cn/item/6654a944d9c307b7e9ca63f5.png', price: getRandomInt(88, 288) },
+        { name: '精灵精炼石', url: 'https://pic.imgdb.cn/item/6669666cd9c307b7e991c04a.png', price: getRandomInt(188, 388) },
+        { name: '精灵觉醒石', url: 'https://pic.imgdb.cn/item/6669666cd9c307b7e991bf78.png', price: getRandomInt(388, 688) },
         { name: '特级悟性丹', url: 'https://pic.imgdb.cn/item/665de3fd5e6d1bfa05564912.png', price: getRandomInt(388, 788) }
     ];
 
@@ -2322,6 +4523,16 @@ function buyItem() {
                     addItemToJinnang('tejiWisdomPill');
                 }
                 break;
+            case '精灵精炼石':
+                for (let i = 0; i < itemQuantity; i++) {
+                    addItemToJinnang('spiritRefreshStone');
+                }
+                break;
+            case '精灵觉醒石':
+                for (let i = 0; i < itemQuantity; i++) {
+                    addItemToJinnang('spiritAwakenStone');
+                }
+                break;
             case '还童金丹':
                 goldenRebornPill += itemQuantity;
                 break;
@@ -2392,6 +4603,12 @@ function buyItem() {
                 case '特级悟性丹':
                     addItemToJinnang('tejiWisdomPill'); // 更新锦囊
                     break;
+                case '精灵精炼石':
+                    addItemToJinnang('spiritRefreshStone'); // 更新锦囊
+                    break;
+                case '精灵觉醒石':
+                    addItemToJinnang('spiritAwakenStone'); // 更新锦囊
+                    break;
                 case '还童金丹':
                     goldenRebornPill++;
                     break;
@@ -2424,10 +4641,10 @@ function sellPet() {
     }
 
     // 计算出售价格
-    const sellPrice = Math.floor(skillScore / 50); // 出售价格为技能分数除以50的整数部分
+    const sellPrice = Math.floor(skillScore / 25); // 出售价格为技能分数除以25的整数部分
 
     // 确认出售
-    if (confirm(`当前仅支持出售您的宠物，当您出售宠物后，您的宠物数值将复位。宠物价格与其评分有关，目前您的宠物价值${sellPrice}金子，请问是否出售？`)) {
+    if (confirm(`当您出售宠物后，您的宠物数值将复位。宠物价格与其评分有关，目前您的宠物价值${sellPrice}金子，请问是否出售？`)) {
         goldAmount += sellPrice; // 增加用户的金子数量
         document.getElementById("gold-amount").innerText = goldAmount; // 更新显示的金子数量
         updateQualityCard(); // 更新资质卡片
@@ -2471,6 +4688,7 @@ function resetPet() {
     // 初始化等级和其他基础属性
     petLevel = 1;
     evolutionLevel = 0;
+    growthRate = 1;
     remainingPoints = 0;
     trainingCount = 0;
     currentWisdom = 0;
@@ -2479,7 +4697,22 @@ function resetPet() {
     petWisdom = currentWisdom;
     awakened = false;
     hallucinated = false;
+    hallucinationLevel = 0;
+    experienceTreasureOpenCount = 0;
+    battleRounds = 0; // 记录玩家胜利的轮次
+    currentExp = 0; // 当前经验值
+    maxExp = 208; // 经验值上限
+    spiritLevel = 1;
+    spiritMultiplier = 1.00;
+    bonusAttributes = {
+    endurance: 0,
+    intelligence: 0,
+    strength: 0,
+    agility: 0,
+    faith: 0
+    };
     document.body.style.backgroundImage = "";
+
 
     // 重置基础属性为初始值，调用calculateAttribute
     baseAttributes = {
@@ -2525,6 +4758,7 @@ function resetPet() {
     updateQualityCard();
     updateAttributePanel();
     updateTopBarItems();
+    initializeEnemyPet();
 }
 
 function setInnerText(id, value) {
@@ -2620,7 +4854,6 @@ function upgradeWisdom() {
 
 
 function trainSkills() {
-    if (!checkDrawerOpen()) return;
     if (transmutationPill < 1) {
         alert("您的道具不够，请刷新后重试！");
         return;
@@ -2632,16 +4865,16 @@ function trainSkills() {
     document.getElementById("train-count").innerText = trainCount;
 
     let skillNum;
-    if (currentWisdom < 7) {
+    if (currentWisdom < 13) {
         skillNum = Math.min(getRandomSkillNum([0.80, 0.05, 0.05, 0.02, 0.02, 0.02]), 5);
-    } else if (currentWisdom < 13) {
-        skillNum = Math.min(getRandomSkillNum([0.80, 0.05, 0.05, 0.02, 0.02, 0.02]), 6);
     } else if (currentWisdom < 17) {
+        skillNum = Math.min(getRandomSkillNum([0.80, 0.05, 0.05, 0.02, 0.02, 0.02]), 6);
+    } else if (currentWisdom < 19) {
         skillNum = Math.min(getRandomSkillNum([0.80, 0.05, 0.05, 0.02, 0.02, 0.02]), 7);
     } else if (currentWisdom < 20) {
         skillNum = Math.min(getRandomSkillNum([0.80, 0.05, 0.05, 0.02, 0.02, 0.02]), 8);
     } else {
-        skillNum = Math.max(3, getRandomSkillNum([0.80, 0.05, 0.05, 0.02, 0.02, 0.02, 0.01, 0.01, 0.008, 0.002]));
+        skillNum = Math.max(5, getRandomSkillNum([0.80, 0.05, 0.05, 0.02, 0.02, 0.02, 0.01, 0.01, 0.008, 0.002]));
     }
 
     const selectedSkills = [];
@@ -2721,12 +4954,12 @@ function updateSkillsArea(selectedSkills) {
 
 function deleteSkill(skill, skillDiv, skillsArea) {
     const messageBox = document.createElement('div');
-    messageBox.style = "padding: 20px; background: white; border: 1px solid black; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1000;";
+    messageBox.style = "padding: 5px; font-size: 14px; border-radius: 10px; background: rgb(255 255 255 / 90%); border: 1px solid black; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1000;";
     messageBox.innerHTML = `
-        <p>技能描述：${skill.description}</p>
+        <p>描述：${skill.description}</p>
         <p>是否删除？</p>
         <button id="confirm-delete">删除</button>
-        <button id="cancel-delete">取消</button>
+        <button onclick="document.body.removeChild(this.parentNode)">取消</button>
     `;
 
     document.body.appendChild(messageBox);
@@ -2743,9 +4976,6 @@ function deleteSkill(skill, skillDiv, skillsArea) {
         updateSkillScore(remainingSkills);
     };
 
-    document.getElementById("cancel-delete").onclick = () => {
-        document.body.removeChild(messageBox);
-    };
 }
 
 function updateSkillScore(selectedSkills = []) {
@@ -2778,7 +5008,7 @@ function updateSkillScore(selectedSkills = []) {
     const magicDefense = parseInt(document.getElementById("secondary-magic-defense").innerText);
     const speed = parseInt(document.getElementById("secondary-speed").innerText);
 
-    const secondaryAttributeScore = health + mana + physicalAttack + physicalDefense + magicAttack + magicDefense + speed;
+    const secondaryAttributeScore = (health + mana + physicalAttack + physicalDefense + magicAttack + magicDefense + speed) * 2;
 
     // 计算技能评分
     let skillScore = 0;
@@ -2821,10 +5051,10 @@ function updateSkillScore(selectedSkills = []) {
 }
 
 function upgradeWisdomTo() {
-    const target = prompt("你期待将宠物悟性提升至__ (请输入1-20之间的整数):");
+    const target = prompt(`你期待将宠物悟性提升至__ (请输入1-${awakened ? 25 : 20}之间的整数。当宠物觉醒后，你可以使用该功能尝试将宠物悟性一键提升至最高25。):`);
     if (target === null) return;
 
-    if (target === "111") {
+    if (target === "11111") {
         transmutationPill += 999;
         rebornPill += 999;
         bingpoRebornPill += 999;
@@ -2852,6 +5082,10 @@ function upgradeWisdomTo() {
             'seperateStone', // 离魂石
             'tejiWisdomPill',
             'radiantSoul',
+            'spiritRefreshStone',
+            'spiritAwakenStone',
+            'heartStone', //心鉴之石
+            'earthlyEnergy', //天地灵气
             'shakingSoul',
             'glowingSoul',
             'activeSoul',
@@ -2865,57 +5099,92 @@ function upgradeWisdomTo() {
         }
     
         updateJinnangItems();
-        document.getElementById("description-box").innerText = "您获得了万能锦囊！";
+        document.getElementById("description-box").innerText = "您获得了超绝白金VIP礼包！";
+        return;
+    }
+
+    if (target === "88888") {
+        goldAmount += 999999;
+        document.getElementById("gold-amount").innerText = goldAmount;
+        document.getElementById("description-box").innerText = "您获得了一大袋金子！";
         return;
     }
     
     const targetValue = parseInt(target, 10);
-    if (isNaN(targetValue) || targetValue < 1 || targetValue > 20) {
-        alert("无效输入，请输入1到20之间的数字");
+    if (isNaN(targetValue) || targetValue < 1 || targetValue > (awakened ? 25 : 20)) {
+        alert(`无效输入，请输入1到${awakened ? 25 : 20}之间的数字`);
         return;
     }
 
     // 若输入的为整数
     const targetInt = parseInt(target, 10);
-    if (!isNaN(targetInt) && targetInt >= 1 && targetInt <= 20) {
+    if (!isNaN(targetInt) && targetInt >= 1 && targetInt <= (awakened ? 25 : 20)) {
         const initialWisdom = currentWisdom;
         let usedPills = 0;
 
-        while (currentWisdom < targetInt && highGradePill > 0) {
-            highGradePill--;
-            usedPills++;
-            document.getElementById("high-grade-pill").innerText = highGradePill;
-
+        while (currentWisdom < targetInt && (highGradePill > 0 || (awakened && currentWisdom >= 20 && tejiWisdomPillItem))) {
             let successRate;
-            if (currentWisdom < 7) successRate = 0.9;
-            else if (currentWisdom < 13) successRate = 0.75;
-            else if (currentWisdom < 18) successRate = 0.45;
-            else if (currentWisdom < 20) successRate = 0.15;
-            else successRate = 0.05;
+            if (currentWisdom < 20) {
+                if (highGradePill < 1) {
+                    alert("您的悟性丹已耗尽！");
+                    break;
+                }
+                highGradePill--;
+                usedPills++;
+                document.getElementById("high-grade-pill").innerText = highGradePill;
 
-            if (Math.random() < successRate) {
-                currentWisdom = Math.min(currentWisdom + 1, 20);
-            } else {
-                if (currentWisdom > 0) {
-                    if (currentWisdom < 8) currentWisdom = Math.max(0, currentWisdom - 2);
-                    else if (currentWisdom < 13) currentWisdom = Math.max(8, currentWisdom - 2);
-                    else if (currentWisdom < 18) currentWisdom = Math.max(13, currentWisdom - 2);
-                    else currentWisdom = Math.max(15, currentWisdom - 2);
+                if (currentWisdom < 7) successRate = 0.9;
+                else if (currentWisdom < 13) successRate = 0.75;
+                else if (currentWisdom < 18) successRate = 0.45;
+                else successRate = 0.15;
+
+                if (Math.random() < successRate) {
+                    currentWisdom = Math.min(currentWisdom + 1, 20);
+                } else {
+                    if (currentWisdom > 0) {
+                        if (currentWisdom < 8) currentWisdom = Math.max(0, currentWisdom - 2);
+                        else if (currentWisdom < 13) currentWisdom = Math.max(8, currentWisdom - 2);
+                        else if (currentWisdom < 18) currentWisdom = Math.max(13, currentWisdom - 2);
+                        else currentWisdom = Math.max(15, currentWisdom - 2);
+                    }
+                }
+            } else if (awakened && currentWisdom >= 20) {
+                const tejiWisdomPillItem = jinnangItems.find(i => i.name === 'tejiWisdomPill');
+                if (!tejiWisdomPillItem || tejiWisdomPillItem.quantity < 1) {
+                    alert("您的悟性丹已耗尽！");
+                    break;
+                }
+
+                tejiWisdomPillItem.quantity--;
+                updateJinnangItems();
+
+                if (currentWisdom == 20) successRate = 0.85;
+                else if (currentWisdom == 21) successRate = 0.65;
+                else if (currentWisdom == 22) successRate = 0.45;
+                else if (currentWisdom == 23) successRate = 0.25;
+                else successRate = 0.05;
+
+                if (Math.random() < successRate) {
+                    currentWisdom = Math.min(currentWisdom + 1, 25);
+                } else {
+                    currentWisdom = Math.max(20, currentWisdom - 2);
                 }
             }
 
             document.getElementById("current-wisdom").innerText = currentWisdom;
         }
 
-        document.getElementById("description-box").innerText = `您消耗了${usedPills}颗高级悟性丹，将悟性提升至${currentWisdom}`;
+        document.getElementById("description-box").innerText = `您消耗了${usedPills}颗悟性丹，将悟性提升至${currentWisdom}`;
         updateAttributePanel(); // 更新属性面板
     } else {
-        alert("请输入1-20之间的整数！");
+        alert(`请输入1到${awakened ? 25 : 20}之间的整数！`);
     }
 }
 
+        
 let awakened = false; // 复位觉醒状态
-let baseAttributes = {
+
+let bonusAttributes = {
     endurance: 0,
     intelligence: 0,
     strength: 0,
@@ -2923,164 +5192,76 @@ let baseAttributes = {
     faith: 0
 };
 
-function calculateCurrentAttributes() {
-    const qualities = currentPet.qualities;
-    const growthRate = qualities.growthRate / 100;
-    const baseLevel = awakened ? qualities.baseLevel : 0;
+let baseAttributes = {
+    endurance: 5,
+    intelligence: 6,
+    strength: 2,
+    agility: 3,
+    faith: 2
+};
 
-    return {
-        endurance: calculateAttribute(qualities.endurance.current, growthRate, petLevel, baseLevel, awakened),
-        intelligence: calculateAttribute(qualities.intelligence.current, growthRate, petLevel, baseLevel, awakened),
-        strength: calculateAttribute(qualities.strength.current, growthRate, petLevel, baseLevel, awakened),
-        agility: calculateAttribute(qualities.agility.current, growthRate, petLevel, baseLevel, awakened),
-        faith: calculateAttribute(qualities.faith.current, growthRate, petLevel, baseLevel, awakened)
-    };
+function calculateAttribute(currentValue, growthRate, level) {
+    return Math.floor((currentValue / 2000) * growthRate * 4 * level);
 }
 
-function calculateAttribute(currentValue, growthRate, level, baseLevel, isAwakened) {
-    if (isAwakened && level > baseLevel - 1) {
-        const awakenedLevels = level - baseLevel;
-        return Math.floor((currentValue / 2000) * growthRate * 4 * awakenedLevels * 0.6);
-    } else {
-        return Math.floor((currentValue / 2000) * growthRate * 4 * level * 0.6);
-    }
-}
-        
-// 宠物觉醒函数
-function awakenPet() {
-    if (awakened) {
-        alert("您的宠物已经觉醒，无法再次觉醒！");
-        return;
-    }
-
-    const awakenPillItem = jinnangItems.find(i => i.name === 'awakenPill');
-    if (!awakenPillItem || awakenPillItem.quantity < 1) {
-        alert("您的醒悟丹不足！");
-        return;
-    }
-
-    const qualities = currentPet.qualities;
-    const growthRate = qualities.growthRate / 100;
-    const baseLevel = petLevel; // 觉醒前的等级设为当前等级
-    const isAwakened = false; // 觉醒前标志设为false
-
-    // 记录觉醒前的属性值
-    baseAttributes = {
-        endurance: calculateAttribute(qualities.endurance.current, growthRate, petLevel, baseLevel, isAwakened) * 1.2,
-        intelligence: calculateAttribute(qualities.intelligence.current, growthRate, petLevel, baseLevel, isAwakened) * 1.2,
-        strength: calculateAttribute(qualities.strength.current, growthRate, petLevel, baseLevel, isAwakened) * 1.2,
-        agility: calculateAttribute(qualities.agility.current, growthRate, petLevel, baseLevel, isAwakened) * 1.2,
-        faith: calculateAttribute(qualities.faith.current, growthRate, petLevel, baseLevel, isAwakened) * 1.2
-    };
-    
-    // 记录觉醒前的等级
-    currentPet.qualities.baseLevel = petLevel;
-
-    // 更新段位和成长率
-    currentPet.qualities.tier = '超凡';
-    currentPet.qualities.growthRate = Math.floor(Math.random() * 61) + 400; // 随机生成400-460之间的成长率
-
-    awakenPillItem.quantity--;
-    updateJinnangItems();
-
-    petMaxLevel = 160;
-    awakened = true;
-
-    alert("您的宠物成功觉醒，等级上限提升至160！");
-    updatePetLevel();
-    updateAttributePanel();
-    updateQualityCard();
+function calculateAwakenedAttributes(currentValue, growthRate, level, baseLevel) {
+    const awakenedLevels = level - baseLevel;
+    return calculateAttribute(currentValue, growthRate, awakenedLevels);
 }
 
-function levelUpPet() {
-    if (petLevel >= petMaxLevel) {
-        alert("您的宠物已达到当前等级上限！");
-        return;
-    }
+function calculatePreAwakenedAttributes(currentValue, growthRate, level) {
+    return calculateAttribute(currentValue, growthRate, level);
+}
 
-    petLevel++;
-    const growthRateRange = awakened ? [400 + (hallucinationLevel) * 5, 460] : [currentPet.qualities.growthRate, currentPet.qualities.growthRate];
-    const randomGrowthRate = Math.floor(Math.random() * (growthRateRange[1] - growthRateRange[0] + 1)) + growthRateRange[0];
+function calculateBonusAttributes(attribute, bonus) {
+    return attribute + Math.floor(attribute * bonus);
+}
 
-    const qualities = currentPet.qualities;
-    const newAttributes = {
-        endurance: Math.floor(qualities.endurance.current * (1 + randomGrowthRate / 10000)),
-        intelligence: Math.floor(qualities.intelligence.current * (1 + randomGrowthRate / 10000)),
-        strength: Math.floor(qualities.strength.current * (1 + randomGrowthRate / 10000)),
-        agility: Math.floor(qualities.agility.current * (1 + randomGrowthRate / 10000)),
-        faith: Math.floor(qualities.faith.current * (1 + randomGrowthRate / 10000))
+function calculateTotalAttributes(currentValue, growthRate, level, baseLevel, isAwakened) {
+    const baseAttribute = isAwakened ?
+        calculateAwakenedAttributes(currentValue, growthRate, level, baseLevel) :
+        calculatePreAwakenedAttributes(currentValue, growthRate, level);
+
+    return baseAttribute;
+}
+
+function updateAttributePanel() {
+    const pet = currentPet;
+    const qualities = pet.qualities;
+    const { growthRateDisplay, growthRate } = calculateGrowthRateDisplayAndValue(qualities);
+
+    const currentAttributes = calculateCurrentAttributes();
+
+    const totalAttributes = {
+        endurance: currentAttributes.endurance,
+        intelligence: currentAttributes.intelligence,
+        strength: currentAttributes.strength,
+        agility: currentAttributes.agility,
+        faith: currentAttributes.faith
     };
 
-    // 无论是否觉醒，更新基础属性
-    baseAttributes.endurance += newAttributes.endurance;
-    baseAttributes.intelligence += newAttributes.intelligence;
-    baseAttributes.strength += newAttributes.strength;
-    baseAttributes.agility += newAttributes.agility;
-    baseAttributes.faith += newAttributes.faith;
+    console.log("Total Attributes:", totalAttributes);
 
-    updatePetLevel();
-    updateAttributePanel(); // 更新属性面板
-    updateQualityCard(); // 更新资质卡片
+    document.getElementById("attribute-tier").innerText = qualities.tier;
+    document.getElementById("attribute-growth-rate").innerText = growthRateDisplay;
+    document.getElementById("attribute-wisdom").innerText = currentWisdom;
+
+    updatePrimaryAttributes(totalAttributes);
+    updateSecondaryAttributes(totalAttributes, currentWisdom);
+    updateSkillScore(Array.from(document.querySelectorAll("#skills-area div")).map(div => {
+        const [name, rarity] = div.innerText.split(" (");
+        return { name, rarity: rarity.replace(")", "") };
+    }));
+
+    // 更新总属性显示
+    document.getElementById("attribute-endurance").innerText = totalAttributes.endurance;
+    document.getElementById("attribute-intelligence").innerText = totalAttributes.intelligence;
+    document.getElementById("attribute-strength").innerText = totalAttributes.strength;
+    document.getElementById("attribute-agility").innerText = totalAttributes.agility;
+    document.getElementById("attribute-faith").innerText = totalAttributes.faith;
+
+    updateRemainingPointsDisplay();
 }
-
-//以下是原function updateAttributePanel()分离之后的函数组        
-
-    function updateAttributePanel() {
-        const pet = currentPet;
-        const qualities = pet.qualities;
-        const { growthRateDisplay, growthRate } = calculateGrowthRateDisplayAndValue(qualities);
-    
-        const currentAttributes = calculateCurrentAttributes();
-    
-        // 计算总属性值
-        const totalAttributes = {
-            endurance: currentAttributes.endurance + baseAttributes.endurance,
-            intelligence: currentAttributes.intelligence + baseAttributes.intelligence,
-            strength: currentAttributes.strength + baseAttributes.strength,
-            agility: currentAttributes.agility + baseAttributes.agility,
-            faith: currentAttributes.faith + baseAttributes.faith
-        };
-    
-        // 更新属性面板
-        document.getElementById("attribute-tier").innerText = qualities.tier;
-        document.getElementById("attribute-growth-rate").innerText = growthRateDisplay;
-        document.getElementById("attribute-wisdom").innerText = currentWisdom; // 确保使用currentWisdom
-    
-        updatePrimaryAttributes(totalAttributes);
-        updateSecondaryAttributes(totalAttributes, currentWisdom);
-    
-        updateSkillScore(Array.from(document.querySelectorAll("#skills-area div")).map(div => {
-            const [name, rarity] = div.innerText.split(" (");
-            return { name, rarity: rarity.replace(")", "") };
-        }));
-    }
-    
-    function calculateGrowthRateDisplayAndValue(qualities) {
-        let growthRateDisplay;
-        let growthRate;
-    
-        if (awakened) {
-            if (hallucinated) {
-                const minGrowthRate = 400 + (hallucinationLevel) * 5;
-                if (hallucinationLevel >= 12) {
-                    growthRateDisplay = `460%`;
-                    growthRate = 460 / 100; // 固定值
-                } else {
-                    growthRateDisplay = `${minGrowthRate}% ~ 460%`;
-                    growthRate = (minGrowthRate + 460) / 200; // 平均值
-                }
-            } else {
-                growthRateDisplay = `400% ~ 460%`;
-                growthRate = (460 + 400) / 200; // 平均值
-            }
-        } else {
-            growthRate = qualities.growthRate / 100;
-            growthRateDisplay = `${Math.round(growthRate * 100)}%`;
-        }
-    
-        return { growthRateDisplay, growthRate };
-    }
-    
     function updatePrimaryAttributes(totalAttributes) {
         document.getElementById("attribute-endurance").innerText = Math.round(totalAttributes.endurance);
         document.getElementById("attribute-intelligence").innerText = Math.round(totalAttributes.intelligence);
@@ -3154,9 +5335,161 @@ function levelUpPet() {
         speedBonusElement.innerText = `+${wisdomBonus}%`;
         speedBonusElement.classList.toggle("red-text", wisdomBonus > 0);
     }
-//以上是原function updateAttributePanel()分离之后的函数组
+function calculateGrowthRateDisplayAndValue(qualities) {
+    let growthRateDisplay;
+    let growthRate;
+
+    if (awakened) {
+        growthRate = 400 + hallucinationLevel * 5;
+        growthRateDisplay = `${growthRate}%`;
+        growthRate = growthRate / 100;
+    } else {
+        growthRate = qualities.growthRate / 100;
+        growthRateDisplay = `${Math.round(growthRate * 100)}%`;
+    }
+
+    console.log("Growth Rate:", growthRate);
+    console.log("Growth Rate Display:", growthRateDisplay);
+
+    return { growthRateDisplay, growthRate };
+}
         
-// 宠物觉醒后，每一级成长率随机在400~460之间更新
+function calculateCurrentAttributes() {
+    const qualities = currentPet.qualities;
+    const { growthRate } = calculateGrowthRateDisplayAndValue(qualities);
+    const baseLevel = awakened ? qualities.baseLevel : 0;
+
+    const attributes = {
+        endurance: calculateTotalAttributes(qualities.endurance.current, growthRate, petLevel, baseLevel, awakened) + bonusAttributes.endurance,
+        intelligence: calculateTotalAttributes(qualities.intelligence.current, growthRate, petLevel, baseLevel, awakened) + bonusAttributes.intelligence,
+        strength: calculateTotalAttributes(qualities.strength.current, growthRate, petLevel, baseLevel, awakened) + bonusAttributes.strength,
+        agility: calculateTotalAttributes(qualities.agility.current, growthRate, petLevel, baseLevel, awakened) + bonusAttributes.agility,
+        faith: calculateTotalAttributes(qualities.faith.current, growthRate, petLevel, baseLevel, awakened) + bonusAttributes.faith
+    };
+
+    console.log("Current Attributes:", attributes);
+    console.log("Bonus Attributes:", bonusAttributes);
+
+    return attributes;
+}
+
+let remainingPoints = 0;
+const allocationHistory = [];
+const allocationCount = {}; // 用于记录每个属性的连续分配次数
+
+function updateRemainingPointsDisplay() {
+    document.getElementById("remaining-points-display").innerText = `剩余点数: ${remainingPoints}`;
+    console.log(`Remaining Points Display Updated: ${remainingPoints}`);
+}
+
+function increaseBonusAttribute(attribute) {
+    if (remainingPoints <= 0) {
+        alert("您的宠物没有可分配点数了！");
+        return;
+    }
+
+    // 记录属性分配
+    allocationHistory.push({ attribute, value: 1 });
+
+    // 更新连续分配次数
+    if (allocationCount[attribute]) {
+        allocationCount[attribute]++;
+    } else {
+        allocationCount[attribute] = 1;
+    }
+
+    // 检查连续分配次数是否达到5次
+    if (allocationCount[attribute] >= 5) {
+        const confirmMessage = `您已连续分配5次${attribute}，是否将剩余的点数全部分配至该属性？`;
+        if (confirm(confirmMessage)) {
+            bonusAttributes[attribute] += remainingPoints;
+            remainingPoints = 0;
+            allocationHistory.push({ attribute, value: remainingPoints });
+            allocationCount[attribute] = 0; // 重置计数
+        } else {
+            allocationCount[attribute] = 0; // 重置计数
+            bonusAttributes[attribute] += 1;
+            remainingPoints -= 1;
+        }
+    } else {
+        bonusAttributes[attribute] += 1;
+        remainingPoints -= 1;
+    }
+
+    updateAttributePanel();
+    updateRemainingPointsDisplay();
+
+    console.log(`Increase Bonus Attribute: ${attribute} = ${bonusAttributes[attribute]}, Remaining Points = ${remainingPoints}`);
+}
+
+// 动态修改额外属性的函数
+function addBonusAttribute(attribute, value) {
+    if (bonusAttributes.hasOwnProperty(attribute)) {
+        bonusAttributes[attribute] += value;
+    }
+}
+
+function removeBonusAttribute(attribute, value) {
+    if (bonusAttributes.hasOwnProperty(attribute)) {
+        bonusAttributes[attribute] -= value;
+        if (bonusAttributes[attribute] < 0) {
+            bonusAttributes[attribute] = 0;
+        }
+    }
+}
+        
+function awakenPet() {
+    if (awakened) {
+        alert("您的宠物已经觉醒，无法再次觉醒！");
+        return;
+    }
+
+    const awakenPillItem = jinnangItems.find(i => i.name === 'awakenPill');
+    if (!awakenPillItem || awakenPillItem.quantity < 1) {
+        alert("必要道具：醒悟丹 数量不足！");
+        return;
+    }
+
+    const confirmation = confirm("觉醒需要消耗一个珍贵道具“醒悟丹”。宠物觉醒后成长率、当前属性会得到极大提升，悟性上限开放至25，等级开放至160，同时开启幻化能力。觉醒后的宠物还能控制并培养战斗精灵，在战斗时得到更强悍的助力！");
+    if (!confirmation) {
+        return;
+    }
+
+    const qualities = currentPet.qualities;
+    const { growthRate } = calculateGrowthRateDisplayAndValue(qualities);
+    const baseLevel = petLevel;
+
+    const newAttributes = {
+        endurance: calculateTotalAttributes(qualities.endurance.current, growthRate, petLevel, baseLevel, false),
+        intelligence: calculateTotalAttributes(qualities.intelligence.current, growthRate, petLevel, baseLevel, false),
+        strength: calculateTotalAttributes(qualities.strength.current, growthRate, petLevel, baseLevel, false),
+        agility: calculateTotalAttributes(qualities.agility.current, growthRate, petLevel, baseLevel, false),
+        faith: calculateTotalAttributes(qualities.faith.current, growthRate, petLevel, baseLevel, false)
+    };
+
+    // 计算bonusAttributes
+    bonusAttributes.endurance += calculateBonusAttributes(newAttributes.endurance, 0.2);
+    bonusAttributes.intelligence += calculateBonusAttributes(newAttributes.intelligence, 0.2);
+    bonusAttributes.strength += calculateBonusAttributes(newAttributes.strength, 0.2);
+    bonusAttributes.agility += calculateBonusAttributes(newAttributes.agility, 0.2);
+    bonusAttributes.faith += calculateBonusAttributes(newAttributes.faith, 0.2);
+
+    currentPet.qualities.baseLevel = petLevel;
+    currentPet.qualities.tier = '超凡';
+    currentPet.qualities.growthRate = 400 + hallucinationLevel * 5;
+
+    awakenPillItem.quantity--;
+    updateJinnangItems();
+
+    petMaxLevel = 160;
+    awakened = true;
+
+    alert("成功觉醒，宠物的当前属性大幅提升，成长率升为超凡；悟性上限提升至25，等级上限提高至160级！");
+    updatePetLevel();
+    updateAttributePanel();
+    updateQualityCard();
+}
+
 let hallucinated = false;
 let hallucinationLevel = 0;
 
@@ -3222,142 +5555,10 @@ function hallucinatePet() {
     updateAttributePanel(); // 确保更新属性面板
 }
 
-//检查属性面板的错误值
-function checkForNaNAttributes(attributes) {
-    for (let key in attributes) {
-        if (isNaN(attributes[key])) {
-            console.error(`NaN detected in attribute: ${key}`);
-        }
-    }
-}
-
-// Update the panel with a check for NaN values
-function updateAttributePanelWithCheck() {
-    const pet = currentPet;
-    const qualities = pet.qualities;
-    let growthRateDisplay;
-    let growthRate;
-
-    if (awakened) {
-        if (hallucinated) {
-            const minGrowthRate = 400 + (hallucinationLevel) * 5;
-            if (hallucinationLevel >= 12) {
-                growthRateDisplay = `460%`;
-                growthRate = 460 / 100; // 固定值
-            } else {
-                growthRateDisplay = `${minGrowthRate}% ~ 460%`;
-                growthRate = (minGrowthRate + 460) / 200; // 平均值
-            }
-        } else {
-            growthRateDisplay = `400% ~ 460%`;
-            growthRate = (460 + 400) / 200; // 平均值
-        }
-    } else {
-        growthRate = qualities.growthRate / 100;
-        growthRateDisplay = `${Math.round(growthRate * 100)}%`;
-    }
-
-    const baseLevel = awakened ? qualities.baseLevel : 0;
-    const currentAttributes = {
-        endurance: calculateAttribute(qualities.endurance.current, growthRate, petLevel, baseLevel, awakened),
-        intelligence: calculateAttribute(qualities.intelligence.current, growthRate, petLevel, baseLevel, awakened),
-        strength: calculateAttribute(qualities.strength.current, growthRate, petLevel, baseLevel, awakened),
-        agility: calculateAttribute(qualities.agility.current, growthRate, petLevel, baseLevel, awakened),
-        faith: calculateAttribute(qualities.faith.current, growthRate, petLevel, baseLevel, awakened)
-    };
-
-    // Check for NaN values
-    checkForNaNAttributes(currentAttributes);
-
-    // 将当前属性值累加到基础属性上
-    if (awakened) {
-        currentAttributes.endurance += baseAttributes.endurance;
-        currentAttributes.intelligence += baseAttributes.intelligence;
-        currentAttributes.strength += baseAttributes.strength;
-        currentAttributes.agility += baseAttributes.agility;
-        currentAttributes.faith += baseAttributes.faith;
-    }
-
-    document.getElementById("attribute-tier").innerText = qualities.tier;
-    document.getElementById("attribute-growth-rate").innerText = growthRateDisplay;
-    document.getElementById("attribute-wisdom").innerText = currentWisdom; // 确保使用currentWisdom
-    document.getElementById("attribute-endurance").innerText = Math.round(currentAttributes.endurance);
-    document.getElementById("attribute-intelligence").innerText = Math.round(currentAttributes.intelligence);
-    document.getElementById("attribute-strength").innerText = Math.round(currentAttributes.strength);
-    document.getElementById("attribute-agility").innerText = Math.round(currentAttributes.agility);
-    document.getElementById("attribute-faith").innerText = Math.round(currentAttributes.faith);
-
-    // 计算并更新二级属性
-    const secondaryAttributes = calculateSecondaryAttributes(currentAttributes, currentWisdom);
-    let wisdomBonus;
-    if (currentWisdom <= 12) {
-        wisdomBonus = currentWisdom * 0.5;
-    } else if (currentWisdom <= 20) {
-        wisdomBonus = 6 + (currentWisdom - 12) * 1;
-    } else {
-        switch (currentWisdom) {
-            case 21:
-                wisdomBonus = 20;
-                break;
-            case 22:
-                wisdomBonus = 21;
-                break;
-            case 23:
-                wisdomBonus = 22;
-                break;
-            case 24:
-                wisdomBonus = 23;
-                break;
-            case 25:
-                wisdomBonus = 25;
-                break;
-            default:
-                wisdomBonus = 0;
-        }
-    }
-
-    document.getElementById("secondary-health").innerText = secondaryAttributes.health;
-    const healthBonusElement = document.getElementById("secondary-health-bonus");
-    healthBonusElement.innerText = `+${wisdomBonus}%`;
-    healthBonusElement.classList.toggle("red-text", wisdomBonus > 0);
-
-    document.getElementById("secondary-mana").innerText = secondaryAttributes.mana;
-    const manaBonusElement = document.getElementById("secondary-mana-bonus");
-    manaBonusElement.innerText = `+${wisdomBonus}%`;
-    manaBonusElement.classList.toggle("red-text", wisdomBonus > 0);
-
-    document.getElementById("secondary-physical-attack").innerText = secondaryAttributes.physicalAttack;
-    const physicalAttackBonusElement = document.getElementById("secondary-physical-attack-bonus");
-    physicalAttackBonusElement.innerText = `+${wisdomBonus}%`;
-    physicalAttackBonusElement.classList.toggle("red-text", wisdomBonus > 0);
-
-    document.getElementById("secondary-physical-defense").innerText = secondaryAttributes.physicalDefense;
-    const physicalDefenseBonusElement = document.getElementById("secondary-physical-defense-bonus");
-    physicalDefenseBonusElement.innerText = `+${wisdomBonus}%`;
-    physicalDefenseBonusElement.classList.toggle("red-text", wisdomBonus > 0);
-
-    document.getElementById("secondary-magic-attack").innerText = secondaryAttributes.magicAttack;
-    const magicAttackBonusElement = document.getElementById("secondary-magic-attack-bonus");
-    magicAttackBonusElement.innerText = `+${wisdomBonus}%`;
-    magicAttackBonusElement.classList.toggle("red-text", wisdomBonus > 0);
-
-    document.getElementById("secondary-magic-defense").innerText = secondaryAttributes.magicDefense;
-    const magicDefenseBonusElement = document.getElementById("secondary-magic-defense-bonus");
-    magicDefenseBonusElement.innerText = `+${wisdomBonus}%`;
-    magicDefenseBonusElement.classList.toggle("red-text", wisdomBonus > 0);
-
-    document.getElementById("secondary-speed").innerText = secondaryAttributes.speed;
-    const speedBonusElement = document.getElementById("secondary-speed-bonus");
-    speedBonusElement.innerText = `+${wisdomBonus}%`;
-    speedBonusElement.classList.toggle("red-text", wisdomBonus > 0);
-
-    updateSkillScore(Array.from(document.querySelectorAll("#skills-area div")).map(div => {
-        const [name, rarity] = div.innerText.split(" (");
-        return { name, rarity: rarity.replace(")", "") };
-    }));
-}
+// 更新显示函数
 function updateQualityCard() {
     document.getElementById("evolution-level").innerText = evolutionLevel;
+
     const qualityInfo = document.getElementById("quality-info");
     const tierElement = document.getElementById("quality-tier");
     const growthRateElement = document.getElementById("quality-growth-rate");
@@ -3404,6 +5605,7 @@ function updateQualityCard() {
     tierElement.style.color = color;
     growthRateElement.style.color = color;
 
+    // 更新各项属性的当前值和最大值，以及进度条
     const endurance = currentPet.qualities.endurance;
     const strength = currentPet.qualities.strength;
     const faith = currentPet.qualities.faith;
@@ -3430,6 +5632,7 @@ function updateQualityCard() {
     document.getElementById("intelligence-max").innerText = intelligence.max;
     document.getElementById("intelligence-bar").style.width = (intelligence.current / intelligence.max * 100) + "%";
 
+    // 更新变异状态的外观效果
     const petImage = document.querySelector('.pet-image img');
     const petInfo = document.querySelector('.bottom-bar .info');
     const bottombar = document.querySelector('.bottom-bar');
@@ -3444,6 +5647,7 @@ function updateQualityCard() {
         bottombar.classList.remove('mutated');
     }
 }
+
 
 function useBingpoRebornPill() {
     if (!checkDrawerOpen()) return;
@@ -3492,7 +5696,7 @@ function useBingpoRebornPill() {
         growthRate = 280;
     } else if (roll < 97.5) {
         tier = '卓越';
-        growthRate = 320;
+        growthRate = 340;
     } else if (roll < 99.95) {
         tier = '完美';
         growthRate = 400;
@@ -3594,7 +5798,7 @@ function rebornPet() {
         growthRate = 280;
     } else if (roll < 97.5) {
         tier = '卓越';
-        growthRate = 320;
+        growthRate = 340;
     } else if (roll < 99.95) {
         tier = '完美';
         growthRate = 400;
@@ -3653,9 +5857,9 @@ function trainQuality() {
         alert("您的宠物已经觉醒，无法还童！");
         return;
     }
-    const targetTier = prompt("请选择预期段位（普通，优秀，杰出，卓越，完美）:");
+    const targetTier = prompt("请选择预期成长（普通，优秀，杰出，卓越，完美）:");
     if (targetTier === null) return;
-    const stopOnMutation = confirm("遇变异则停止？");
+    const stopOnMutation = confirm("宠物如果发生变异则停止还童？");
 
     const initialRebornPill = rebornPill; // 记录初始的还童丹数量
     let achieved = false;
@@ -3759,7 +5963,7 @@ function mutatePet() {
     document.getElementById("miraculous-pill").innerText = miraculousPill;
 
     if (currentPet.qualities.mutated) {
-        alert("您的宠物已经变异，无法再次变异！");
+        alert("您的宠物已经变异，无法再次使用灵异金丹！");
         return;
     }
 
